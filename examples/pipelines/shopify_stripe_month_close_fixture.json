@@ -1,0 +1,401 @@
+{
+  "pipeline_id": "dtc.shopify_stripe_month_close",
+  "payload": {
+    "entity_id": "cn_dtc_company",
+    "currency_minor_units": {
+      "USD": 2
+    },
+    "shopify_monthly_request": {
+      "mode": "fixture",
+      "default_entity_id": "cn_dtc_company",
+      "shop_domain": "opc-demo.myshopify.com",
+      "interval_start": "2026-07-01T00:00:00Z",
+      "interval_end": "2026-08-01T00:00:00Z",
+      "source_observed_at": "2026-08-01T01:00:00Z",
+      "created_objects": [
+        {
+          "id": "gid://shopify/Order/7001",
+          "name": "#7001",
+          "createdAt": "2026-07-10T10:00:00Z",
+          "processedAt": "2026-07-10T10:01:00Z",
+          "updatedAt": "2026-07-10T10:01:00Z",
+          "cancelledAt": null,
+          "closedAt": null,
+          "currencyCode": "USD",
+          "presentmentCurrencyCode": "USD",
+          "displayFinancialStatus": "PAID",
+          "displayFulfillmentStatus": "FULFILLED",
+          "taxesIncluded": false,
+          "test": false,
+          "sourceName": "web",
+          "shippingAddress": {
+            "countryCodeV2": "US"
+          },
+          "subtotalPriceSet": {
+            "shopMoney": {
+              "amount": "90.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "90.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalDiscountsSet": {
+            "shopMoney": {
+              "amount": "10.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "10.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalShippingPriceSet": {
+            "shopMoney": {
+              "amount": "5.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "5.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalTaxSet": {
+            "shopMoney": {
+              "amount": "9.50",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "9.50",
+              "currencyCode": "USD"
+            }
+          },
+          "totalPriceSet": {
+            "shopMoney": {
+              "amount": "104.50",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "104.50",
+              "currencyCode": "USD"
+            }
+          },
+          "totalReceivedSet": {
+            "shopMoney": {
+              "amount": "104.50",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "104.50",
+              "currencyCode": "USD"
+            }
+          },
+          "totalRefundedSet": {
+            "shopMoney": {
+              "amount": "0.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "0.00",
+              "currencyCode": "USD"
+            }
+          },
+          "transactions": [
+            {
+              "id": "gid://shopify/OrderTransaction/7201",
+              "createdAt": "2026-07-10T10:01:00Z",
+              "processedAt": "2026-07-10T10:01:00Z",
+              "gateway": "stripe",
+              "formattedGateway": "Stripe",
+              "kind": "SALE",
+              "status": "SUCCESS",
+              "test": false,
+              "settlementCurrency": "USD",
+              "settlementCurrencyRate": "1.0",
+              "parentTransaction": null,
+              "amountSet": {
+                "shopMoney": {
+                  "amount": "104.50",
+                  "currencyCode": "USD"
+                },
+                "presentmentMoney": {
+                  "amount": "104.50",
+                  "currencyCode": "USD"
+                }
+              }
+            }
+          ],
+          "refunds": []
+        }
+      ],
+      "updated_objects": [
+        {
+          "id": "gid://shopify/Order/6001",
+          "name": "#6001",
+          "createdAt": "2026-06-15T10:00:00Z",
+          "processedAt": "2026-06-15T10:01:00Z",
+          "updatedAt": "2026-07-20T09:00:00Z",
+          "cancelledAt": null,
+          "closedAt": null,
+          "currencyCode": "USD",
+          "presentmentCurrencyCode": "USD",
+          "displayFinancialStatus": "PARTIALLY_REFUNDED",
+          "displayFulfillmentStatus": "FULFILLED",
+          "taxesIncluded": false,
+          "test": false,
+          "sourceName": "web",
+          "shippingAddress": {
+            "countryCodeV2": "US"
+          },
+          "subtotalPriceSet": {
+            "shopMoney": {
+              "amount": "50.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "50.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalDiscountsSet": {
+            "shopMoney": {
+              "amount": "0.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "0.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalShippingPriceSet": {
+            "shopMoney": {
+              "amount": "0.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "0.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalTaxSet": {
+            "shopMoney": {
+              "amount": "5.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "5.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalPriceSet": {
+            "shopMoney": {
+              "amount": "55.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "55.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalReceivedSet": {
+            "shopMoney": {
+              "amount": "55.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "55.00",
+              "currencyCode": "USD"
+            }
+          },
+          "totalRefundedSet": {
+            "shopMoney": {
+              "amount": "22.00",
+              "currencyCode": "USD"
+            },
+            "presentmentMoney": {
+              "amount": "22.00",
+              "currencyCode": "USD"
+            }
+          },
+          "transactions": [
+            {
+              "id": "gid://shopify/OrderTransaction/6201",
+              "createdAt": "2026-07-20T08:59:00Z",
+              "processedAt": "2026-07-20T09:00:00Z",
+              "gateway": "stripe",
+              "formattedGateway": "Stripe",
+              "kind": "REFUND",
+              "status": "SUCCESS",
+              "test": false,
+              "settlementCurrency": "USD",
+              "settlementCurrencyRate": "1.0",
+              "parentTransaction": null,
+              "amountSet": {
+                "shopMoney": {
+                  "amount": "22.00",
+                  "currencyCode": "USD"
+                },
+                "presentmentMoney": {
+                  "amount": "22.00",
+                  "currencyCode": "USD"
+                }
+              }
+            }
+          ],
+          "refunds": [
+            {
+              "id": "gid://shopify/Refund/6301",
+              "createdAt": "2026-07-20T08:58:00Z",
+              "processedAt": "2026-07-20T09:00:00Z",
+              "updatedAt": "2026-07-20T09:00:00Z",
+              "totalRefundedSet": {
+                "shopMoney": {
+                  "amount": "22.00",
+                  "currencyCode": "USD"
+                },
+                "presentmentMoney": {
+                  "amount": "22.00",
+                  "currencyCode": "USD"
+                }
+              },
+              "refundLineItems": {
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": null
+                },
+                "nodes": [
+                  {
+                    "id": "gid://shopify/RefundLineItem/6401",
+                    "quantity": 1,
+                    "subtotalSet": {
+                      "shopMoney": {
+                        "amount": "20.00",
+                        "currencyCode": "USD"
+                      },
+                      "presentmentMoney": {
+                        "amount": "20.00",
+                        "currencyCode": "USD"
+                      }
+                    },
+                    "totalTaxSet": {
+                      "shopMoney": {
+                        "amount": "2.00",
+                        "currencyCode": "USD"
+                      },
+                      "presentmentMoney": {
+                        "amount": "2.00",
+                        "currencyCode": "USD"
+                      }
+                    }
+                  }
+                ]
+              },
+              "refundShippingLines": {
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": null
+                },
+                "nodes": []
+              },
+              "orderAdjustments": {
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": null
+                },
+                "nodes": []
+              },
+              "transactions": {
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": null
+                },
+                "nodes": [
+                  {
+                    "id": "gid://shopify/OrderTransaction/6201",
+                    "createdAt": "2026-07-20T08:59:00Z",
+                    "processedAt": "2026-07-20T09:00:00Z",
+                    "kind": "REFUND",
+                    "status": "SUCCESS",
+                    "amountSet": {
+                      "shopMoney": {
+                        "amount": "22.00",
+                        "currencyCode": "USD"
+                      },
+                      "presentmentMoney": {
+                        "amount": "22.00",
+                        "currencyCode": "USD"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "stripe_balance_request": {
+      "mode": "fixture",
+      "default_entity_id": "cn_dtc_company",
+      "created_gte": 1782864000,
+      "created_lt": 1785542400,
+      "objects": [
+        {
+          "id": "txn_month_charge_7001",
+          "object": "balance_transaction",
+          "amount": 10450,
+          "available_on": 1784000000,
+          "created": 1783700000,
+          "currency": "usd",
+          "description": "July Shopify collection",
+          "exchange_rate": null,
+          "fee": 300,
+          "fee_details": [],
+          "net": 10150,
+          "reporting_category": "charge",
+          "source": "ch_month_7001",
+          "status": "available",
+          "type": "charge"
+        },
+        {
+          "id": "txn_month_refund_6001",
+          "object": "balance_transaction",
+          "amount": -2200,
+          "available_on": 1785000000,
+          "created": 1784600000,
+          "currency": "usd",
+          "description": "July Shopify refund",
+          "exchange_rate": null,
+          "fee": 0,
+          "fee_details": [],
+          "net": -2200,
+          "reporting_category": "refund",
+          "source": "re_month_6001",
+          "status": "available",
+          "type": "refund"
+        }
+      ]
+    },
+    "processor_links": [
+      {
+        "entity_id": "cn_dtc_company",
+        "shopify_transaction_id": "gid://shopify/OrderTransaction/7201",
+        "stripe_source_object_id": "ch_month_7001",
+        "evidence": {
+          "source_file": "fixture:processor-links",
+          "batch_id": "links-2026-07"
+        }
+      },
+      {
+        "entity_id": "cn_dtc_company",
+        "shopify_transaction_id": "gid://shopify/OrderTransaction/6201",
+        "stripe_source_object_id": "re_month_6001",
+        "evidence": {
+          "source_file": "fixture:processor-links",
+          "batch_id": "links-2026-07"
+        }
+      }
+    ]
+  }
+}

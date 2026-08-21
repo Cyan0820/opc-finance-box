@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "NZ",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖新西兰注册有限公司的 Companies Register 主体证据、IRD/IR4/GST 登记证据及人工候选日历。系统不收集 company number、NZBN、IRD 或 GST number 原值，不自行判定新西兰税务居民、look-through company、GST taxable activity/登记义务或供应分类，不计算税率税额、provisional tax，不覆盖 PAYE/FBT/跨境税，也不生成申报表或执行提交付款。",
+  "sources": [
+    {
+      "id": "nz_companies_incorporation_current",
+      "authority": "New Zealand Companies Office — Companies Register",
+      "title": "Incorporating a company",
+      "url": "https://companies-register.companiesoffice.govt.nz/help-centre/starting-a-company/incorporating-a-company/",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nz_companies_annual_return_current",
+      "authority": "New Zealand Companies Office — Companies Register",
+      "title": "Completing an annual return",
+      "url": "https://companies-register.companiesoffice.govt.nz/help-centre/company-annual-returns/completing-an-annual-return/",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nz_ird_business_number_2026",
+      "authority": "Inland Revenue New Zealand",
+      "title": "IRD numbers for businesses and organisations",
+      "url": "https://www.ird.govt.nz/en/managing-my-tax/ird-numbers/ird-numbers-for-businesses-and-organisations",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nz_ird_company_income_tax_current",
+      "authority": "Inland Revenue New Zealand",
+      "title": "Income tax for companies",
+      "url": "https://www.ird.govt.nz/income-tax/income-tax-for-businesses-and-organisations/income-tax-for-companies",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nz_ird_company_residency_current",
+      "authority": "Inland Revenue New Zealand",
+      "title": "Tax residency status for companies",
+      "url": "https://www.ird.govt.nz/en/international-tax/business/tax-residency-status-for-companies",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nz_ird_gst_registration_current",
+      "authority": "Inland Revenue New Zealand",
+      "title": "Registering for GST",
+      "url": "https://www.ird.govt.nz/gst/registering-for-gst",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nz_ird_gst_filing_2024",
+      "authority": "Inland Revenue New Zealand",
+      "title": "Filing and paying GST, and refunds",
+      "url": "https://www.ird.govt.nz/gst/filing-and-paying-gst-and-refunds",
+      "effective_from": "2024-05-13",
+      "status": "official guidance last updated 2024-05-13; checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "nz.company.limited.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的新西兰注册有限公司，分别保存 Companies Register 状态和税务居民复核证据；不收集 company number 或 NZBN 原值。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["nz_companies_incorporation_current", "nz_ird_company_residency_current"]
+    },
+    {
+      "id": "nz.tax.ird_ir4.registration.evidence",
+      "summary": "保存公司 IRD number 登记与 IR4 filing scope 的证据引用；不保存 IRD number 原值，也不代为登记。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["nz_ird_business_number_2026", "nz_ird_company_income_tax_current"]
+    },
+    {
+      "id": "nz.gst.registration.monitor",
+      "summary": "监控过去及预计未来 12 个月 taxable activity turnover、是否在价格中加 GST 和供应事实，形成登记复核提示；订单额或新西兰收货地不能自动证明 GST 登记义务。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["nz_ird_gst_registration_current"]
+    },
+    {
+      "id": "nz.ir4.return.calendar",
+      "summary": "IR4 申报日取决于 balance date、是否有 tax agent、extension of time 和实际 myIR 账户日期，必须按主体人工配置。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_balance_date",
+          "tax_agent_status",
+          "extension_of_time_status",
+          "myir_return_due_date_reference",
+          "approved_ir4_due_date"
+        ],
+        "registration_any": ["ir4_filer", "company_income_tax", "nz_limited_company"]
+      },
+      "source_ids": ["nz_ird_company_income_tax_current"]
+    },
+    {
+      "id": "nz.income_tax.payment.calendar",
+      "summary": "公司 income tax 与 provisional tax 付款日取决于 balance date、RIT、方法、分期、tax agent 和实际 Inland Revenue 账户，必须人工配置。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_balance_date",
+          "residual_income_tax_review",
+          "provisional_tax_method_and_installments",
+          "tax_agent_extension_review",
+          "approved_income_tax_payment_dates"
+        ],
+        "registration_any": ["ir4_filer", "company_income_tax", "nz_limited_company"]
+      },
+      "source_ids": ["nz_ird_company_income_tax_current"]
+    },
+    {
+      "id": "nz.gst.return_payment.calendar",
+      "summary": "GST return/payment 日期取决于实际登记、filing frequency、accounting basis、taxable period、特殊 31 March/30 November 期间及周末/公共假日，必须按实际账户人工配置。",
+      "effective_from": "2024-05-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_gst_registration",
+          "gst_filing_frequency",
+          "gst_accounting_basis",
+          "taxable_period_end",
+          "special_period_and_holiday_review",
+          "approved_return_and_payment_due_date"
+        ],
+        "registration_any": ["gst", "gst_registered", "nz_gst"]
+      },
+      "source_ids": ["nz_ird_gst_filing_2024"]
+    },
+    {
+      "id": "nz.companies_office.annual_return.calendar",
+      "summary": "公司首次 annual return 从注册后下一日历年开始，其后在 Companies Register 分配的 filing month 内完成；当前只按真实 register 状态人工配置。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "company_active_status",
+          "incorporation_year",
+          "assigned_filing_month",
+          "register_due_status_reference",
+          "approved_annual_return_due_date"
+        ],
+        "registration_any": ["nz_limited_company", "companies_register_company", "companies_office_annual_return"]
+      },
+      "source_ids": ["nz_companies_annual_return_current"]
+    },
+    {
+      "id": "nz.ir4.return.evidence",
+      "summary": "整理批准财务报表、IR4/IR10 与税务调整、imputation/provisional tax 复核、授权、付款与回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["nz_ird_company_income_tax_current"]
+    }
+  ]
+}

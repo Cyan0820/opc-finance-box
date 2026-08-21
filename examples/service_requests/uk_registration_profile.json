@@ -1,0 +1,18 @@
+{
+  "service_id": "tax.uk_limited_company.registration_profile",
+  "entity_id": "uk_store",
+  "payload": {
+    "as_of": "2026-08-13",
+    "entity_type": "private_limited_company",
+    "entity_type_evidence": {
+      "source_reference": "evidence://companies-house/entity-type",
+      "captured_at": "2026-08-13"
+    },
+    "corporation_tax_status": "confirmed",
+    "corporation_tax_evidence": {
+      "source_reference": "evidence://hmrc/corporation-tax-service",
+      "captured_at": "2026-08-13"
+    },
+    "vat_status": "not_registered"
+  }
+}

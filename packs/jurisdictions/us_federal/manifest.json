@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.us_federal",
+  "kind": "jurisdiction",
+  "display_name": "美国联邦 C Corporation 税务设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "US",
+    "tax_readiness": "design",
+    "rules_effective_at": "2025-01-01",
+    "authority_scope": "美国联邦、境内 C corporation、Form 1120 登记/证据/候选日历；排除州及地方税、销售税、工资税、消费税、S corporation、合伙企业、未确认分类的 LLC、税额计算和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.us_federal.registration_profile",
+    "tax.us_federal.evidence_checklist",
+    "tax.us_federal.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

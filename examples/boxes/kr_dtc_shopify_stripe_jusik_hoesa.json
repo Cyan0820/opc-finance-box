@@ -1,0 +1,32 @@
+{
+  "box_version": 1,
+  "name": "韩国株式会社 Shopify + Stripe 独立站 OPC 样板",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "core": "core.finance",
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "data_mode": "demo",
+  "reporting_currency": "KRW",
+  "entities": [
+    {
+      "id": "kr_store",
+      "name": "韩国独立站株式会社（演示）",
+      "jurisdiction": "KR",
+      "functional_currency": "KRW",
+      "accounting_basis": "K_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.kr_domestic_corporation",
+      "tax_registrations": [
+        "kr_domestic_corporation",
+        "jusik_hoesa",
+        "business_registration",
+        "corporate_income_tax",
+        "local_corporate_income_tax",
+        "vat_registration_review_required",
+        "etax_invoice_review_required",
+        "withholding_registration_review_required"
+      ]
+    }
+  ]
+}

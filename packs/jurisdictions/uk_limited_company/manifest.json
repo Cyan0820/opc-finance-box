@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.uk_limited_company",
+  "kind": "jurisdiction",
+  "display_name": "英国 Private Limited Company 税务设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "GB",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-04-01",
+    "authority_scope": "英国 private company limited by shares 的 Corporation Tax、CT600、VAT 登记/候选日历及 Companies House 年度账目证据；排除税额计算、PAYE、海关、Northern Ireland/EU 特殊交易、集团/大公司分期付款、转让定价、全球最低税、个人税和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.uk_limited_company.registration_profile",
+    "tax.uk_limited_company.evidence_checklist",
+    "tax.uk_limited_company.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "我的爱尔兰 LTD Shopify + Stripe 独立站 OPC",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "entities": [{
+    "id": "ie_store",
+    "name": "爱尔兰独立站 Private Company Limited by Shares（演示）",
+    "tax_country": "IE",
+    "functional_currency": "EUR",
+    "accounting_basis": "Irish_GAAP",
+    "fiscal_year_end": "12-31",
+    "tax_registrations": ["ie_private_limited_company", "cro_company", "cro_annual_return", "tax_reference_confirmed", "corporation_tax", "ct1_filer", "vat_registration_review_required", "employer_registration_review_required"]
+  }]
+}

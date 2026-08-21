@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "HK",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖香港法团的 BRN/UBI 与利得税 BIR51 登记证据、两级税率资格证据、预缴税证据和人工配置的候选日历。系统不判断利润来源地或离岸申索，不计算应评税利润或税额，不选择优惠制度，不生成 iXBRL/XML 或可提交表单，也不执行电子提交。",
+  "sources": [
+    {
+      "id": "hk_ird_unique_business_identifier",
+      "authority": "Hong Kong Inland Revenue Department",
+      "title": "Unique Business Identifier",
+      "url": "https://www.ird.gov.hk/eng/tax/bre_ubi.htm",
+      "effective_from": "2023-12-27",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "hk_ird_profits_tax_current",
+      "authority": "Hong Kong Inland Revenue Department",
+      "title": "Profits Tax",
+      "url": "https://www.ird.gov.hk/eng/tax/bus_pft.htm",
+      "effective_from": "2018-04-01",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "hk_ird_two_tiered_rates_faq",
+      "authority": "Hong Kong Inland Revenue Department",
+      "title": "FAQ on Two-tiered Profits Tax Rates Regime",
+      "url": "https://www.ird.gov.hk/eng/faq/2tr.htm",
+      "effective_from": "2018-04-01",
+      "status": "official current FAQ checked 2026-08-13"
+    },
+    {
+      "id": "hk_ird_bir51_notes_2025_26",
+      "authority": "Hong Kong Inland Revenue Department",
+      "title": "Notes and Instructions to Form BIR51",
+      "url": "https://www.ird.gov.hk/eng/pdf/e51notes.pdf",
+      "effective_from": "2025-04-01",
+      "status": "official 2025/26 return notes checked 2026-08-13"
+    },
+    {
+      "id": "hk_ird_electronic_profits_tax_return",
+      "authority": "Hong Kong Inland Revenue Department",
+      "title": "Electronic Filing of Profits Tax Return",
+      "url": "https://www.ird.gov.hk/eng/tax/bus_epf.htm",
+      "effective_from": "2025-04-01",
+      "status": "official current electronic filing guidance checked 2026-08-13"
+    },
+    {
+      "id": "hk_ird_2025_26_returns_issue_notice",
+      "authority": "Hong Kong Inland Revenue Department",
+      "title": "Issue of tax returns for the year of assessment 2025-26",
+      "url": "https://www.ird.gov.hk/eng/ppr/archives/26040102.htm",
+      "effective_from": "2026-04-01",
+      "status": "official press release issued 2026-04-01; checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "hk.business_registration.brn.evidence",
+      "summary": "保存法团 BRN/UBI 的证书或官方引用、法定名称匹配和登记适用性复核；系统不收集或展示完整 BRN 值。",
+      "effective_from": "2023-12-27",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["hk_ird_unique_business_identifier"]
+    },
+    {
+      "id": "hk.profits_tax.corporation_scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的法团，并保存 BIR51/利得税登记范围与业务事实；不据此自动判断某项利润是否源自香港。",
+      "effective_from": "2025-04-01",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["hk_ird_profits_tax_current", "hk_ird_bir51_notes_2025_26"]
+    },
+    {
+      "id": "hk.profits_tax.two_tier_eligibility.evidence",
+      "summary": "整理关联实体、当年提名、优惠税率制度和不可撤销选择证据；是否适用两级税率必须由香港税务复核人确认。",
+      "effective_from": "2018-04-01",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["hk_ird_two_tiered_rates_faq"]
+    },
+    {
+      "id": "hk.profits_tax.bir51.calendar",
+      "summary": "BIR51 期限与发出日期、税务代表延期、电子提交安排和当年 IRD 通知相关；必须按实际 return 与当年官方资料人工配置候选日期。",
+      "effective_from": "2025-04-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_bir51_filer",
+          "actual_return_issue_date",
+          "return_year_of_assessment",
+          "tax_representative_and_block_extension_review",
+          "electronic_filing_requirement_review",
+          "approved_candidate_due_date"
+        ],
+        "registration_any": ["hk_corporation", "profits_tax", "bir51_filer"]
+      },
+      "source_ids": [
+        "hk_ird_bir51_notes_2025_26",
+        "hk_ird_electronic_profits_tax_return",
+        "hk_ird_2025_26_returns_issue_notice"
+      ]
+    },
+    {
+      "id": "hk.profits_tax.provisional.calendar",
+      "summary": "预缴利得税基于评税及缴税通知和主体事实；缴款期、抵扣及暂缓缴纳适用性必须按实际通知人工配置。",
+      "effective_from": "2025-04-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "assessment_and_demand_note_reference",
+          "approved_payment_schedule",
+          "provisional_tax_basis_review",
+          "holding_over_applicability_review",
+          "payment_evidence_plan"
+        ],
+        "registration_any": ["hk_corporation", "profits_tax", "bir51_filer"]
+      },
+      "source_ids": ["hk_ird_profits_tax_current"]
+    },
+    {
+      "id": "hk.profits_tax.bir51.return_evidence",
+      "summary": "整理 BIR51 所需财务报表、审计报告适用性、税务计算、补充表、授权签署和提交回执计划；design Pack 不计算税额或生成申报文件。",
+      "effective_from": "2025-04-01",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["hk_ird_bir51_notes_2025_26", "hk_ird_electronic_profits_tax_return"]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "service_id": "tax.jp_domestic_corporation.registration_profile",
+  "entity_id": "jp_store",
+  "payload": {
+    "as_of": "2026-08-16",
+    "entity_type": "stock_company_kabushiki_kaisha",
+    "entity_type_evidence": {"source_reference": "evidence://registry/kk-legal-form", "captured_at": "2026-08-16"},
+    "tax_residency_evidence": {"source_reference": "evidence://advisor/japan-residency-review", "captured_at": "2026-08-16"},
+    "commercial_registry_status": "confirmed",
+    "commercial_registry_evidence": {"source_reference": "evidence://registry/current-status", "captured_at": "2026-08-16"},
+    "corporation_tax_status": "confirmed",
+    "corporation_tax_evidence": {"source_reference": "evidence://nta/corporation-tax-registration", "captured_at": "2026-08-16"},
+    "local_corporate_tax_status": "confirmed",
+    "local_corporate_tax_evidence": {"source_reference": "evidence://local-authority/registration-review", "captured_at": "2026-08-16"},
+    "consumption_tax_status": "not_registered",
+    "qualified_invoice_issuer_status": "not_registered",
+    "withholding_status": "not_registered",
+    "blue_return_status": "not_registered"
+  }
+}

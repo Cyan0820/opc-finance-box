@@ -1,0 +1,18 @@
+{
+  "id": "connector.stripe",
+  "kind": "connector",
+  "display_name": "Stripe 只读财务证据 Connector",
+  "version": "0.4.0",
+  "status": "experimental",
+  "capabilities": [
+    "connector.stripe_balance_transactions",
+    "connector.stripe_payouts"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": ["stripe_mapping_approval"],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

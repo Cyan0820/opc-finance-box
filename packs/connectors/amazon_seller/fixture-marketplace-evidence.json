@@ -1,0 +1,189 @@
+{
+  "default_entity_id": "us_amazon_marketplace_company",
+  "mode": "fixture",
+  "marketplace_id": "ATVPDKIKX0DER",
+  "interval_start": "2026-08-01T00:00:00Z",
+  "interval_end": "2026-09-01T00:00:00Z",
+  "orders_time_basis": "created",
+  "fixture_seller_id": "private-amazon-seller-001",
+  "fixture_marketplace_ids": ["ATVPDKIKX0DER"],
+  "fixture_region": "NA",
+  "fixture_inventory_observed_at": "2026-09-01T00:05:00Z",
+  "order_pages": [
+    {
+      "orders": [
+        {
+          "orderId": "111-2345678-1234567",
+          "createdTime": "2026-08-05T10:00:00Z",
+          "lastUpdatedTime": "2026-08-06T10:00:00Z",
+          "salesChannel": {
+            "channelName": "AMAZON",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "marketplaceName": "Private Marketplace Name"
+          },
+          "buyer": {
+            "buyerName": "Private Buyer",
+            "buyerEmail": "private-buyer@example.invalid"
+          },
+          "recipient": {
+            "deliveryAddress": {
+              "name": "Private Recipient",
+              "addressLine1": "Private Address",
+              "city": "Private City",
+              "postalCode": "00000",
+              "countryCode": "US",
+              "phone": "private-phone"
+            }
+          },
+          "proceeds": {"grandTotal": {"amount": "100.00", "currencyCode": "USD"}},
+          "tax": {"privateTaxDetail": "must-not-survive"},
+          "payment": {"privatePaymentDetail": "must-not-survive"},
+          "fulfillment": {
+            "fulfillmentStatus": "SHIPPED",
+            "fulfilledBy": "AMAZON",
+            "fulfillmentServiceLevel": "STANDARD"
+          },
+          "orderItems": [
+            {
+              "orderItemId": "private-order-item-001",
+              "quantityOrdered": 2,
+              "product": {
+                "asin": "B0PRIVATE01",
+                "title": "Private Product Title A",
+                "sellerSku": "PRIVATE-SKU-A",
+                "condition": {"conditionType": "NEW", "conditionNote": "Private note"},
+                "price": {"unitPrice": {"amount": "50.00", "currencyCode": "USD"}}
+              }
+            }
+          ]
+        },
+        {
+          "orderId": "111-2345678-1234568",
+          "createdTime": "2026-08-10T10:00:00Z",
+          "lastUpdatedTime": "2026-08-10T11:00:00Z",
+          "salesChannel": {"channelName": "AMAZON", "marketplaceId": "ATVPDKIKX0DER"},
+          "fulfillment": {"fulfillmentStatus": "CANCELLED", "fulfilledBy": "AMAZON"},
+          "orderItems": [
+            {
+              "orderItemId": "private-order-item-002",
+              "quantityOrdered": 1,
+              "product": {"asin": "B0PRIVATE02", "sellerSku": "PRIVATE-SKU-B"}
+            }
+          ]
+        },
+        {
+          "orderId": "111-2345678-1234569",
+          "createdTime": "2026-08-15T10:00:00Z",
+          "lastUpdatedTime": "2026-08-16T10:00:00Z",
+          "salesChannel": {"channelName": "AMAZON", "marketplaceId": "ATVPDKIKX0DER"},
+          "fulfillment": {"fulfillmentStatus": "SHIPPED", "fulfilledBy": "MERCHANT"},
+          "orderItems": [
+            {
+              "orderItemId": "private-order-item-003",
+              "quantityOrdered": 1,
+              "product": {"asin": "B0PRIVATE03", "sellerSku": "PRIVATE-SKU-C"}
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "inventory_pages": [
+    {
+      "payload": {
+        "granularity": {"granularityType": "Marketplace", "granularityId": "ATVPDKIKX0DER"},
+        "inventorySummaries": [
+          {
+            "asin": "B0PRIVATE01",
+            "fnSku": "PRIVATE-FNSKU-A",
+            "sellerSku": "PRIVATE-SKU-A",
+            "condition": "NewItem",
+            "lastUpdatedTime": "2026-09-01T00:01:00Z",
+            "productName": "Private Product Title A",
+            "stores": ["Private Store"],
+            "totalQuantity": 10,
+            "inventoryDetails": {
+              "fulfillableQuantity": 7,
+              "inboundWorkingQuantity": 1,
+              "inboundShippedQuantity": 1,
+              "inboundReceivingQuantity": 0,
+              "reservedQuantity": {
+                "totalReservedQuantity": 1,
+                "pendingCustomerOrderQuantity": 1,
+                "pendingTransshipmentQuantity": 0,
+                "fcProcessingQuantity": 0
+              },
+              "researchingQuantity": {"totalResearchingQuantity": 0},
+              "unfulfillableQuantity": {"totalUnfulfillableQuantity": 0}
+            }
+          },
+          {
+            "asin": "B0PRIVATE99",
+            "fnSku": "PRIVATE-FNSKU-X",
+            "sellerSku": "PRIVATE-SKU-X",
+            "condition": "NewItem",
+            "lastUpdatedTime": "2026-09-01T00:02:00Z",
+            "productName": "Private Product Title X",
+            "totalQuantity": 3,
+            "inventoryDetails": {
+              "fulfillableQuantity": 3,
+              "inboundWorkingQuantity": 0,
+              "inboundShippedQuantity": 0,
+              "inboundReceivingQuantity": 0,
+              "reservedQuantity": {
+                "totalReservedQuantity": 0,
+                "pendingCustomerOrderQuantity": 0
+              },
+              "researchingQuantity": {"totalResearchingQuantity": 0},
+              "unfulfillableQuantity": {"totalUnfulfillableQuantity": 0}
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "transaction_pages": [
+    {
+      "payload": {
+        "transactions": [
+          {
+            "transactionId": "private-marketplace-transaction-001",
+            "transactionType": "Shipment",
+            "transactionStatus": "Released",
+            "postedDate": "2026-08-07T00:00:00Z",
+            "totalAmount": {"currencyCode": "USD", "currencyAmount": "90.00"},
+            "sellingPartnerMetadata": {
+              "sellingPartnerId": "private-amazon-seller-001",
+              "marketplaceId": "ATVPDKIKX0DER",
+              "accountType": "Payable"
+            },
+            "relatedIdentifiers": [
+              {"relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "111-2345678-1234567"},
+              {"relatedIdentifierName": "FINANCIAL_EVENT_GROUP_ID", "relatedIdentifierValue": "private-group-001"}
+            ],
+            "breakdowns": [{"breakdownType": "Sales", "breakdownAmount": {"currencyCode": "USD", "currencyAmount": "90.00"}}],
+            "items": []
+          },
+          {
+            "transactionId": "private-marketplace-transaction-002",
+            "transactionType": "Refund",
+            "transactionStatus": "Deferred",
+            "postedDate": "2026-08-20T00:00:00Z",
+            "totalAmount": {"currencyCode": "USD", "currencyAmount": "-10.00"},
+            "sellingPartnerMetadata": {
+              "sellingPartnerId": "private-amazon-seller-001",
+              "marketplaceId": "ATVPDKIKX0DER",
+              "accountType": "Payable"
+            },
+            "relatedIdentifiers": [
+              {"relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "999-9999999-9999999"},
+              {"relatedIdentifierName": "REFUND_ID", "relatedIdentifierValue": "private-refund-999"}
+            ],
+            "breakdowns": [{"breakdownType": "Refunds", "breakdownAmount": {"currencyCode": "USD", "currencyAmount": "-10.00"}}],
+            "items": []
+          }
+        ]
+      }
+    }
+  ]
+}

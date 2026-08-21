@@ -1,0 +1,28 @@
+{
+  "name": "全球游戏 OPC + Xero 候选",
+  "business_type": "game",
+  "channels": ["app_store", "google_play", "domestic_game"],
+  "integrations": ["xero"],
+  "data_mode": "demo",
+  "reporting_currency": "CNY",
+  "entities": [
+    {
+      "id": "cn_studio",
+      "name": "国服研发运营主体（待确认）",
+      "tax_country": "CN",
+      "functional_currency": "CNY",
+      "accounting_basis": "PRC_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": []
+    },
+    {
+      "id": "sg_publisher",
+      "name": "海外发行主体（待确认）",
+      "tax_country": "SG",
+      "functional_currency": "USD",
+      "accounting_basis": "SFRS",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": []
+    }
+  ]
+}

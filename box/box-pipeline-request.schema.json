@@ -1,0 +1,599 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opc-finance.local/schemas/box-pipeline-request.schema.json",
+  "title": "OPC Finance Box pipeline request",
+  "type": "object",
+  "required": ["pipeline_id", "payload"],
+  "properties": {
+    "pipeline_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "finance.expense_evidence_review"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/expense_evidence_review_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "finance.bank_statement_close"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/bank_statement_close_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "finance.trial_balance_review"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/trial_balance_review_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "finance.accounting_close_review"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/accounting_close_review_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "finance.month_close_control"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/month_close_control_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "finance.first_close_discovery"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/first_close_discovery_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "finance.multi_entity_month_close_portfolio"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/multi_entity_month_close_portfolio_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "marketplace.channel_close"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/marketplace_channel_close_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "commerce.channel_close"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/commerce_channel_close_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "game.channel_settlement_close"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/game_channel_settlement_close_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "commerce.import_analyze"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/commerce_import_analyze_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "stripe.daily_close"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/stripe_daily_close_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "dtc.shopify_stripe_daily_close"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/shopify_stripe_daily_close_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "amazon_seller.transaction_close"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/amazon_seller_transaction_close_payload"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"pipeline_id": {"const": "amazon_seller.marketplace_close"}},
+        "required": ["pipeline_id"]
+      },
+      "then": {
+        "properties": {"payload": {"$ref": "#/$defs/amazon_seller_marketplace_close_payload"}}
+      }
+    }
+  ],
+  "$defs": {
+    "expense_evidence_review_payload": {
+      "type": "object",
+      "required": ["entity_id", "connector_request"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "connector_request": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "bank_statement_close_payload": {
+      "type": "object",
+      "required": ["entity_id", "period", "connector_id", "connector_request"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "connector_id": {"const": "file.bank_statement"},
+        "connector_request": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "trial_balance_review_payload": {
+      "type": "object",
+      "required": ["entity_id", "period", "connector_id", "connector_request"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "connector_id": {"const": "file.trial_balance"},
+        "connector_request": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "accounting_close_review_payload": {
+      "type": "object",
+      "required": [
+        "entity_id", "period",
+        "general_ledger_connector_id", "general_ledger_connector_request",
+        "trial_balance_connector_id", "trial_balance_connector_request",
+        "account_mappings"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "general_ledger_connector_id": {"const": "file.general_ledger"},
+        "general_ledger_connector_request": {"type": "object"},
+        "trial_balance_connector_id": {"const": "file.trial_balance"},
+        "trial_balance_connector_request": {"type": "object"},
+        "account_mappings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/financial_statement_account_mapping"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "financial_statement_account_mapping": {
+      "type": "object",
+      "required": [
+        "account_code", "statement_group", "statement_line_id", "statement_line_name"
+      ],
+      "properties": {
+        "account_code": {"type": "string", "minLength": 1},
+        "source_account_name": {"type": "string"},
+        "statement_group": {
+          "enum": ["assets", "liabilities", "equity", "revenue", "expenses"]
+        },
+        "statement_line_id": {
+          "type": "string", "pattern": "^[a-z][a-z0-9_]{0,79}$"
+        },
+        "statement_line_name": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "month_close_control_payload": {
+      "type": "object",
+      "required": [
+        "entity_id", "period",
+        "bank_connector_id", "bank_connector_request",
+        "general_ledger_connector_id", "general_ledger_connector_request",
+        "trial_balance_connector_id", "trial_balance_connector_request",
+        "account_mappings", "bank_gl_mappings"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "bank_connector_id": {"const": "file.bank_statement"},
+        "bank_connector_request": {"type": "object"},
+        "general_ledger_connector_id": {"const": "file.general_ledger"},
+        "general_ledger_connector_request": {"type": "object"},
+        "trial_balance_connector_id": {"const": "file.trial_balance"},
+        "trial_balance_connector_request": {"type": "object"},
+        "account_mappings": {
+          "type": "array", "minItems": 1,
+          "items": {"$ref": "#/$defs/financial_statement_account_mapping"}
+        },
+        "bank_gl_mappings": {
+          "type": "array", "minItems": 1,
+          "items": {"$ref": "#/$defs/bank_gl_mapping"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "first_close_discovery_payload": {
+      "type": "object",
+      "required": [
+        "entity_id", "period",
+        "bank_connector_id", "bank_connector_request",
+        "general_ledger_connector_id", "general_ledger_connector_request",
+        "trial_balance_connector_id", "trial_balance_connector_request"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "bank_connector_id": {"const": "file.bank_statement"},
+        "bank_connector_request": {"type": "object"},
+        "general_ledger_connector_id": {"const": "file.general_ledger"},
+        "general_ledger_connector_request": {"type": "object"},
+        "trial_balance_connector_id": {"const": "file.trial_balance"},
+        "trial_balance_connector_request": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "multi_entity_month_close_portfolio_payload": {
+      "type": "object",
+      "required": ["period", "entity_ids", "entity_close_controls", "fx_rates"],
+      "properties": {
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "entity_ids": {
+          "type": "array", "minItems": 2, "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "entity_close_controls": {
+          "type": "array", "minItems": 2,
+          "items": {"$ref": "#/$defs/entity_month_close_control_candidate"}
+        },
+        "fx_rates": {
+          "type": "object",
+          "patternProperties": {
+            "^[A-Z]{3}$": {"$ref": "#/$defs/approved_portfolio_fx_rate"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "entity_month_close_control_candidate": {
+      "type": "object",
+      "required": [
+        "entity_id", "period", "source_pipeline_id", "source_run_id", "source_evidence",
+        "close_control_ready_for_review", "candidate_only", "posting_performed",
+        "period_close_performed", "blockers", "currency_summaries"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "source_pipeline_id": {"const": "finance.month_close_control"},
+        "source_run_id": {"type": "string", "pattern": "^[a-f0-9]{24}$"},
+        "source_attempt_id": {"type": "string", "pattern": "^[a-f0-9]{24}$"},
+        "source_evidence": {
+          "type": "array", "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "close_control_ready_for_review": {"type": "boolean"},
+        "candidate_only": {"const": true},
+        "posting_performed": {"const": false},
+        "period_close_performed": {"const": false},
+        "blockers": {"type": "array"},
+        "currency_summaries": {
+          "type": "array", "minItems": 1,
+          "items": {"$ref": "#/$defs/entity_month_close_currency_summary"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "entity_month_close_currency_summary": {
+      "type": "object",
+      "required": [
+        "currency", "bank_account_count", "cash", "assets", "liabilities",
+        "revenue", "expenses", "profit_before_tax_candidate"
+      ],
+      "properties": {
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "bank_account_count": {"type": "integer", "minimum": 0},
+        "cash": {"type": "number"},
+        "assets": {"type": "number"},
+        "liabilities": {"type": "number"},
+        "revenue": {"type": "number"},
+        "expenses": {"type": "number"},
+        "profit_before_tax_candidate": {"type": "number"}
+      },
+      "additionalProperties": false
+    },
+    "approved_portfolio_fx_rate": {
+      "type": "object",
+      "required": [
+        "period", "pnl_rate", "closing_rate", "source_reference",
+        "review_status", "reviewed_by", "evidence"
+      ],
+      "properties": {
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "pnl_rate": {"type": "number", "exclusiveMinimum": 0},
+        "closing_rate": {"type": "number", "exclusiveMinimum": 0},
+        "source_reference": {"type": "string", "minLength": 1},
+        "review_status": {"const": "approved"},
+        "reviewed_by": {"type": "string", "minLength": 1},
+        "evidence": {
+          "type": "array", "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    },
+    "bank_gl_mapping": {
+      "type": "object",
+      "required": [
+        "entity_id", "period", "account_masked", "currency", "gl_account_code",
+        "bank_source_fingerprint", "transaction_review", "reconciling_items"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "account_masked": {"type": "string", "minLength": 1},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "gl_account_code": {"type": "string", "minLength": 1},
+        "bank_source_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "transaction_review": {"$ref": "#/$defs/bank_transaction_review"},
+        "reconciling_items": {
+          "type": "array", "items": {"$ref": "#/$defs/reconciling_item"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "bank_transaction_review": {
+      "type": "object",
+      "required": ["status", "reviewer_role", "rationale", "evidence"],
+      "properties": {
+        "status": {"enum": ["complete", "pending", "rejected"]},
+        "reviewer_role": {"type": "string", "minLength": 1},
+        "rationale": {"type": "string", "minLength": 8},
+        "evidence": {
+          "type": "array", "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    },
+    "reconciling_item": {
+      "type": "object",
+      "required": [
+        "item_id", "side", "direction", "amount", "reason", "evidence", "review_status"
+      ],
+      "properties": {
+        "item_id": {"type": "string", "minLength": 1},
+        "side": {"enum": ["bank", "ledger"]},
+        "direction": {"enum": ["increase", "decrease"]},
+        "amount": {"type": "number", "exclusiveMinimum": 0},
+        "reason": {"type": "string", "minLength": 1},
+        "evidence": {
+          "type": "array", "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "review_status": {"enum": ["approved", "pending", "rejected"]}
+      },
+      "additionalProperties": false
+    },
+    "marketplace_channel_close_payload": {
+      "type": "object",
+      "required": [
+        "entity_id", "connector_id", "connector_request",
+        "platform_inventory", "ledger_inventory"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "connector_id": {
+          "enum": ["file.marketplace_commerce", "example.marketplace_api_payload"]
+        },
+        "connector_request": {"type": "object"},
+        "platform_inventory": {
+          "type": "array", "minItems": 1,
+          "items": {"$ref": "#/$defs/marketplace_inventory_row"}
+        },
+        "ledger_inventory": {
+          "type": "array", "minItems": 1,
+          "items": {"$ref": "#/$defs/marketplace_inventory_row"}
+        },
+        "tolerance": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false
+    },
+    "marketplace_inventory_row": {
+      "type": "object",
+      "required": ["entity_id", "sku", "warehouse", "quantity", "evidence"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "sku": {"type": "string", "minLength": 1},
+        "warehouse": {"type": "string", "minLength": 1},
+        "quantity": {"type": "number", "minimum": 0},
+        "evidence": {
+          "type": "array", "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    },
+    "commerce_channel_close_payload": {
+      "type": "object",
+      "required": ["entity_id", "connector_id", "connector_request"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "connector_id": {
+          "enum": [
+            "file.commerce", "file.csv_commerce", "file.xlsx_commerce",
+            "example.commerce_api_payload"
+          ]
+        },
+        "connector_request": {"type": "object"},
+        "tolerance": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false
+    },
+    "game_channel_settlement_close_payload": {
+      "type": "object",
+      "required": ["entity_id", "connector_id", "connector_request", "contract_mappings"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "connector_id": {
+          "enum": [
+            "file.app_store_settlements",
+            "file.google_play_settlements",
+            "file.domestic_game_settlements"
+          ]
+        },
+        "connector_request": {"type": "object"},
+        "tolerance": {"type": "number", "minimum": 0, "maximum": 1},
+        "contract_mappings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/game_contract_mapping"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "game_contract_mapping": {
+      "type": "object",
+      "required": [
+        "entity_id", "period", "game", "channel", "currency",
+        "contract_basis", "contract_rate", "evidence"
+      ],
+      "properties": {
+        "settlement_id": {"type": "string", "minLength": 1},
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "game": {"type": "string", "minLength": 1},
+        "channel": {"type": "string", "minLength": 1},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "contract_basis": {"type": "number"},
+        "contract_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "contract_adjustments": {"type": "number"},
+        "evidence": {
+          "type": "object",
+          "required": ["source_reference", "captured_at"],
+          "properties": {
+            "source_reference": {"type": "string", "minLength": 1},
+            "captured_at": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "commerce_import_analyze_payload": {
+      "type": "object",
+      "required": ["connector_id", "connector_request"],
+      "properties": {
+        "connector_id": {"type": "string", "minLength": 1},
+        "connector_request": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "stripe_daily_close_payload": {
+      "type": "object",
+      "required": ["entity_id", "balance_request", "payout_request", "bank_transactions"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "arrival_date_tolerance_days": {"type": "integer", "minimum": 0, "maximum": 14},
+        "balance_request": {"type": "object"},
+        "payout_request": {"type": "object"},
+        "bank_transactions": {
+          "type": "array",
+          "items": {"type": "object"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "shopify_stripe_daily_close_payload": {
+      "type": "object",
+      "required": [
+        "entity_id", "shopify_request", "stripe_balance_request", "stripe_payout_request",
+        "processor_links", "currency_minor_units", "bank_transactions"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "include_test_orders": {"type": "boolean"},
+        "arrival_date_tolerance_days": {"type": "integer", "minimum": 0, "maximum": 14},
+        "shopify_request": {"type": "object"},
+        "stripe_balance_request": {"type": "object"},
+        "stripe_payout_request": {"type": "object"},
+        "processor_links": {
+          "type": "array",
+          "items": {"type": "object"}
+        },
+        "currency_minor_units": {
+          "type": "object",
+          "minProperties": 1,
+          "patternProperties": {
+            "^[A-Z]{3}$": {"type": "integer", "minimum": 0, "maximum": 4}
+          },
+          "additionalProperties": false
+        },
+        "bank_transactions": {
+          "type": "array",
+          "items": {"type": "object"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "amazon_seller_transaction_close_payload": {
+      "type": "object",
+      "required": ["entity_id", "amazon_seller_request"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "amazon_seller_request": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "amazon_seller_marketplace_close_payload": {
+      "type": "object",
+      "required": ["entity_id", "amazon_seller_marketplace_request"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1},
+        "amazon_seller_marketplace_request": {"type": "object"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

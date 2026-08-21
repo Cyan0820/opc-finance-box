@@ -1,0 +1,99 @@
+{
+  "pipeline_id": "commerce.channel_close",
+  "payload": {
+    "entity_id": "cn_dtc_company",
+    "connector_id": "example.commerce_api_payload",
+    "connector_request": {
+      "payload": {
+        "batch_id": "demo-storefront-close-2026-07-31",
+        "source_name": "fictional-storefront-api",
+        "orders": [
+          {
+            "id": "gid://fictional/Order/1001",
+            "orderNumber": "API-1001",
+            "entityId": "cn_dtc_company",
+            "processedAt": "2026-07-10T08:20:00Z",
+            "store": "DTC Store",
+            "destinationCountry": "US",
+            "currency": "USD",
+            "subtotal": 100,
+            "discounts": 10,
+            "shippingIncome": 5,
+            "tax": 9.5,
+            "refund": 10,
+            "refundedTax": 1,
+            "cost": 35,
+            "fulfillmentCost": 6,
+            "shippingCost": 8
+          }
+        ],
+        "payouts": [
+          {
+            "id": "gid://fictional/Payout/2001",
+            "payoutId": "API-PAYOUT-2001",
+            "entityId": "cn_dtc_company",
+            "period": "2026-07",
+            "store": "DTC Store",
+            "currency": "USD",
+            "orderInflow": 93.5,
+            "fees": 3,
+            "taxRemitted": 9.5,
+            "adjustments": 0,
+            "payout": 81
+          }
+        ],
+        "returns": [
+          {
+            "id": "gid://fictional/Return/3001",
+            "returnId": "RET-3001",
+            "orderNumber": "API-1001",
+            "entityId": "cn_dtc_company",
+            "processedAt": "2026-07-20T08:00:00Z",
+            "store": "DTC Store",
+            "sku": "SKU-DEMO-1",
+            "currency": "USD",
+            "authorizedQuantity": 1,
+            "refundedQuantity": 1,
+            "refundAmountExTax": 10,
+            "refundedTax": 1
+          }
+        ],
+        "returnReceipts": [
+          {
+            "id": "gid://fictional/ReturnReceipt/4001",
+            "receiptId": "RCPT-4001",
+            "returnId": "RET-3001",
+            "entityId": "cn_dtc_company",
+            "receivedAt": "2026-07-22T09:00:00Z",
+            "sku": "SKU-DEMO-1",
+            "warehouse": "US-3PL-WH-1",
+            "receivedQuantity": 1,
+            "disposition": "restockable"
+          }
+        ],
+        "importCosts": [
+          {
+            "id": "gid://fictional/ImportCost/5001",
+            "entryLineId": "IMPORT-LINE-5001",
+            "importEntryId": "IMPORT-ENTRY-5001",
+            "entityId": "cn_dtc_company",
+            "entryAt": "2026-07-05T08:00:00Z",
+            "sku": "SKU-DEMO-1",
+            "warehouse": "US-3PL-WH-1",
+            "originCountry": "CN",
+            "destinationCountry": "US",
+            "currency": "USD",
+            "quantity": 10,
+            "declaredValue": 100,
+            "inboundFreight": 20,
+            "insurance": 2,
+            "customsDuty": 8,
+            "importTax": 10,
+            "brokerage": 5
+          }
+        ]
+      }
+    },
+    "tolerance": 0.01
+  }
+}

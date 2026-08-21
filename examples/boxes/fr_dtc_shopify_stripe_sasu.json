@@ -1,0 +1,30 @@
+{
+  "box_version": 1,
+  "name": "法国 SASU Shopify + Stripe 独立站 OPC 样板",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "core": "core.finance",
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "data_mode": "demo",
+  "reporting_currency": "EUR",
+  "entities": [
+    {
+      "id": "fr_store",
+      "name": "法国独立站 société par actions simplifiée unipersonnelle（演示）",
+      "jurisdiction": "FR",
+      "functional_currency": "EUR",
+      "accounting_basis": "French_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.fr_single_member_simplified_joint_stock_company",
+      "tax_registrations": [
+        "fr_single_member_simplified_joint_stock_company",
+        "sasu_company",
+        "rne_registered",
+        "profit_tax_regime_review_required",
+        "vat_registration_review_required",
+        "payroll_registration_review_required"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "service_id": "tax.ca_federal_corporation.registration_profile",
+  "entity_id": "ca_store",
+  "payload": {
+    "as_of": "2026-08-13",
+    "entity_type": "federal_corporation",
+    "entity_type_evidence": {
+      "source_reference": "evidence://corporations-canada/company-status",
+      "captured_at": "2026-08-13"
+    },
+    "tax_residency_evidence": {
+      "source_reference": "evidence://advisor/canadian-tax-residency-review",
+      "captured_at": "2026-08-13"
+    },
+    "business_number_status": "confirmed",
+    "business_number_evidence": {
+      "source_reference": "evidence://cra/business-number-confirmation",
+      "captured_at": "2026-08-13"
+    },
+    "corporation_income_tax_status": "confirmed",
+    "corporation_income_tax_evidence": {
+      "source_reference": "evidence://cra/corporation-income-tax-account",
+      "captured_at": "2026-08-13"
+    },
+    "gst_hst_status": "not_registered",
+    "payroll_status": "not_registered"
+  }
+}

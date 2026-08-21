@@ -1,0 +1,30 @@
+{
+  "box_version": 1,
+  "name": "阿联酋自由区公司 Shopify + Stripe 独立站 OPC 样板",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "core": "core.finance",
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "data_mode": "demo",
+  "reporting_currency": "AED",
+  "entities": [
+    {
+      "id": "ae_store",
+      "name": "阿联酋自由区独立站公司（演示）",
+      "jurisdiction": "AE",
+      "functional_currency": "AED",
+      "accounting_basis": "IFRS",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.ae_domestic_juridical_person",
+      "tax_registrations": [
+        "ae_domestic_juridical_person",
+        "free_zone_juridical_person",
+        "corporate_tax",
+        "free_zone_person",
+        "qualifying_free_zone_person_review_required",
+        "vat_registration_review_required"
+      ]
+    }
+  ]
+}

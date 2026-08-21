@@ -1,0 +1,19 @@
+{
+  "pipeline_id": "finance.first_close_discovery",
+  "payload": {
+    "entity_id": "cn_dtc_company",
+    "period": "2026-08",
+    "bank_connector_id": "file.bank_statement",
+    "bank_connector_request": {
+      "path": "examples/banking/bank_statement.csv"
+    },
+    "general_ledger_connector_id": "file.general_ledger",
+    "general_ledger_connector_request": {
+      "path": "examples/accounting/month_close_general_ledger.csv"
+    },
+    "trial_balance_connector_id": "file.trial_balance",
+    "trial_balance_connector_request": {
+      "path": "examples/accounting/month_close_trial_balance.csv"
+    }
+  }
+}

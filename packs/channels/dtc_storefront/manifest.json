@@ -1,0 +1,16 @@
+{
+  "id": "channel.dtc_storefront",
+  "kind": "channel",
+  "display_name": "DTC 独立站",
+  "version": "0.1.0",
+  "status": "experimental",
+  "capabilities": [
+    "channel.dtc_order_import",
+    "channel.dtc_payment_reconciliation",
+    "channel.dtc_refund_reconciliation",
+    "channel.dtc_destination_summary"
+  ],
+  "requires": ["core.finance", "industry.commerce"],
+  "conflicts": [],
+  "manual_review_gates": ["sales_tax_nexus_review"]
+}

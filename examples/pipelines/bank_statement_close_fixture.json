@@ -1,0 +1,11 @@
+{
+  "pipeline_id": "finance.bank_statement_close",
+  "payload": {
+    "entity_id": "cn_dtc_company",
+    "period": "2026-08",
+    "connector_id": "file.bank_statement",
+    "connector_request": {
+      "path": "examples/banking/bank_statement.csv"
+    }
+  }
+}

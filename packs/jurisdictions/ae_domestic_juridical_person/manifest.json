@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.ae_domestic_juridical_person",
+  "kind": "jurisdiction",
+  "display_name": "阿联酋境内法人 Corporate Tax / VAT 设计包",
+  "version": "0.1.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "AE",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-16",
+    "authority_scope": "阿联酋境内 mainland LLC、single-person LLC 或由自由区许可机关设立的 juridical person 的商业许可、Corporate Tax、Free Zone Person 证据、VAT、会计记录与人工日历；排除自然人、外国法人或分支、税务居民判定、Qualifying Free Zone Person/Qualifying Income、税率税额、Small Business Relief、税务集团、VAT 登记与供应分类、常设机构、转让定价、海关与关税、工资社会保险、申报表生成和外部提交付款"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.ae_domestic_juridical_person.registration_profile",
+    "tax.ae_domestic_juridical_person.evidence_checklist",
+    "tax.ae_domestic_juridical_person.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

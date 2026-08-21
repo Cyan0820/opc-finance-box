@@ -1,0 +1,16 @@
+{
+  "service_id": "tax.ie_private_limited_company.registration_profile",
+  "entity_id": "ie_store",
+  "payload": {
+    "as_of": "2026-08-13",
+    "entity_type": "private_company_limited_by_shares",
+    "entity_type_evidence": {"source_reference": "evidence://cro/company-type", "captured_at": "2026-08-13"},
+    "tax_residency_evidence": {"source_reference": "evidence://advisor/irish-residency-review", "captured_at": "2026-08-13"},
+    "tax_reference_status": "confirmed",
+    "tax_reference_evidence": {"source_reference": "evidence://revenue/tax-registration", "captured_at": "2026-08-13"},
+    "corporation_tax_status": "confirmed",
+    "corporation_tax_evidence": {"source_reference": "evidence://revenue/corporation-tax-registration", "captured_at": "2026-08-13"},
+    "vat_status": "not_registered",
+    "employer_status": "not_registered"
+  }
+}

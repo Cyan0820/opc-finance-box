@@ -1,0 +1,25 @@
+{
+  "name": "我的香港法团 Shopify + Stripe 独立站 OPC",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "hk_store",
+      "name": "香港独立站经营法团（演示）",
+      "tax_country": "HK",
+      "functional_currency": "HKD",
+      "accounting_basis": "HKFRS",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": [
+        "hk_corporation",
+        "business_registration_confirmed",
+        "profits_tax",
+        "bir51_filer",
+        "two_tier_eligibility_review_required",
+        "offshore_source_review_required"
+      ]
+    }
+  ]
+}

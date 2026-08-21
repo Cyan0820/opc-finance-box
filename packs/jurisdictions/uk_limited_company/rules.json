@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "GB",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖英国 private company limited by shares 的 Companies House 主体证据、Corporation Tax/CT600 登记证据、VAT 监控和候选日历。系统不收集 UTR、company number 或 VAT number 原值，不计算利润或税额，不判断 VAT 供应地、税率或 Northern Ireland/EU 特殊规则，不生成 iXBRL/CT600 或执行提交。",
+  "sources": [
+    {
+      "id": "uk_hmrc_corporation_tax_active_registration",
+      "authority": "HM Revenue & Customs",
+      "title": "Corporation Tax: trading and non-trading",
+      "url": "https://www.gov.uk/guidance/corporation-tax-trading-and-non-trading",
+      "effective_from": "2020-02-17",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "uk_hmrc_company_tax_return_obligations_2026",
+      "authority": "HM Revenue & Customs",
+      "title": "Company Tax Return obligations",
+      "url": "https://www.gov.uk/guidance/company-tax-return-obligations",
+      "effective_from": "2026-04-01",
+      "status": "official guidance updated 2026-06-01; checked 2026-08-13"
+    },
+    {
+      "id": "uk_hmrc_pay_corporation_tax_current",
+      "authority": "HM Revenue & Customs",
+      "title": "Pay your Corporation Tax bill",
+      "url": "https://www.gov.uk/pay-corporation-tax",
+      "effective_from": "2026-04-01",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "uk_hmrc_vat_registration_current",
+      "authority": "HM Revenue & Customs",
+      "title": "Register for VAT",
+      "url": "https://www.gov.uk/register-for-vat",
+      "effective_from": "2026-04-01",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "uk_hmrc_vat_return_deadline_current",
+      "authority": "HM Revenue & Customs",
+      "title": "Sending a VAT Return",
+      "url": "https://www.gov.uk/submit-vat-return",
+      "effective_from": "2026-04-01",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "uk_companies_house_accounts_2026",
+      "authority": "Companies House",
+      "title": "Preparing and filing Companies House accounts",
+      "url": "https://www.gov.uk/government/publications/life-of-a-company-annual-requirements/life-of-a-company-part-1-accounts",
+      "effective_from": "2026-06-30",
+      "status": "official guidance updated 2026-06-30; checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "uk.company.private_limited.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的 UK private company limited by shares，保留 Companies House 主体类型、法定名称及会计参考日证据；其他公司、sole trader 和 partnership 不进入该工作流。",
+      "effective_from": "2026-06-30",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["uk_companies_house_accounts_2026"]
+    },
+    {
+      "id": "uk.corporation_tax.registration.evidence",
+      "summary": "保存主体开始 active/trading、Corporation Tax 服务登记及 accounting period 的证据引用；不保存 UTR 原值，也不代为登记。",
+      "effective_from": "2020-02-17",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["uk_hmrc_corporation_tax_active_registration"]
+    },
+    {
+      "id": "uk.corporation_tax.ct600.calendar",
+      "summary": "Company Tax Return 通常在 accounting period 结束后 12 个月内提交，但 notice to deliver、期间变化和特例必须按主体记录复核。",
+      "effective_from": "2026-04-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "months_after_date",
+        "anchor": "financial_year_end",
+        "months": 12,
+        "registration_any": ["uk_limited_company", "corporation_tax", "ct600_filer"]
+      },
+      "source_ids": ["uk_hmrc_company_tax_return_obligations_2026"]
+    },
+    {
+      "id": "uk.corporation_tax.payment.calendar",
+      "summary": "Corporation Tax 通常早于 CT600 到期；大公司分期、周末/银行假日、清算时间及实际 accounting period 会改变付款安排，必须人工配置。",
+      "effective_from": "2026-04-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_accounting_period_end",
+          "profit_band_and_instalment_payment_review",
+          "approved_payment_due_date",
+          "weekend_bank_holiday_and_clearance_review",
+          "payment_reference_evidence"
+        ],
+        "registration_any": ["uk_limited_company", "corporation_tax", "ct600_filer"]
+      },
+      "source_ids": ["uk_hmrc_pay_corporation_tax_current"]
+    },
+    {
+      "id": "uk.vat.registration.monitor",
+      "summary": "监控滚动 taxable turnover、未来 30 天预期和非英国设立主体事实，形成 VAT 登记复核提示；不能用订单总额自动认定登记义务。",
+      "effective_from": "2026-04-01",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["uk_hmrc_vat_registration_current"]
+    },
+    {
+      "id": "uk.vat.return.calendar",
+      "summary": "VAT return 与付款期限通常和 accounting period 相关，但 annual accounting、实际在线账户期限及清算时间必须按登记主体人工配置。",
+      "effective_from": "2026-04-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_vat_registration",
+          "vat_accounting_period_end",
+          "online_account_due_date",
+          "annual_accounting_scheme_review",
+          "payment_clearance_plan"
+        ],
+        "registration_any": ["vat", "vat_registered", "uk_vat"]
+      },
+      "source_ids": ["uk_hmrc_vat_return_deadline_current"]
+    },
+    {
+      "id": "uk.companies_house.private_accounts.calendar",
+      "summary": "Private company 后续年度账目通常在会计参考期结束后 9 个月内提交；首次账目、会计参考日变更和延期必须单独复核。",
+      "effective_from": "2026-06-30",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "months_after_date",
+        "anchor": "financial_year_end",
+        "months": 9,
+        "registration_any": ["uk_limited_company", "private_limited_company", "companies_house_accounts"]
+      },
+      "source_ids": ["uk_companies_house_accounts_2026"]
+    },
+    {
+      "id": "uk.ct600.return_evidence",
+      "summary": "整理 CT600、补充页、批准财务报表、税务计算、iXBRL、授权声明和回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-04-01",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["uk_hmrc_company_tax_return_obligations_2026"]
+    }
+  ]
+}

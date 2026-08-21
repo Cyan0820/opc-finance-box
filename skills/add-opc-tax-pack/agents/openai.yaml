@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add OPC Tax Pack"
+  short_description: "用当前官方来源创建、验证并安全演进版本化纳税地区 Pack"
+  default_prompt: "Use $add-opc-tax-pack to scaffold a source-backed tax jurisdiction Pack for this country."

@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "AU",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖澳大利亚 proprietary company 的 ASIC 主体与 annual review 证据、ABN/TFN/GST/PAYG 登记证据、Company tax return/BAS 配置任务。系统不收集 ACN、ABN 或 TFN 原值，不判断公司税率、base rate entity、GST turnover/供应分类、PAYG/FBT/super/州工资税适用性，不计算税额、不生成申报表或执行提交。",
+  "sources": [
+    {
+      "id": "au_abr_abn_application_2026",
+      "authority": "Australian Business Register",
+      "title": "Applying for an ABN",
+      "url": "https://www.abr.gov.au/business-super-funds-charities/applying-abn",
+      "effective_from": "2026-06-11",
+      "status": "official guidance last modified 2026-06-11; checked 2026-08-13"
+    },
+    {
+      "id": "au_government_tax_registration_current",
+      "authority": "Australian Government business.gov.au",
+      "title": "Tax registration for your business",
+      "url": "https://business.gov.au/registrations/register-for-taxes/tax-registration-for-your-business",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "au_ato_gst_registration_2025",
+      "authority": "Australian Taxation Office",
+      "title": "Registering for GST",
+      "url": "https://www.ato.gov.au/businesses-and-organisations/gst-excise-and-indirect-taxes/gst/registering-for-gst",
+      "effective_from": "2025-05-22",
+      "status": "official guidance last updated 2025-05-22; checked 2026-08-13"
+    },
+    {
+      "id": "au_ato_company_return_and_payment_2025",
+      "authority": "Australian Taxation Office",
+      "title": "How to lodge your company tax return and pay",
+      "url": "https://www.ato.gov.au/api/public/content/0-e220713e-6a6f-4401-b966-8bddf3ba96fd",
+      "effective_from": "2025-05-29",
+      "status": "official guidance last updated 2025-05-29; checked 2026-08-13"
+    },
+    {
+      "id": "au_ato_company_lodgment_program_2025_26",
+      "authority": "Australian Taxation Office",
+      "title": "Companies and super funds lodgment program",
+      "url": "https://www.ato.gov.au/api/public/content/0-07e0b405-bd64-4e3b-856b-20d7be074f13",
+      "effective_from": "2025-07-01",
+      "status": "official 2025-26 registered agent guidance checked 2026-08-13"
+    },
+    {
+      "id": "au_ato_bas_due_dates_2025",
+      "authority": "Australian Taxation Office",
+      "title": "Due dates for lodging and paying your BAS",
+      "url": "https://www.ato.gov.au/businesses-and-organisations/preparing-lodging-and-paying/business-activity-statements-bas/due-dates-for-lodging-and-paying-your-bas",
+      "effective_from": "2025-02-23",
+      "status": "official guidance last updated 2025-02-23; checked 2026-08-13"
+    },
+    {
+      "id": "au_asic_company_annual_review_2026",
+      "authority": "Australian Securities & Investments Commission",
+      "title": "Company annual review",
+      "url": "https://www.asic.gov.au/for-business-and-companies/companies/company-annual-review",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "au.company.proprietary.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的 Australian proprietary company，保存 ASIC 公司类型、法定名称与注册状态证据；不收集 ACN 原值。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["au_asic_company_annual_review_2026"]
+    },
+    {
+      "id": "au.tax.abn_tfn.registration.evidence",
+      "summary": "保存 ABN entitlement/登记回执与公司 TFN 的证据引用；不保存 ABN 或 TFN 原值，也不代为申请。",
+      "effective_from": "2026-06-11",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["au_abr_abn_application_2026", "au_government_tax_registration_current"]
+    },
+    {
+      "id": "au.gst.registration.monitor",
+      "summary": "监控当前及预计 GST turnover、业务类型和非居民事实，形成 GST 登记复核提示；订单总额或澳大利亚收货地不能自动证明 GST 登记义务。",
+      "effective_from": "2025-05-22",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["au_ato_gst_registration_2025"]
+    },
+    {
+      "id": "au.company_tax.return_and_payment.calendar",
+      "summary": "Company tax return 与付款期限受主体类别、是否由注册税务代理申报、历史申报状态、ATO lodgment program、SAP 和实际 ATO 账户日期影响，必须按主体人工配置。",
+      "effective_from": "2025-07-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_income_year_and_balancing_date",
+          "self_lodger_or_registered_agent",
+          "entity_and_lodgment_program_category",
+          "prior_return_status_and_ato_deferral_review",
+          "approved_company_return_due_date",
+          "approved_company_tax_payment_due_date"
+        ],
+        "registration_any": ["au_proprietary_company", "company_tax", "company_tax_return_filer"]
+      },
+      "source_ids": ["au_ato_company_return_and_payment_2025", "au_ato_company_lodgment_program_2025_26"]
+    },
+    {
+      "id": "au.gst.bas.calendar",
+      "summary": "BAS 申报与付款日期取决于实际 GST 登记、月/季/年周期、在线或代理申报、ATO statement、延期及周末/公共假日，必须按实际 BAS 人工配置。",
+      "effective_from": "2025-02-23",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_gst_registration",
+          "bas_reporting_cycle",
+          "taxable_period_end",
+          "ato_statement_due_date",
+          "online_or_agent_concession_review",
+          "weekend_public_holiday_review",
+          "approved_lodgment_and_payment_due_date"
+        ],
+        "registration_any": ["gst", "gst_registered", "au_gst"]
+      },
+      "source_ids": ["au_ato_bas_due_dates_2025"]
+    },
+    {
+      "id": "au.asic.annual_review.calendar",
+      "summary": "ASIC annual review fee、资料核对与 solvency resolution 通常围绕实际 annual review date；候选两个月日期必须结合 annual statement、变更和是否已提交财务报告复核。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "months_after_date",
+        "anchor": "asic_annual_review_date",
+        "months": 2,
+        "registration_any": ["au_proprietary_company", "asic_company", "asic_annual_review"]
+      },
+      "source_ids": ["au_asic_company_annual_review_2026"]
+    },
+    {
+      "id": "au.company_tax.return_evidence",
+      "summary": "整理批准财务报表、税务调整、适用 schedules、授权声明、付款计划和申报回执计划；design Pack 不计算税额、判断税率或生成可提交文件。",
+      "effective_from": "2025-05-29",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["au_ato_company_return_and_payment_2025"]
+    }
+  ]
+}

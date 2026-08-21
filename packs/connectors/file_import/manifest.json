@@ -1,0 +1,24 @@
+{
+  "id": "connector.file_import",
+  "kind": "connector",
+  "display_name": "CSV / XLSX / PDF 文件导入",
+  "version": "0.4.0",
+  "status": "preview",
+  "capabilities": [
+    "connector.csv",
+    "connector.xlsx",
+    "connector.bank_statement_import",
+    "connector.trial_balance_import",
+    "connector.general_ledger_import",
+    "connector.commerce_standard_import",
+    "connector.text_pdf",
+    "connector.local_ocr_optional"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "low_confidence_document_extraction",
+    "bank_statement_mapping_review",
+    "accounting_export_mapping_review"
+  ]
+}

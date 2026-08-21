@@ -1,0 +1,23 @@
+{
+  "box_version": 1,
+  "name": "中国主体独立站 API Connector 样板",
+  "data_mode": "demo",
+  "reporting_currency": "CNY",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.custom_api"],
+  "features": [],
+  "entities": [
+    {
+      "id": "cn_dtc_company",
+      "name": "独立站经营主体（API 演示）",
+      "jurisdiction": "CN",
+      "functional_currency": "CNY",
+      "accounting_basis": "PRC_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.cn_mainland",
+      "tax_registrations": ["corporate_income_tax", "vat_taxpayer_type_to_confirm"]
+    }
+  ]
+}

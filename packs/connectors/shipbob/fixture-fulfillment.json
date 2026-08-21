@@ -1,0 +1,86 @@
+{
+  "mode": "fixture",
+  "default_entity_id": "us_dtc_company",
+  "interval_start": "2026-08-01T00:00:00Z",
+  "interval_end": "2026-09-01T00:00:00Z",
+  "orders": [
+    {
+      "id": 51001,
+      "created_date": "2026-08-05T09:00:00Z",
+      "purchase_date": "2026-08-05T08:58:00Z",
+      "reference_id": "SHOPIFY-1001",
+      "order_number": "#1001",
+      "status": "Completed",
+      "type": "DTC",
+      "channel": {"id": 710, "name": "OPC Shopify"},
+      "recipient": {
+        "name": "Fixture Customer",
+        "email": "fixture@example.invalid",
+        "phone_number": "555-0100",
+        "address": {
+          "address1": "Private Street",
+          "city": "Private City",
+          "state": "CA",
+          "zip_code": "90000",
+          "country": "US"
+        }
+      },
+      "products": [
+        {"id": 81001, "reference_id": "SKU-TSHIRT-BLUE", "sku": "SKU-TSHIRT-BLUE", "quantity": 2, "unit_price": 25}
+      ],
+      "shipments": [
+        {
+          "id": 61001,
+          "order_id": 51001,
+          "created_date": "2026-08-05T09:05:00Z",
+          "actual_fulfillment_date": "2026-08-06T15:00:00Z",
+          "delivery_date": "2026-08-09T18:30:00Z",
+          "last_update_at": "2026-08-09T18:30:00Z",
+          "status": "Delivered",
+          "location": {"id": 228, "name": "US-WEST-3PL"},
+          "invoice_amount": 7.77,
+          "invoice_currency_code": "USD",
+          "products": [
+            {
+              "id": 81001,
+              "reference_id": "SKU-TSHIRT-BLUE",
+              "sku": "SKU-TSHIRT-BLUE",
+              "inventory_items": [{"id": 91001, "quantity": 2, "name": "Blue T-Shirt"}]
+            }
+          ],
+          "tracking": {"carrier": "USPS", "tracking_number": "PRIVATE-TRACKING-001"},
+          "recipient": {"email": "fixture@example.invalid", "name": "Fixture Customer"}
+        }
+      ]
+    }
+  ],
+  "returns": [
+    {
+      "id": 41001,
+      "insert_date": "2026-08-15T11:00:00Z",
+      "arrived_date": "2026-08-18T12:00:00Z",
+      "processing_date": "2026-08-18T13:00:00Z",
+      "completed_date": "2026-08-19T10:00:00Z",
+      "status": "Completed",
+      "return_type": "Regular",
+      "fulfillment_center": {"id": 228, "name": "US-WEST-3PL"},
+      "original_shipment_id": 61001,
+      "store_order_id": "SHOPIFY-1001",
+      "customer_name": "Fixture Customer",
+      "tracking_number": "PRIVATE-RETURN-TRACKING-001",
+      "invoice": {"amount": 3.25, "currency_code": "USD"},
+      "inventory": [
+        {
+          "id": 91001,
+          "sku": "SKU-TSHIRT-BLUE",
+          "quantity": 1,
+          "barcodes": ["PRIVATE-BARCODE"],
+          "action_requested": {"action_type": "Restock", "instructions": "Private note"},
+          "action_taken": [
+            {"action": "Restock", "action_reason": "Sellable", "quantity_processed": 1, "image_url": "https://private.invalid/photo"}
+          ]
+        }
+      ]
+    }
+  ]
+}

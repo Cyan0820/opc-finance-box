@@ -1,0 +1,8 @@
+{
+  "service_id": "tax.ae_domestic_juridical_person.build_calendar",
+  "entity_id": "ae_store",
+  "payload": {
+    "period_year": 2026,
+    "as_of": "2026-08-16"
+  }
+}

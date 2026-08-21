@@ -1,0 +1,2 @@
+进口明细行ID,进口批次号,法律主体ID,期间,商品SKU,仓库,原产国,目的地国家,币种,进口数量,申报货值,进口运费,保险费,关税金额,进口税,报关服务费
+IMPORT-LINE-1,IMPORT-ENTRY-1,cn_dtc_company,2026-07,SKU-DEMO-1,US-3PL-WH-1,CN,US,USD,10,100,20,2,8,10,5

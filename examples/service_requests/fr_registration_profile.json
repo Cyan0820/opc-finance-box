@@ -1,0 +1,18 @@
+{
+  "service_id": "tax.fr_single_member_simplified_joint_stock_company.registration_profile",
+  "entity_id": "fr_store",
+  "payload": {
+    "as_of": "2026-08-14",
+    "entity_type": "single_member_simplified_joint_stock_company_sasu",
+    "entity_type_evidence": {"source_reference": "evidence://rne/sasu-single-shareholder-form", "captured_at": "2026-08-14"},
+    "tax_residency_evidence": {"source_reference": "evidence://advisor/french-residency-review", "captured_at": "2026-08-14"},
+    "rne_status": "confirmed",
+    "rne_evidence": {"source_reference": "evidence://rne/company-status", "captured_at": "2026-08-14"},
+    "profit_tax_regime": "corporate_income_tax_is",
+    "profit_tax_regime_evidence": {"source_reference": "evidence://advisor/is-regime-confirmation", "captured_at": "2026-08-14"},
+    "corporate_income_tax_status": "confirmed",
+    "corporate_income_tax_evidence": {"source_reference": "evidence://impots/corporate-income-tax-account", "captured_at": "2026-08-14"},
+    "vat_status": "not_registered",
+    "payroll_status": "not_registered"
+  }
+}

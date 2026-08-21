@@ -1,0 +1,28 @@
+{
+  "id": "connector.amazon_seller",
+  "kind": "connector",
+  "display_name": "Amazon Seller SP-API Finances 只读交易证据 Connector",
+  "version": "0.2.0",
+  "status": "experimental",
+  "capabilities": [
+    "connector.amazon_seller_transaction_activity",
+    "connector.amazon_seller_marketplace_evidence"
+  ],
+  "requires": ["core.finance", "industry.commerce", "channel.marketplace_commerce"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "amazon_seller_entity_account_binding_review",
+    "amazon_seller_marketplace_scope_review",
+    "amazon_seller_transaction_mapping_review",
+    "amazon_seller_fee_tax_policy_review",
+    "amazon_seller_settlement_completeness_review",
+    "amazon_seller_orders_scope_review",
+    "amazon_seller_order_finance_completeness_review",
+    "amazon_seller_inventory_scope_review",
+    "amazon_seller_inventory_reconciliation_review"
+  ],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

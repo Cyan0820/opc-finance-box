@@ -1,0 +1,22 @@
+{
+  "id": "feature.shopify_stripe_order_to_cash",
+  "kind": "feature",
+  "display_name": "Shopify + Stripe Order-to-Cash Integration",
+  "version": "0.3.0",
+  "status": "experimental",
+  "capabilities": [
+    "integration.shopify_stripe_order_to_cash",
+    "integration.shopify_stripe_monthly_close"
+  ],
+  "requires": [
+    "core.finance",
+    "industry.commerce",
+    "channel.dtc_storefront",
+    "connector.shopify",
+    "connector.stripe"
+  ],
+  "conflicts": [],
+  "manual_review_gates": [
+    "processor_link_mapping_approval"
+  ]
+}

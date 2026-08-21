@@ -1,0 +1,20 @@
+{
+  "id": "feature.multi_entity",
+  "kind": "feature",
+  "display_name": "多主体管理与合并视图",
+  "version": "0.2.0",
+  "status": "experimental",
+  "capabilities": [
+    "entity.separate_legal_books",
+    "entity.management_consolidation",
+    "entity.intercompany_elimination",
+    "entity.reporting_currency_translation"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "intercompany_mapping",
+    "consolidation_adjustment",
+    "month_close_portfolio_review"
+  ]
+}

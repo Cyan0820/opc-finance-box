@@ -1,0 +1,39 @@
+{
+  "service_id": "tax.kr_domestic_corporation.registration_profile",
+  "entity_id": "kr_store",
+  "payload": {
+  "as_of": "2026-08-16",
+  "entity_type": "stock_company_jusik_hoesa",
+  "entity_type_evidence": {
+    "source_reference": "演示：韩国法人登记法律形式复核",
+    "captured_at": "2026-08-16"
+  },
+  "tax_residency_evidence": {
+    "source_reference": "演示：韩国税务居民专业复核",
+    "captured_at": "2026-08-16"
+  },
+  "corporate_registry_status": "confirmed",
+  "corporate_registry_evidence": {
+    "source_reference": "演示：法人登记状态",
+    "captured_at": "2026-08-16"
+  },
+  "business_registration_status": "confirmed",
+  "business_registration_evidence": {
+    "source_reference": "演示：营业登记状态",
+    "captured_at": "2026-08-16"
+  },
+  "corporate_income_tax_status": "confirmed",
+  "corporate_income_tax_evidence": {
+    "source_reference": "演示：法人税登记状态",
+    "captured_at": "2026-08-16"
+  },
+  "local_corporate_income_tax_status": "confirmed",
+  "local_corporate_income_tax_evidence": {
+    "source_reference": "演示：地方法人所得税登记状态",
+    "captured_at": "2026-08-16"
+  },
+  "vat_status": "not_registered",
+  "etax_invoice_status": "not_registered",
+  "withholding_status": "not_registered"
+  }
+}

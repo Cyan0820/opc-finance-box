@@ -1,0 +1,25 @@
+{
+  "name": "我的英国 Ltd Shopify + Stripe 独立站 OPC",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "uk_store",
+      "name": "英国独立站 Private Limited Company（演示）",
+      "tax_country": "GB",
+      "functional_currency": "GBP",
+      "accounting_basis": "UK_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": [
+        "uk_limited_company",
+        "private_limited_company",
+        "corporation_tax",
+        "ct600_filer",
+        "companies_house_accounts",
+        "vat_registration_review_required"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "我的澳大利亚 Pty Ltd Shopify + Stripe 独立站 OPC",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "au_store",
+      "name": "澳大利亚独立站 Proprietary Limited Company（演示）",
+      "tax_country": "AU",
+      "functional_currency": "AUD",
+      "accounting_basis": "AASB",
+      "fiscal_year_end": "06-30",
+      "tax_registrations": [
+        "au_proprietary_company",
+        "proprietary_company",
+        "asic_company",
+        "asic_annual_review",
+        "abn_confirmed",
+        "company_tfn_confirmed",
+        "company_tax",
+        "company_tax_return_filer",
+        "gst_registration_review_required",
+        "payg_withholding_review_required"
+      ]
+    }
+  ]
+}

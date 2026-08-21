@@ -1,0 +1,8 @@
+{
+  "service_id": "tax.jp_domestic_corporation.build_calendar",
+  "entity_id": "jp_store",
+  "payload": {
+    "period_year": 2026,
+    "as_of": "2026-08-16"
+  }
+}

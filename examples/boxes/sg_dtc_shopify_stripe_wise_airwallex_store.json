@@ -1,0 +1,27 @@
+{
+  "box_version": 1,
+  "name": "新加坡独立站 Shopify + Stripe + Wise + Airwallex OPC 样板",
+  "data_mode": "demo",
+  "reporting_currency": "SGD",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": [
+    "connector.file_import",
+    "connector.shopify",
+    "connector.stripe",
+    "connector.wise",
+    "connector.airwallex"
+  ],
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "entities": [{
+    "id": "sg_store",
+    "name": "OPC Global Spend Demo Pte Ltd",
+    "jurisdiction": "SG",
+    "functional_currency": "SGD",
+    "accounting_basis": "SFRS",
+    "fiscal_year_end": "12-31",
+    "tax_pack": "jurisdiction.sg",
+    "tax_registrations": []
+  }]
+}

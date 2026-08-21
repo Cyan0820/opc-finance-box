@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opc-finance-box.local/schemas/cfo-metric-operand-assembly.schema.json",
+  "title": "OPC Finance Box CFO Metric Operand Assembly Collection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "assembly_contract_version",
+    "source_type_id",
+    "source_id",
+    "source_result_fingerprint",
+    "coverage_status",
+    "coverage_blocker_type_ids",
+    "assemblies",
+    "assembly_count",
+    "source_result_trusted_at_assembly_time",
+    "caller_supplied_source_result_accepted",
+    "raw_source_records_returned",
+    "implicit_currency_conversion_performed",
+    "human_controls_auto_confirmed",
+    "authoritative_accounting_or_statutory_truth_inferred",
+    "external_actions_performed"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "artifact_type": {"const": "cfo_metric_operand_assembly_collection"},
+    "assembly_contract_version": {"const": 1},
+    "source_type_id": {"enum": ["pipeline", "service"]},
+    "source_id": {"type": "string", "minLength": 1},
+    "source_result_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "coverage_status": {
+      "enum": [
+        "executable",
+        "blocked_source_contract",
+        "not_available_source_not_ready_or_empty"
+      ]
+    },
+    "coverage_blocker_type_ids": {"$ref": "#/$defs/uniqueIds"},
+    "assemblies": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/assembly"}
+    },
+    "assembly_count": {"type": "integer", "minimum": 0},
+    "source_result_trusted_at_assembly_time": {"const": true},
+    "caller_supplied_source_result_accepted": {"const": false},
+    "raw_source_records_returned": {"const": false},
+    "credentials_returned": {"const": false},
+    "private_paths_returned": {"const": false},
+    "implicit_currency_conversion_performed": {"const": false},
+    "human_controls_auto_confirmed": {"const": false},
+    "authoritative_accounting_or_statutory_truth_inferred": {"const": false},
+    "posting_payment_or_filing_authorized": {"const": false},
+    "external_actions_performed": {"const": false}
+  },
+  "$defs": {
+    "uniqueIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "dimensionScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dimension_type_id", "dimension_value_ids"],
+      "properties": {
+        "dimension_type_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+        "dimension_value_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 128}
+        }
+      }
+    },
+    "assembly": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assembly_id",
+        "entity_id",
+        "period",
+        "currency",
+        "currency_basis_type_id",
+        "metric_type_ids",
+        "operand_values",
+        "vector_operand_values",
+        "confirmed_control_type_ids",
+        "pending_control_type_ids",
+        "operand_provenance",
+        "source_result_fingerprint",
+        "evaluation_status",
+        "evaluation_blocker_type_ids",
+        "evaluation_request",
+        "evaluation_preview",
+        "candidate_only",
+        "human_review_still_required",
+        "raw_source_records_returned",
+        "implicit_currency_conversion_performed",
+        "authoritative_accounting_or_statutory_truth",
+        "external_actions_performed"
+      ],
+      "properties": {
+        "assembly_id": {"type": "string", "pattern": "^[0-9a-f]{24}$"},
+        "entity_id": {"type": "string", "minLength": 1},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "currency_basis_type_id": {"type": "string", "minLength": 1},
+        "dimension_scope": {"$ref": "#/$defs/dimensionScope"},
+        "metric_type_ids": {"$ref": "#/$defs/uniqueIds"},
+        "operand_values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+          }
+        },
+        "vector_operand_values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            }
+          }
+        },
+        "confirmed_control_type_ids": {"$ref": "#/$defs/uniqueIds"},
+        "pending_control_type_ids": {"$ref": "#/$defs/uniqueIds"},
+        "operand_provenance": {"type": "array"},
+        "source_result_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "evaluation_status": {"type": "string", "minLength": 1},
+        "evaluation_blocker_type_ids": {"$ref": "#/$defs/uniqueIds"},
+        "evaluation_request": {"type": ["object", "null"]},
+        "evaluation_preview": {"type": ["object", "null"]},
+        "candidate_only": {"const": true},
+        "human_review_still_required": {"type": "boolean"},
+        "raw_source_records_returned": {"const": false},
+        "implicit_currency_conversion_performed": {"const": false},
+        "authoritative_accounting_or_statutory_truth": {"const": false},
+        "external_actions_performed": {"const": false}
+      }
+    }
+  }
+}

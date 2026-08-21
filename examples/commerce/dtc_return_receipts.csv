@@ -1,0 +1,3 @@
+退货入库单号,退货单号,法律主体ID,期间,商品SKU,仓库,实收数量,处置状态
+RCPT-DEMO-1001-A,RET-DEMO-1001,cn_dtc_company,2026-07,SKU-DEMO-1,US-3PL-WH-1,1,restockable
+RCPT-DEMO-1001-B,RET-DEMO-1001,cn_dtc_company,2026-07,SKU-DEMO-1,US-3PL-WH-2,1,damaged

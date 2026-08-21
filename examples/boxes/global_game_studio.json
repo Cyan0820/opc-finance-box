@@ -1,0 +1,41 @@
+{
+  "box_version": 1,
+  "name": "全球小游戏 OPC 样板",
+  "data_mode": "demo",
+  "reporting_currency": "CNY",
+  "core": "core.finance",
+  "business_models": ["industry.game_studio"],
+  "channels": [
+    "channel.app_store",
+    "channel.google_play",
+    "channel.domestic_game_platforms"
+  ],
+  "connectors": ["connector.file_import"],
+  "features": ["feature.multi_entity"],
+  "entities": [
+    {
+      "id": "cn_studio",
+      "name": "国服研发运营主体（演示）",
+      "jurisdiction": "CN",
+      "functional_currency": "CNY",
+      "accounting_basis": "PRC_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.cn_mainland",
+      "tax_registrations": [
+        "corporate_income_tax",
+        "vat_general_taxpayer",
+        "individual_income_tax_withholding"
+      ]
+    },
+    {
+      "id": "sg_publisher",
+      "name": "海外发行主体（演示）",
+      "jurisdiction": "SG",
+      "functional_currency": "USD",
+      "accounting_basis": "SFRS",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.sg",
+      "tax_registrations": ["corporate_income_tax", "gst_review_required"]
+    }
+  ]
+}

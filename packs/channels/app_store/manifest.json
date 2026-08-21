@@ -1,0 +1,15 @@
+{
+  "id": "channel.app_store",
+  "kind": "channel",
+  "display_name": "Apple App Store",
+  "version": "0.1.0",
+  "status": "preview",
+  "capabilities": [
+    "channel.app_store_settlement_import",
+    "channel.app_store_fee_reconciliation",
+    "channel.app_store_receivable"
+  ],
+  "requires": ["core.finance", "industry.game_studio"],
+  "conflicts": [],
+  "manual_review_gates": ["channel_contract_mapping"]
+}

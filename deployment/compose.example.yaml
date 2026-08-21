@@ -1,0 +1,87 @@
+services:
+  auth-init:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    image: opc-finance-box:local
+    user: "0:0"
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - install -o 10001 -g 10001 -m 0600 /run/secrets/opc_finance_api_auth /auth/api-auth.json
+    read_only: true
+    volumes:
+      - opc_finance_auth:/auth
+    secrets:
+      - opc_finance_api_auth
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - FOWNER
+    security_opt:
+      - no-new-privileges:true
+
+  workbench:
+    image: opc-finance-box:local
+    depends_on:
+      auth-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    init: true
+    read_only: true
+    user: "10001:10001"
+    ports:
+      - "127.0.0.1:8765:8765"
+    environment:
+      OPC_FINANCE_BOX_CONFIG: /etc/opc-finance/box.json
+      OPC_FINANCE_DATA_DIR: /var/lib/opc-finance
+      OPC_FINANCE_HOST: 0.0.0.0
+      OPC_FINANCE_PORT: "8765"
+      OPC_FINANCE_API_AUTH_FILE: /run/opc-auth/api-auth.json
+      # OPC_TAX_APPLICABILITY_REVIEW_DIR: /etc/opc-finance/tax-applicability-reviews
+      # OPC_TAX_APPLICABILITY_REGISTRY_RECEIPT: /etc/opc-finance/tax-applicability-registry-receipt.json
+      # OPC_CONNECTOR_SHADOW_REVIEW_DIR: /etc/opc-finance/connector-shadow-reviews
+      # OPC_PILOT_READINESS_REVIEW: /etc/opc-finance/pilot-readiness-reviewed.json
+      # OPC_PILOT_DATA_HANDOFF_REVIEW: /etc/opc-finance/pilot-data-handoff-reviewed.json
+      # OPC_PILOT_SHADOW_RUN_REGISTRATION: /etc/opc-finance/pilot-shadow-run-registration.json
+      # OPC_PILOT_SHADOW_OBSERVATION_REVIEW: /etc/opc-finance/pilot-shadow-observation-reviewed.json
+      # OPC_PILOT_SHADOW_ENTITY_REPORT_DIR: /etc/opc-finance/pilot-shadow-entity-reports
+      # OPC_PILOT_SHADOW_PORTFOLIO_REVIEW: /etc/opc-finance/pilot-shadow-portfolio-reviewed.json
+      # OPC_PILOT_SHADOW_SERIES_REVIEW: /etc/opc-finance/pilot-shadow-series-reviewed.json
+      # OPC_PILOT_SHADOW_SERIES_EVIDENCE_ROOT: /etc/opc-finance/pilot-shadow-series-periods
+      # OPC_ACTIVATION_WORKSPACE_ROOT: /etc/opc-finance/activation-workspace
+      # OPC_STABLE_PROMOTION_ROOT: /etc/opc-finance/stable-promotion-ledger
+      # OPC_FINANCE_PIPELINE_SCHEDULE_FILE: /etc/opc-finance/schedule.json
+    volumes:
+      - ./private/box.json:/etc/opc-finance/box.json:ro
+      # - ./private/tax-applicability-reviews:/etc/opc-finance/tax-applicability-reviews:ro
+      # - ./private/tax-applicability-registry-receipt.json:/etc/opc-finance/tax-applicability-registry-receipt.json:ro
+      # - ./private/connector-shadow-reviews:/etc/opc-finance/connector-shadow-reviews:ro
+      # - ./private/pilot-readiness-reviewed.json:/etc/opc-finance/pilot-readiness-reviewed.json:ro
+      # - ./private/pilot-data-handoff-reviewed.json:/etc/opc-finance/pilot-data-handoff-reviewed.json:ro
+      # - ./private/pilot-shadow-run-registration.json:/etc/opc-finance/pilot-shadow-run-registration.json:ro
+      # - ./private/pilot-shadow-observation-reviewed.json:/etc/opc-finance/pilot-shadow-observation-reviewed.json:ro
+      # - ./private/pilot-shadow-entity-reports:/etc/opc-finance/pilot-shadow-entity-reports:ro
+      # - ./private/pilot-shadow-portfolio-reviewed.json:/etc/opc-finance/pilot-shadow-portfolio-reviewed.json:ro
+      # - ./private/pilot-shadow-series-reviewed.json:/etc/opc-finance/pilot-shadow-series-reviewed.json:ro
+      # - ./private/activation-workspace:/etc/opc-finance/activation-workspace:ro
+      # - ./private/pilot-shadow-series-periods:/etc/opc-finance/pilot-shadow-series-periods:ro
+      # - ./private/stable-promotion-ledger:/etc/opc-finance/stable-promotion-ledger:ro
+      # - ./private/schedule.json:/etc/opc-finance/schedule.json:ro
+      - opc_finance_data:/var/lib/opc-finance
+      - opc_finance_auth:/run/opc-auth:ro
+    tmpfs:
+      - /tmp:size=64m,mode=1700,uid=10001,gid=10001
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+
+volumes:
+  opc_finance_data: {}
+  opc_finance_auth: {}
+
+secrets:
+  opc_finance_api_auth:
+    file: ./private/api-auth.json

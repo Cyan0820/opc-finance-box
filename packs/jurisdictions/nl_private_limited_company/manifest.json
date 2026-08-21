@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.nl_private_limited_company",
+  "kind": "jurisdiction",
+  "display_name": "荷兰 BV 公司 VPB / VAT 税务设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "NL",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-13",
+    "authority_scope": "荷兰 besloten vennootschap (BV) 的 KVK 主体、Corporate Income Tax (VPB)、VAT 与年度财务报表证据和人工日历；排除税务居民、税率税额、fiscal unity、innovation box、OSS/IOSS、KOR、工资税、DGA 薪酬、股息预提、跨境税、申报表生成和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.nl_private_limited_company.registration_profile",
+    "tax.nl_private_limited_company.evidence_checklist",
+    "tax.nl_private_limited_company.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

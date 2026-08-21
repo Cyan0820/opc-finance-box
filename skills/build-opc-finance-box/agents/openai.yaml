@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build OPC Finance Box"
+  short_description: "装配、编译并验收可 fork 的 OPC 财务 Box"
+  default_prompt: "Use $build-opc-finance-box to assemble and validate an editable finance Box for my OPC."

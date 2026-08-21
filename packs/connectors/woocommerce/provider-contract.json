@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "pack_id": "connector.woocommerce",
+  "credential_env": [
+    "OPC_WOOCOMMERCE_SITE_ORIGIN",
+    "OPC_WOOCOMMERCE_CONSUMER_KEY",
+    "OPC_WOOCOMMERCE_CONSUMER_SECRET"
+  ],
+  "entity_credential_binding_env": "OPC_WOOCOMMERCE_ENTITY_BINDINGS_JSON",
+  "entity_credential_binding_required_for_access_probe_and_shadow": true,
+  "entity_credential_alias_fields": ["consumer_key_env", "consumer_secret_env"],
+  "entity_provider_binding_fields": ["site_origin", "key_permission"],
+  "required_key_permission": "read",
+  "network_mode": "https_basic_auth_read_only_wc_rest_v3",
+  "api_contract": "WooCommerce REST API v3",
+  "endpoint_paths": [
+    "GET /wp-json/wc/v3/orders",
+    "GET /wp-json/wc/v3/refunds"
+  ],
+  "access_probe_contract": {
+    "receipt_schema": 2,
+    "scope": "one_box_legal_entity_one_bound_site_one_bound_key_pair",
+    "fixed_endpoints": ["GET /wp-json/wc/v3/orders?context=view&per_page=1&_fields=id", "GET /wp-json/wc/v3/refunds?context=view&per_page=1&_fields=id"],
+    "required_checks": ["provider_authentication", "provider_account_binding", "orders_read_scope", "refunds_read_scope", "operator_declared_read_only_key", "read_only_probe"],
+    "financial_values_requested": false,
+    "source_ids_retained": false,
+    "write_permission_provider_verified": false,
+    "independent_key_permission_review_required": true,
+    "current_receipt_required_for_shadow_dispatch": true
+  },
+  "site_origin_policy": "operator_environment_only_public_https_domain_no_request_override",
+  "authentication_policy": "basic_authorization_header_only_no_query_string_credentials",
+  "pagination": "local_integer_pages_1_to_100_using_x_wp_totals_link_urls_never_followed",
+  "window_contract": "maximum_31_day_half_open_modified_order_and_created_refund_window",
+  "record_limit_per_collection": 10000,
+  "pii_collection": "country_code_only_no_customer_identity_address_ip_user_agent_note_or_metadata",
+  "product_detail_collection": "aggregate_line_count_and_quantity_only_no_name_sku_or_product_id",
+  "source_id_policy": "hash_order_refund_and_transaction_identifiers",
+  "accounting_boundary": "store_order_and_refund_evidence_not_revenue_tax_inventory_settlement_or_posting",
+  "business_write_endpoints_used": false,
+  "webhooks_used": false
+}

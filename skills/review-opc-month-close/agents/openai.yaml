@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review OPC Month Close"
+  short_description: "按法律主体、证据、币种和审批边界审查 OPC 月结与经营风险"
+  default_prompt: "Use $review-opc-month-close to review this OPC monthly close without crossing approval boundaries."

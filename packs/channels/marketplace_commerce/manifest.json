@@ -1,0 +1,19 @@
+{
+  "id": "channel.marketplace_commerce",
+  "kind": "channel",
+  "display_name": "第三方电商平台",
+  "version": "0.2.0",
+  "status": "experimental",
+  "capabilities": [
+    "channel.marketplace_order_import",
+    "channel.marketplace_fee_reconciliation",
+    "channel.marketplace_inventory_reconciliation",
+    "channel.marketplace_receivable"
+  ],
+  "requires": ["core.finance", "industry.commerce"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "marketplace_contract_mapping",
+    "marketplace_inventory_mapping"
+  ]
+}

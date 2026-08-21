@@ -1,0 +1,16 @@
+{
+  "name": "我的第三方电商平台 OPC",
+  "business_type": "commerce",
+  "channels": ["marketplace"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "cn_marketplace_company",
+      "name": "第三方平台经营主体",
+      "tax_country": "CN",
+      "functional_currency": "CNY",
+      "accounting_basis": "PRC_GAAP",
+      "tax_registrations": ["corporate_income_tax", "vat_taxpayer_type_to_confirm"]
+    }
+  ]
+}

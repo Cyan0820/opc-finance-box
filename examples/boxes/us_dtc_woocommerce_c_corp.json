@@ -1,0 +1,30 @@
+{
+  "box_version": 1,
+  "name": "US WooCommerce DTC OPC",
+  "data_mode": "demo",
+  "reporting_currency": "USD",
+  "core": "core.finance",
+  "business_models": [
+    "industry.commerce"
+  ],
+  "channels": [
+    "channel.dtc_storefront"
+  ],
+  "connectors": [
+    "connector.file_import",
+    "connector.woocommerce"
+  ],
+  "features": [],
+  "entities": [
+    {
+      "id": "us_dtc_company",
+      "name": "US DTC company (confirm legal name)",
+      "jurisdiction": "US",
+      "functional_currency": "USD",
+      "accounting_basis": "US_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.us_federal",
+      "tax_registrations": []
+    }
+  ]
+}

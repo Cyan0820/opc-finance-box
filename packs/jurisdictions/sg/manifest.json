@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.sg",
+  "kind": "jurisdiction",
+  "display_name": "新加坡税务包骨架",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "SG",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-13",
+    "authority_scope": "仅定义主体、税种、证据和复核接口；尚未实现申报工作底稿"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.sg.registration_profile",
+    "tax.sg.evidence_checklist",
+    "tax.sg.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

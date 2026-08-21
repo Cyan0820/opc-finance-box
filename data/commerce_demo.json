@@ -1,0 +1,73 @@
+{
+  "orders": [
+    {
+      "order_id": "DTC-1001",
+      "entity_id": "cn_dtc_company",
+      "period": "2026-07",
+      "channel": "DTC Store",
+      "destination_country": "US",
+      "currency": "USD",
+      "merchandise_gross_ex_tax": 100,
+      "discounts_ex_tax": 10,
+      "shipping_income_ex_tax": 5,
+      "tax_collected": 9.5,
+      "refunds_ex_tax": 0,
+      "refunded_tax": 0,
+      "cogs": 35,
+      "fulfillment_cost": 6,
+      "shipping_cost": 8,
+      "evidence": {"source": "demo-orders.csv", "row": 2}
+    },
+    {
+      "order_id": "DTC-1002",
+      "entity_id": "cn_dtc_company",
+      "period": "2026-07",
+      "channel": "DTC Store",
+      "destination_country": "DE",
+      "currency": "USD",
+      "merchandise_gross_ex_tax": 200,
+      "discounts_ex_tax": 0,
+      "shipping_income_ex_tax": 0,
+      "tax_collected": 20,
+      "refunds_ex_tax": 50,
+      "refunded_tax": 5,
+      "cogs": 75,
+      "fulfillment_cost": 9,
+      "shipping_cost": 12,
+      "evidence": {"source": "demo-orders.csv", "row": 3}
+    },
+    {
+      "order_id": "DTC-1003",
+      "entity_id": "cn_dtc_company",
+      "period": "2026-07",
+      "channel": "DTC Store",
+      "destination_country": "GB",
+      "currency": "USD",
+      "merchandise_gross_ex_tax": 80,
+      "discounts_ex_tax": 0,
+      "shipping_income_ex_tax": 5,
+      "tax_collected": 8.5,
+      "refunds_ex_tax": 0,
+      "refunded_tax": 0,
+      "cogs": 28,
+      "fulfillment_cost": 5,
+      "shipping_cost": 7,
+      "evidence": {"source": "demo-orders.csv", "row": 4}
+    }
+  ],
+  "settlements": [
+    {
+      "settlement_id": "DTC-PAYOUT-2026-07",
+      "entity_id": "cn_dtc_company",
+      "period": "2026-07",
+      "channel": "DTC Store",
+      "currency": "USD",
+      "reported_order_inflow": 363,
+      "channel_and_payment_fees": 10,
+      "tax_withheld_or_remitted": 33,
+      "other_adjustments": 0,
+      "payout": 320,
+      "evidence": {"source": "demo-payout.csv", "row": 2}
+    }
+  ]
+}

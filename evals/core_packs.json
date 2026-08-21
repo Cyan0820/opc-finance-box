@@ -1,0 +1,773 @@
+{
+  "schema_version": 1,
+  "suite_id": "opc-finance-box-core-packs-v1",
+  "cases": [
+    {
+      "id": "dtc-balanced-margin",
+      "box_config": "examples/boxes/cn_dtc_store.json",
+      "request": "examples/service_requests/dtc_margin.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.reconciliations.0.status", "operator": "equals", "value": "已核对"}
+      ]
+    },
+    {
+      "id": "bank-statement-close-masks-accounts-and-never-posts",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_dtc_store.json",
+      "request": "examples/pipelines/bank_statement_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "batch.source.raw_account_numbers_retained", "operator": "equals", "value": false},
+        {"path": "batch.datasets.finance~dot~bank_transactions.0.account_masked", "operator": "equals", "value": "6222****7890"},
+        {"path": "services.bank_reconciliation_candidate.output.accounts.0.statement_ending_balance", "operator": "equals", "value": 5579.5},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "founder_briefing.posting_or_cash_allocation_performed", "operator": "equals", "value": false},
+        {"path": "external_actions_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "woocommerce-order-refund-close-minimizes-data-and-never-recognizes-revenue-or-tax",
+      "type": "pipeline",
+      "box_config": "examples/boxes/us_dtc_woocommerce_c_corp.json",
+      "request": "examples/pipelines/woocommerce_order_refund_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "connector_batches.woocommerce~dot~order_refund_activity.quality.ready", "operator": "equals", "value": true},
+        {"path": "connector_batches.woocommerce~dot~order_refund_activity.source.customer_identity_retained", "operator": "equals", "value": false},
+        {"path": "connector_batches.woocommerce~dot~order_refund_activity.source.product_identity_or_name_retained", "operator": "equals", "value": false},
+        {"path": "services.order_refund_activity_summary.output.order_count", "operator": "equals", "value": 1},
+        {"path": "services.order_refund_activity_summary.output.refund_event_count", "operator": "equals", "value": 1},
+        {"path": "services.order_refund_activity_summary.output.cross_currency_total_prohibited", "operator": "equals", "value": true},
+        {"path": "services.order_refund_activity_summary.output.revenue_recognition_performed", "operator": "equals", "value": false},
+        {"path": "services.order_refund_activity_summary.output.tax_liability_determined", "operator": "equals", "value": false},
+        {"path": "services.order_refund_activity_summary.output.posting_performed", "operator": "equals", "value": false},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "external_actions_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "amazon-seller-finances-close-minimizes-marketplace-data-and-never-posts",
+      "type": "pipeline",
+      "box_config": "examples/boxes/us_marketplace_amazon_seller_c_corp.json",
+      "request": "examples/pipelines/amazon_seller_transaction_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "connector_batches.amazon_seller~dot~transaction_activity.quality.ready", "operator": "equals", "value": true},
+        {"path": "connector_batches.amazon_seller~dot~transaction_activity.source.product_identity_or_description_retained", "operator": "equals", "value": false},
+        {"path": "connector_batches.amazon_seller~dot~transaction_activity.source.raw_seller_or_business_ids_retained", "operator": "equals", "value": false},
+        {"path": "services.transaction_activity_summary.output.transaction_count", "operator": "equals", "value": 2},
+        {"path": "services.transaction_activity_summary.output.deferred_transaction_count", "operator": "equals", "value": 1},
+        {"path": "services.transaction_activity_summary.output.nested_component_double_counting_prohibited", "operator": "equals", "value": true},
+        {"path": "services.transaction_activity_summary.output.revenue_recognition_performed", "operator": "equals", "value": false},
+        {"path": "services.transaction_activity_summary.output.tax_liability_determined", "operator": "equals", "value": false},
+        {"path": "services.transaction_activity_summary.output.posting_performed", "operator": "equals", "value": false},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "external_actions_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "amazon-seller-orders-inventory-finances-cross-source-close-is-minimized-and-candidate-only",
+      "type": "pipeline",
+      "box_config": "examples/boxes/us_marketplace_amazon_seller_c_corp.json",
+      "request": "examples/pipelines/amazon_seller_marketplace_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "connector_batches.amazon_seller~dot~marketplace_evidence.quality.ready", "operator": "equals", "value": true},
+        {"path": "connector_batches.amazon_seller~dot~marketplace_evidence.source.orders_included_data", "operator": "equals", "value": ["FULFILLMENT"]},
+        {"path": "connector_batches.amazon_seller~dot~marketplace_evidence.source.buyer_recipient_or_address_retained", "operator": "equals", "value": false},
+        {"path": "connector_batches.amazon_seller~dot~marketplace_evidence.source.product_title_or_raw_identity_retained", "operator": "equals", "value": false},
+        {"path": "lineage.dataset_counts.commerce~dot~amazon_seller_orders", "operator": "equals", "value": 1},
+        {"path": "lineage.dataset_counts.commerce~dot~amazon_seller_inventory", "operator": "equals", "value": 1},
+        {"path": "lineage.dataset_counts.commerce~dot~amazon_seller_transactions", "operator": "equals", "value": 1},
+        {"path": "founder_briefing.finance_without_order_count", "operator": "equals", "value": 0},
+        {"path": "founder_briefing.shipped_order_without_finance_count", "operator": "equals", "value": 0},
+        {"path": "founder_briefing.fba_order_sku_without_inventory_count", "operator": "equals", "value": 0},
+        {"path": "founder_briefing.current_inventory_not_historical_period_end", "operator": "equals", "value": true},
+        {"path": "founder_briefing.order_or_financial_completeness_claim_prohibited", "operator": "equals", "value": true},
+        {"path": "founder_briefing.inventory_valuation_or_cogs_claim_prohibited", "operator": "equals", "value": true},
+        {"path": "founder_briefing.revenue_tax_settlement_claim_prohibited", "operator": "equals", "value": true},
+        {"path": "external_actions_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "marketplace-difference-never-posts",
+      "box_config": "examples/boxes/cn_marketplace_store.json",
+      "request": "examples/service_requests/marketplace_inventory.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.posting_or_inventory_adjustment_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "agent-goal-remains-draft",
+      "box_config": "examples/boxes/global_game_studio.json",
+      "request": "examples/service_requests/game_goal_draft.json",
+      "assertions": [
+        {"path": "output.state_changed", "operator": "equals", "value": false},
+        {"path": "output.output_status", "operator": "equals", "value": "draft_not_persisted"}
+      ]
+    },
+    {
+      "id": "management-consolidation-keeps-statutory-books",
+      "box_config": "examples/boxes/global_game_studio.json",
+      "request": "examples/service_requests/game_management_consolidation.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.statutory_books_modified", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "sg-calendar-is-candidate-only",
+      "box_config": "examples/boxes/global_game_studio.json",
+      "request": "examples/service_requests/sg_tax_calendar.json",
+      "assertions": [
+        {"path": "output.tasks", "operator": "length_gte", "value": 2},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.tasks.*.filing_completed", "operator": "all_equals", "value": false}
+      ]
+    },
+    {
+      "id": "cn-vat-workpaper-never-files",
+      "box_config": "examples/boxes/global_game_studio.json",
+      "request": "examples/service_requests/cn_vat_workpaper.json",
+      "assertions": [
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "stripe-balance-evidence-keeps-minor-units",
+      "type": "connector",
+      "box_config": "examples/boxes/cn_dtc_stripe_store.json",
+      "connector_id": "stripe.balance_transactions",
+      "request": "packs/connectors/stripe/fixture-balance-transactions.json",
+      "assertions": [
+        {"path": "batch.quality.ready", "operator": "equals", "value": true},
+        {"path": "batch.quality.dataset_counts.payments~dot~stripe_balance_transactions", "operator": "equals", "value": 3},
+        {"path": "batch.datasets.payments~dot~stripe_balance_transactions.0.amount_minor", "operator": "equals", "value": 10000},
+        {"path": "batch.datasets.payments~dot~stripe_balance_transactions.1.amount_minor", "operator": "equals", "value": -2500}
+      ]
+    },
+    {
+      "id": "xero-trial-balance-binds-entity-and-keeps-ytd-separate",
+      "type": "connector",
+      "box_config": "examples/boxes/global_game_studio_xero.json",
+      "connector_id": "xero.trial_balance",
+      "request": "packs/connectors/xero/fixture-trial-balance.json",
+      "assertions": [
+        {"path": "batch.quality.ready", "operator": "equals", "value": true},
+        {"path": "batch.quality.dataset_counts.finance~dot~trial_balance_lines", "operator": "equals", "value": 2},
+        {"path": "batch.source.point_in_time_snapshot", "operator": "equals", "value": true},
+        {"path": "batch.source.opening_and_period_movements_provided", "operator": "equals", "value": false},
+        {"path": "batch.datasets.finance~dot~trial_balance_lines.0.closing_debit", "operator": "equals", "value": 1000.0},
+        {"path": "batch.datasets.finance~dot~trial_balance_lines.0.period_debit", "operator": "equals", "value": 0.0},
+        {"path": "batch.datasets.finance~dot~trial_balance_lines.0.xero_ytd_debit", "operator": "equals", "value": 1200.0}
+      ]
+    },
+    {
+      "id": "wise-balance-statement-binds-entity-account-and-masks-source-references",
+      "type": "connector",
+      "box_config": "examples/boxes/sg_dtc_wise_store.json",
+      "connector_id": "wise.balance_statement",
+      "request": "packs/connectors/wise/fixture-balance-statement.json",
+      "assertions": [
+        {"path": "batch.quality.ready", "operator": "equals", "value": true},
+        {"path": "batch.quality.dataset_counts.finance~dot~bank_transactions", "operator": "equals", "value": 2},
+        {"path": "batch.source.api_version", "operator": "equals", "value": "2026Q3"},
+        {"path": "batch.source.entity_binding_verified", "operator": "equals", "value": true},
+        {"path": "batch.datasets.finance~dot~bank_transactions.0.direction_code", "operator": "equals", "value": "inflow"},
+        {"path": "batch.datasets.finance~dot~bank_transactions.0.account_masked", "operator": "equals", "value": "Wise SGD ••7654"},
+        {"path": "batch.datasets.finance~dot~bank_transactions.1.direction_code", "operator": "equals", "value": "outflow"}
+      ]
+    },
+    {
+      "id": "shopify-stripe-wise-chain-reaches-bank-as-review-candidate",
+      "type": "pipeline",
+      "box_config": "examples/boxes/sg_dtc_shopify_stripe_wise_store.json",
+      "request": "examples/pipelines/shopify_stripe_wise_daily_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.shopify_stripe_activity_reconciliation.output.currency_summary.0.stripe_net_minor", "operator": "equals", "value": 8027},
+        {"path": "services.stripe_payout_bank_reconciliation.output.reconciliation.0.reconciliation_status", "operator": "equals", "value": "high_confidence_candidate"},
+        {"path": "lineage.bank_connector_id", "operator": "equals", "value": "wise.balance_statement"},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "external_actions_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "airwallex-approved-expense-evidence-is-private-and-never-posted",
+      "type": "connector",
+      "box_config": "examples/boxes/sg_dtc_shopify_stripe_wise_airwallex_store.json",
+      "connector_id": "airwallex.approved_expenses",
+      "request": "packs/connectors/airwallex/fixture-approved-expenses.json",
+      "assertions": [
+        {"path": "batch.quality.ready", "operator": "equals", "value": true},
+        {"path": "batch.quality.dataset_counts.finance~dot~expense_evidence", "operator": "equals", "value": 2},
+        {"path": "batch.source.api_version", "operator": "equals", "value": "2026-07-17"},
+        {"path": "batch.source.network_access_performed", "operator": "equals", "value": false},
+        {"path": "batch.source.complete_update_capture", "operator": "equals", "value": false},
+        {"path": "batch.datasets.finance~dot~expense_evidence.0.billing_amount_minor", "operator": "equals", "value": 12840},
+        {"path": "batch.datasets.finance~dot~expense_evidence.0.ready_for_accounting_review", "operator": "equals", "value": true}
+      ]
+    },
+    {
+      "id": "airwallex-expense-review-pipeline-is-candidate-only-and-shadowable",
+      "type": "pipeline",
+      "box_config": "examples/boxes/sg_dtc_shopify_stripe_wise_airwallex_store.json",
+      "request": "examples/pipelines/airwallex_expense_review_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.expense_evidence_review.output.record_count", "operator": "equals", "value": 2},
+        {"path": "services.expense_evidence_review.output.receipt_missing_count", "operator": "equals", "value": 1},
+        {"path": "services.expense_evidence_review.output.accounting_mapping_missing_count", "operator": "equals", "value": 1},
+        {"path": "expense_claims_created", "operator": "equals", "value": false},
+        {"path": "posting_performed", "operator": "equals", "value": false},
+        {"path": "payment_performed", "operator": "equals", "value": false},
+        {"path": "external_actions_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "stripe-payout-evidence-is-not-revenue",
+      "type": "connector",
+      "box_config": "examples/boxes/cn_dtc_stripe_store.json",
+      "connector_id": "stripe.payouts",
+      "request": "packs/connectors/stripe/fixture-payouts.json",
+      "assertions": [
+        {"path": "batch.quality.ready", "operator": "equals", "value": true},
+        {"path": "batch.datasets.payments~dot~stripe_payouts.0.status", "operator": "equals", "value": "paid"},
+        {"path": "batch.datasets.payments~dot~stripe_payouts.0.amount_minor", "operator": "equals", "value": 7180}
+      ]
+    },
+    {
+      "id": "stripe-payout-bank-match-remains-candidate",
+      "box_config": "examples/boxes/cn_dtc_stripe_store.json",
+      "request": "examples/service_requests/stripe_payout_reconciliation.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.candidate_only", "operator": "equals", "value": true},
+        {"path": "output.reconciliation.0.reconciliation_status", "operator": "equals", "value": "high_confidence_candidate"},
+        {"path": "output.bank_reconciliation_completed", "operator": "equals", "value": false},
+        {"path": "output.posting_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "shopify-order-evidence-preserves-money-views-without-pii",
+      "type": "connector",
+      "box_config": "examples/boxes/cn_dtc_shopify_stripe_store.json",
+      "connector_id": "shopify.orders",
+      "request": "packs/connectors/shopify/fixture-orders.json",
+      "assertions": [
+        {"path": "batch.quality.ready", "operator": "equals", "value": true},
+        {"path": "batch.quality.dataset_counts.commerce~dot~shopify_orders", "operator": "equals", "value": 1},
+        {"path": "batch.datasets.commerce~dot~shopify_orders.0.money.totalPriceSet.shop_money.amount", "operator": "equals", "value": "104.50"},
+        {"path": "batch.datasets.commerce~dot~shopify_orders.0.money.totalPriceSet.presentment_money.currency", "operator": "equals", "value": "EUR"}
+      ]
+    },
+    {
+      "id": "marketplace-close-never-adjusts-inventory-or-books",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_marketplace_store.json",
+      "request": "examples/pipelines/marketplace_channel_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.marketplace_fee_reconciliation.output.fee_reconciliation.0.payout_difference", "operator": "equals", "value": 0.0},
+        {"path": "services.marketplace_inventory_reconciliation.output.rows.0.status", "operator": "equals", "value": "reconciled"},
+        {"path": "services.return_inventory_reconciliation.output.reconciliations.0.status", "operator": "equals", "value": "reconciled"},
+        {"path": "services.return_inventory_reconciliation.output.inventory_adjustment_performed", "operator": "equals", "value": false},
+        {"path": "services.import_landed_cost_candidates.output.candidates.0.inventory_landed_cost_candidate", "operator": "equals", "value": 135.0},
+        {"path": "services.import_landed_cost_candidates.output.import_tax_recoverability_determined", "operator": "equals", "value": false},
+        {"path": "services.import_landed_cost_candidates.output.inventory_or_ledger_adjustment_performed", "operator": "equals", "value": false},
+        {"path": "services.marketplace_inventory_reconciliation.output.posting_or_inventory_adjustment_performed", "operator": "equals", "value": false},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "founder_briefing.inventory_adjustment_prohibited", "operator": "equals", "value": true},
+        {"path": "external_actions_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "commerce-channel-close-stays-review-candidate",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_dtc_api_store.json",
+      "request": "examples/pipelines/commerce_channel_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.order_settlement_reconciliation.output.reconciliations.0.status", "operator": "equals", "value": "已核对"},
+        {"path": "services.return_inventory_reconciliation.output.reconciliations.0.status", "operator": "equals", "value": "reconciled"},
+        {"path": "services.return_inventory_reconciliation.output.inventory_adjustment_performed", "operator": "equals", "value": false},
+        {"path": "services.import_landed_cost_candidates.output.candidates.0.inventory_landed_cost_candidate", "operator": "equals", "value": 135.0},
+        {"path": "services.import_landed_cost_candidates.output.import_tax_recoverability_determined", "operator": "equals", "value": false},
+        {"path": "services.import_landed_cost_candidates.output.inventory_or_ledger_adjustment_performed", "operator": "equals", "value": false},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "founder_briefing.revenue_claim_prohibited", "operator": "equals", "value": true},
+        {"path": "founder_briefing.tax_due_claim_prohibited", "operator": "equals", "value": true},
+        {"path": "external_actions_performed", "operator": "equals", "value": false},
+        {"path": "network_access_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "shopify-stripe-bank-chain-remains-candidate-only",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_dtc_shopify_stripe_store.json",
+      "request": "examples/pipelines/shopify_stripe_daily_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.shopify_stripe_activity_reconciliation.output.currency_summary.0.stripe_net_minor", "operator": "equals", "value": 8027},
+        {"path": "services.stripe_payout_bank_reconciliation.output.reconciliation.0.reconciliation_status", "operator": "equals", "value": "high_confidence_candidate"},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "founder_briefing.revenue_claim_prohibited", "operator": "equals", "value": true},
+        {"path": "external_actions_performed", "operator": "equals", "value": false},
+        {"path": "network_access_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "shopify-stripe-month-close-proves-scope-without-auto-approving-policy",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_dtc_shopify_stripe_store.json",
+      "request": "examples/pipelines/shopify_stripe_month_close_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "lineage.canonical_month_scope", "operator": "equals", "value": true},
+        {"path": "lineage.period", "operator": "equals", "value": "2026-07"},
+        {"path": "connector_batches.shopify~dot~monthly_order_evidence.source.created_population_count", "operator": "equals", "value": 1},
+        {"path": "connector_batches.shopify~dot~monthly_order_evidence.source.updated_since_month_start_population_count", "operator": "equals", "value": 1},
+        {"path": "services.shopify_monthly_commerce_scope.output.monthly_commerce_scope.0.refunds_ex_tax", "operator": "equals", "value": "20.00"},
+        {"path": "cfo_metric_operand_assembly.coverage_status", "operator": "equals", "value": "executable"},
+        {"path": "cfo_metric_operand_assembly.assemblies.0.pending_control_type_ids", "operator": "contains", "value": "tax_inclusive_policy_confirmed"},
+        {"path": "founder_briefing.tax_policy_review_required", "operator": "equals", "value": true},
+        {"path": "external_actions_performed", "operator": "equals", "value": false},
+        {"path": "network_access_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "us-federal-registration-profile-is-evidence-not-determination",
+      "box_config": "examples/boxes/us_dtc_shopify_stripe_c_corp.json",
+      "request": "examples/service_requests/us_federal_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.classification_determination_performed", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "us-federal-calendar-never-invents-due-dates",
+      "box_config": "examples/boxes/us_dtc_shopify_stripe_c_corp.json",
+      "request": "examples/service_requests/us_federal_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.tasks.*.status", "operator": "all_equals", "value": "needs_configuration"},
+        {"path": "output.tasks.*.candidate_due_date", "operator": "all_equals", "value": null},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "hk-registration-profile-is-evidence-not-tax-conclusion",
+      "box_config": "examples/boxes/hk_dtc_shopify_stripe_corporation.json",
+      "request": "examples/service_requests/hk_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.business_registration.raw_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.territorial_source_determination_performed", "operator": "equals", "value": false},
+        {"path": "output.two_tier_eligibility_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "hk-calendar-never-invents-bir51-or-provisional-dates",
+      "box_config": "examples/boxes/hk_dtc_shopify_stripe_corporation.json",
+      "request": "examples/service_requests/hk_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.tasks.*.status", "operator": "all_equals", "value": "needs_configuration"},
+        {"path": "output.tasks.*.candidate_due_date", "operator": "all_equals", "value": null},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.territorial_source_determination_performed", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "uk-ltd-registration-keeps-identifiers-out-of-runtime",
+      "box_config": "examples/boxes/uk_dtc_shopify_stripe_ltd.json",
+      "request": "examples/service_requests/uk_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.corporation_tax_registration.raw_utr_collected", "operator": "equals", "value": false},
+        {"path": "output.vat_registration.raw_vat_number_collected", "operator": "equals", "value": false},
+        {"path": "output.company_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.corporation_tax_calculated", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "uk-ltd-calendar-keeps-payment-and-vat-under-review",
+      "box_config": "examples/boxes/uk_dtc_shopify_stripe_ltd.json",
+      "request": "examples/service_requests/uk_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.task_count", "operator": "equals", "value": 4},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.corporation_tax_calculated", "operator": "equals", "value": false},
+        {"path": "output.payment_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "au-pty-ltd-registration-keeps-identifiers-and-tax-conclusions-out",
+      "box_config": "examples/boxes/au_dtc_shopify_stripe_pty_ltd.json",
+      "request": "examples/service_requests/au_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.raw_company_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.registrations.abn.raw_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.registrations.company_tfn.raw_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.gst_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.gst_supply_classification_performed", "operator": "equals", "value": false},
+        {"path": "output.company_tax_rate_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "au-calendar-keeps-ato-dates-manual-and-asic-date-candidate-only",
+      "box_config": "examples/boxes/au_dtc_shopify_stripe_pty_ltd.json",
+      "request": "examples/service_requests/au_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.task_count", "operator": "equals", "value": 3},
+        {"path": "output.tasks.0.candidate_due_date", "operator": "equals", "value": null},
+        {"path": "output.tasks.1.candidate_due_date", "operator": "equals", "value": null},
+        {"path": "output.tasks.2.candidate_due_date", "operator": "equals", "value": "2026-11-15"},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.gst_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.company_tax_rate_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.payment_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "ca-federal-registration-keeps-identifiers-and-ccpc-conclusions-out",
+      "box_config": "examples/boxes/ca_dtc_shopify_stripe_federal_corporation.json",
+      "request": "examples/service_requests/ca_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.raw_company_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.registrations.business_number.raw_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.registrations.corporation_income_tax.raw_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.canadian_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.ccpc_status_determined", "operator": "equals", "value": false},
+        {"path": "output.gst_hst_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.corporation_tax_rate_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "ca-calendar-computes-only-t2-and-keeps-conditional-dates-manual",
+      "box_config": "examples/boxes/ca_dtc_shopify_stripe_federal_corporation.json",
+      "request": "examples/service_requests/ca_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.task_count", "operator": "equals", "value": 4},
+        {"path": "output.tasks.0.candidate_due_date", "operator": "equals", "value": "2027-06-30"},
+        {"path": "output.tasks.1.candidate_due_date", "operator": "equals", "value": null},
+        {"path": "output.tasks.2.candidate_due_date", "operator": "equals", "value": null},
+        {"path": "output.tasks.3.candidate_due_date", "operator": "equals", "value": "2026-11-14"},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.ccpc_status_determined", "operator": "equals", "value": false},
+        {"path": "output.gst_hst_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.payment_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "nz-limited-registration-keeps-identifiers-and-tax-conclusions-out",
+      "box_config": "examples/boxes/nz_dtc_shopify_stripe_limited_company.json",
+      "request": "examples/service_requests/nz_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.raw_company_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.registrations.company_ird.raw_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.new_zealand_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.look_through_company_status_determined", "operator": "equals", "value": false},
+        {"path": "output.gst_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.provisional_tax_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "nz-calendar-keeps-ir4-gst-and-annual-return-dates-manual",
+      "box_config": "examples/boxes/nz_dtc_shopify_stripe_limited_company.json",
+      "request": "examples/service_requests/nz_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.task_count", "operator": "equals", "value": 4},
+        {"path": "output.tasks.*.candidate_due_date", "operator": "all_equals", "value": null},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.new_zealand_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.gst_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.provisional_tax_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.payment_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "ie-ltd-registration-keeps-identifiers-and-tax-conclusions-out",
+      "box_config": "examples/boxes/ie_dtc_shopify_stripe_ltd.json",
+      "request": "examples/service_requests/ie_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.raw_company_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.irish_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.vat_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.corporation_tax_rate_determined", "operator": "equals", "value": false},
+        {"path": "output.preliminary_tax_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "ie-calendar-calculates-only-explicit-cro-ard-window",
+      "box_config": "examples/boxes/ie_dtc_shopify_stripe_ltd.json",
+      "request": "examples/service_requests/ie_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.task_count", "operator": "equals", "value": 4},
+        {"path": "output.tasks.0.candidate_due_date", "operator": "equals", "value": null},
+        {"path": "output.tasks.1.candidate_due_date", "operator": "equals", "value": null},
+        {"path": "output.tasks.2.candidate_due_date", "operator": "equals", "value": null},
+        {"path": "output.tasks.3.candidate_due_date", "operator": "equals", "value": "2026-11-25"},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.irish_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.payment_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "nl-bv-registration-keeps-identifiers-and-tax-conclusions-out",
+      "box_config": "examples/boxes/nl_dtc_shopify_stripe_bv.json",
+      "request": "examples/service_requests/nl_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.raw_company_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.dutch_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.fiscal_unity_determined", "operator": "equals", "value": false},
+        {"path": "output.innovation_box_eligibility_determined", "operator": "equals", "value": false},
+        {"path": "output.vat_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.oss_or_ioss_scheme_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "nl-calendar-keeps-vpb-vat-and-kvk-dates-manual",
+      "box_config": "examples/boxes/nl_dtc_shopify_stripe_bv.json",
+      "request": "examples/service_requests/nl_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.task_count", "operator": "equals", "value": 3},
+        {"path": "output.tasks.*.candidate_due_date", "operator": "all_equals", "value": null},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.dutch_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.fiscal_unity_determined", "operator": "equals", "value": false},
+        {"path": "output.vat_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.payment_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "de-gmbh-registration-keeps-identifiers-and-tax-conclusions-out",
+      "box_config": "examples/boxes/de_dtc_shopify_stripe_gmbh.json",
+      "request": "examples/service_requests/de_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.raw_company_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.german_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.corporation_tax_rate_determined", "operator": "equals", "value": false},
+        {"path": "output.solidarity_surcharge_determined", "operator": "equals", "value": false},
+        {"path": "output.trade_tax_base_determined", "operator": "equals", "value": false},
+        {"path": "output.municipal_trade_tax_rate_determined", "operator": "equals", "value": false},
+        {"path": "output.vat_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.oss_or_ioss_scheme_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "de-calendar-keeps-corporation-trade-vat-and-company-register-dates-manual",
+      "box_config": "examples/boxes/de_dtc_shopify_stripe_gmbh.json",
+      "request": "examples/service_requests/de_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.task_count", "operator": "equals", "value": 4},
+        {"path": "output.tasks.*.candidate_due_date", "operator": "all_equals", "value": null},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.german_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.municipal_trade_tax_rate_determined", "operator": "equals", "value": false},
+        {"path": "output.vat_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.payment_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "fr-sasu-registration-keeps-identifiers-tax-regime-and-conclusions-under-review",
+      "box_config": "examples/boxes/fr_dtc_shopify_stripe_sasu.json",
+      "request": "examples/service_requests/fr_registration_profile.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": true},
+        {"path": "output.tax_readiness", "operator": "equals", "value": "design"},
+        {"path": "output.raw_company_identifier_collected", "operator": "equals", "value": false},
+        {"path": "output.profit_tax_regime.status", "operator": "equals", "value": "confirmed"},
+        {"path": "output.profit_tax_regime.determined_by_system", "operator": "equals", "value": false},
+        {"path": "output.french_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.profit_tax_regime_determined", "operator": "equals", "value": false},
+        {"path": "output.corporate_income_tax_rate_determined", "operator": "equals", "value": false},
+        {"path": "output.small_company_rate_eligibility_determined", "operator": "equals", "value": false},
+        {"path": "output.vat_registration_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.cfe_or_cvae_liability_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false},
+        {"path": "output.external_submission_enabled", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "trial-balance-review-proves-controls-without-posting-or-close",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_dtc_store.json",
+      "request": "examples/pipelines/trial_balance_review_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.trial_balance_validation.output.summaries.0.closing_debit", "operator": "equals", "value": 1500.0},
+        {"path": "services.trial_balance_validation.output.summaries.0.closing_credit", "operator": "equals", "value": 1500.0},
+        {"path": "services.trial_balance_validation.output.summaries.0.balanced", "operator": "equals", "value": true},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "ledger_or_opening_balances_modified", "operator": "equals", "value": false},
+        {"path": "posting_performed", "operator": "equals", "value": false},
+        {"path": "period_close_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "accounting-close-reconciles-gl-trial-and-mapping-without-posting",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_dtc_store.json",
+      "request": "examples/pipelines/accounting_close_review_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.accounting_close_reconciliation.output.mapping_coverage.coverage_percent", "operator": "equals", "value": 100.0},
+        {"path": "services.accounting_close_reconciliation.output.account_reconciliation.*.matched", "operator": "all_equals", "value": true},
+        {"path": "services.accounting_close_reconciliation.output.financial_statement_candidates.0.balance_sheet.assets", "operator": "equals", "value": 1500.0},
+        {"path": "services.accounting_close_reconciliation.output.financial_statement_candidates.0.balance_sheet.balanced", "operator": "equals", "value": true},
+        {"path": "services.accounting_close_reconciliation.output.financial_statement_candidates.0.income_statement.profit_before_tax_candidate", "operator": "equals", "value": 100.0},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "ledger_modified", "operator": "equals", "value": false},
+        {"path": "opening_balances_modified", "operator": "equals", "value": false},
+        {"path": "posting_performed", "operator": "equals", "value": false},
+        {"path": "period_close_performed", "operator": "equals", "value": false},
+        {"path": "external_filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "month-close-binds-bank-gl-and-trial-without-matching-or-posting",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_dtc_store.json",
+      "request": "examples/pipelines/month_close_control_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.month_close_control.output.account_controls.0.source_review_current", "operator": "equals", "value": true},
+        {"path": "services.month_close_control.output.account_controls.0.statement_ending_balance", "operator": "equals", "value": 5579.5},
+        {"path": "services.month_close_control.output.account_controls.0.ledger_ending_balance", "operator": "equals", "value": 5579.5},
+        {"path": "services.month_close_control.output.account_controls.0.difference", "operator": "equals", "value": 0.0},
+        {"path": "founder_briefing.currency_summaries.0.profit_before_tax_candidate", "operator": "equals", "value": 579.5},
+        {"path": "founder_briefing.candidate_only", "operator": "equals", "value": true},
+        {"path": "transaction_matching_performed", "operator": "equals", "value": false},
+        {"path": "cash_allocation_performed", "operator": "equals", "value": false},
+        {"path": "posting_performed", "operator": "equals", "value": false},
+        {"path": "period_close_performed", "operator": "equals", "value": false},
+        {"path": "external_filing_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "first-close-discovers-exact-scopes-without-guessing-mappings",
+      "type": "pipeline",
+      "box_config": "examples/boxes/cn_dtc_store.json",
+      "request": "examples/pipelines/first_close_discovery_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "services.first_close_configuration_discovery.output.bank_account_inventory.0.account_masked", "operator": "equals", "value": "6222****7890"},
+        {"path": "services.first_close_configuration_discovery.output.configuration_tasks.statement_account_mappings_to_review", "operator": "equals", "value": 4},
+        {"path": "services.first_close_configuration_discovery.output.configuration_tasks.bank_gl_mappings_to_review", "operator": "equals", "value": 1},
+        {"path": "services.first_close_configuration_discovery.output.ledger_trial_balance_movement_reconciliation.*.matched", "operator": "all_equals", "value": true},
+        {"path": "services.first_close_configuration_discovery.output.account_classification_inferred", "operator": "equals", "value": false},
+        {"path": "services.first_close_configuration_discovery.output.bank_gl_mapping_inferred", "operator": "equals", "value": false},
+        {"path": "configuration_starter.runnable_without_review", "operator": "equals", "value": false},
+        {"path": "posting_performed", "operator": "equals", "value": false},
+        {"path": "period_close_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "multi-entity-month-close-uses-reviewed-fx-without-netting-native-books",
+      "type": "pipeline",
+      "box_config": "examples/boxes/global_game_studio.json",
+      "request": "examples/pipelines/multi_entity_month_close_portfolio_fixture.json",
+      "assertions": [
+        {"path": "ready", "operator": "equals", "value": true},
+        {"path": "founder_briefing.entity_count", "operator": "equals", "value": 2},
+        {"path": "founder_briefing.ready_entity_count", "operator": "equals", "value": 2},
+        {"path": "founder_briefing.management_portfolio_totals.revenue", "operator": "equals", "value": 1710.0},
+        {"path": "founder_briefing.management_portfolio_totals.cash", "operator": "equals", "value": 644.0},
+        {"path": "founder_briefing.management_portfolio_totals.profit_before_tax_candidate", "operator": "equals", "value": 826.0},
+        {"path": "founder_briefing.cross_entity_native_currency_netting_performed", "operator": "equals", "value": false},
+        {"path": "founder_briefing.consolidated_financial_statements_produced", "operator": "equals", "value": false},
+        {"path": "statutory_books_modified", "operator": "equals", "value": false},
+        {"path": "posting_performed", "operator": "equals", "value": false},
+        {"path": "period_close_performed", "operator": "equals", "value": false}
+      ]
+    },
+    {
+      "id": "fr-calendar-keeps-profit-tax-is-payment-vat-and-annual-accounts-manual",
+      "box_config": "examples/boxes/fr_dtc_shopify_stripe_sasu.json",
+      "request": "examples/service_requests/fr_tax_calendar.json",
+      "assertions": [
+        {"path": "output.ready", "operator": "equals", "value": false},
+        {"path": "output.task_count", "operator": "equals", "value": 4},
+        {"path": "output.tasks.*.candidate_due_date", "operator": "all_equals", "value": null},
+        {"path": "output.tasks.*.candidate_only", "operator": "all_equals", "value": true},
+        {"path": "output.french_tax_residency_determined", "operator": "equals", "value": false},
+        {"path": "output.profit_tax_regime_determined", "operator": "equals", "value": false},
+        {"path": "output.corporate_income_tax_installments_determined", "operator": "equals", "value": false},
+        {"path": "output.vat_regime_determined", "operator": "equals", "value": false},
+        {"path": "output.tax_calculation_performed", "operator": "equals", "value": false},
+        {"path": "output.payment_performed", "operator": "equals", "value": false},
+        {"path": "output.filing_performed", "operator": "equals", "value": false}
+      ]
+    }
+  ]
+}

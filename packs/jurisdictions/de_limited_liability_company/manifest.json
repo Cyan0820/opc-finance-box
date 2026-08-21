@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.de_limited_liability_company",
+  "kind": "jurisdiction",
+  "display_name": "德国 GmbH 企业所得税 / 营业税 / VAT 税务设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "DE",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-14",
+    "authority_scope": "德国 Gesellschaft mit beschränkter Haftung (GmbH) 的 Handelsregister 主体、Körperschaftsteuer、Gewerbesteuer、VAT 与年度财务报表披露证据和人工日历；排除 UG、AG、GmbH & Co. KG、分支、税务居民、税率税额、Solidaritätszuschlag、地方 Gewerbesteuer Hebesatz、OSS/IOSS、工资税、股息税、申报表生成和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.de_limited_liability_company.registration_profile",
+    "tax.de_limited_liability_company.evidence_checklist",
+    "tax.de_limited_liability_company.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

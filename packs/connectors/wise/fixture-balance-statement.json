@@ -1,0 +1,65 @@
+{
+  "mode": "fixture",
+  "default_entity_id": "sg_store",
+  "currency": "SGD",
+  "interval_start": "2026-07-01T00:00:00Z",
+  "interval_end": "2026-08-01T00:00:00Z",
+  "fixture_binding": {
+    "profile_id": 123456,
+    "business_name": "OPC Wise Demo Pte Ltd",
+    "access_contract": "personal_token_eligible",
+    "balance_id": 987654,
+    "account_reference_masked": "Wise SGD ••7654"
+  },
+  "profile": {
+    "id": 123456,
+    "type": "BUSINESS",
+    "businessName": "OPC Wise Demo Pte Ltd"
+  },
+  "balance": {
+    "id": 987654,
+    "currency": "SGD",
+    "type": "STANDARD",
+    "investmentState": "NOT_INVESTED"
+  },
+  "statement": {
+    "accountHolder": {
+      "type": "BUSINESS",
+      "businessName": "OPC Wise Demo Pte Ltd"
+    },
+    "query": {
+      "currency": "SGD",
+      "intervalStart": "2026-07-01T00:00:00Z",
+      "intervalEnd": "2026-08-01T00:00:00Z",
+      "accountId": 987654
+    },
+    "startOfStatementBalance": {"value": 1000.00, "currency": "SGD"},
+    "endOfStatementBalance": {"value": 1650.00, "currency": "SGD"},
+    "transactions": [
+      {
+        "type": "CREDIT",
+        "date": "2026-07-10T05:10:00Z",
+        "amount": {"value": 850.00, "currency": "SGD"},
+        "totalFees": {"value": 0.00, "currency": "SGD"},
+        "details": {
+          "senderName": "Demo Customer",
+          "description": "Store settlement 123456789012"
+        },
+        "runningBalance": {"value": 1850.00, "currency": "SGD"},
+        "referenceNumber": "WISE-REF-CREDIT-001"
+      },
+      {
+        "type": "DEBIT",
+        "date": "2026-07-16T09:30:00Z",
+        "amount": {"value": 200.00, "currency": "SGD"},
+        "totalFees": {"value": 2.00, "currency": "SGD"},
+        "details": {
+          "recipientName": "Demo Supplier",
+          "paymentReference": "Inventory deposit"
+        },
+        "runningBalance": {"value": 1650.00, "currency": "SGD"},
+        "referenceNumber": "WISE-REF-DEBIT-002"
+      }
+    ]
+  }
+}

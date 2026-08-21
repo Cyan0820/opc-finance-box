@@ -1,0 +1,32 @@
+{
+  "box_version": 1,
+  "name": "加拿大联邦公司 Shopify + Stripe 独立站 OPC 样板",
+  "data_mode": "demo",
+  "reporting_currency": "CAD",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "entities": [
+    {
+      "id": "ca_store",
+      "name": "加拿大联邦注册独立站公司（演示）",
+      "jurisdiction": "CA",
+      "functional_currency": "CAD",
+      "accounting_basis": "ASPE",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.ca_federal_corporation",
+      "tax_registrations": [
+        "ca_federal_corporation",
+        "cbca_corporation",
+        "corporations_canada_annual_return",
+        "business_number_confirmed",
+        "corporation_income_tax",
+        "t2_filer",
+        "gst_hst_registration_review_required",
+        "payroll_registration_review_required"
+      ]
+    }
+  ]
+}

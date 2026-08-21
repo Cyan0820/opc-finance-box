@@ -1,0 +1,32 @@
+{
+  "id": "core.finance",
+  "kind": "core",
+  "display_name": "OPC Finance Core",
+  "version": "0.8.0",
+  "status": "preview",
+  "capabilities": [
+    "agent.goals",
+    "agent.plans",
+    "agent.approvals",
+    "audit.evidence_lineage",
+    "finance.bank_reconciliation",
+    "finance.procure_to_pay",
+    "finance.record_to_report",
+    "finance.cash_forecast",
+    "finance.cfo_metrics",
+    "finance.multi_currency"
+  ],
+  "requires": [],
+  "conflicts": [],
+  "manual_review_gates": [
+    "bank_payment_release",
+    "bank_balance_reconciliation",
+    "trial_balance_control_total_review",
+    "financial_statement_mapping_review",
+    "accounting_policy_decision",
+    "month_close_control_review",
+    "first_close_configuration_review",
+    "period_close",
+    "external_filing"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "pipeline_id": "finance.month_close_control",
+  "payload": {
+    "entity_id": "cn_dtc_company",
+    "period": "2026-08",
+    "bank_connector_id": "file.bank_statement",
+    "bank_connector_request": {
+      "path": "examples/banking/bank_statement.csv"
+    },
+    "general_ledger_connector_id": "file.general_ledger",
+    "general_ledger_connector_request": {
+      "path": "examples/accounting/month_close_general_ledger.csv"
+    },
+    "trial_balance_connector_id": "file.trial_balance",
+    "trial_balance_connector_request": {
+      "path": "examples/accounting/month_close_trial_balance.csv"
+    },
+    "account_mappings": [
+      {
+        "account_code": "1001",
+        "source_account_name": "银行存款",
+        "statement_group": "assets",
+        "statement_line_id": "cash",
+        "statement_line_name": "现金及现金等价物"
+      },
+      {
+        "account_code": "3001",
+        "source_account_name": "实收资本",
+        "statement_group": "equity",
+        "statement_line_id": "contributed_capital",
+        "statement_line_name": "投入资本"
+      },
+      {
+        "account_code": "4001",
+        "source_account_name": "主营业务收入",
+        "statement_group": "revenue",
+        "statement_line_id": "operating_revenue",
+        "statement_line_name": "营业收入"
+      },
+      {
+        "account_code": "6602",
+        "source_account_name": "管理费用",
+        "statement_group": "expenses",
+        "statement_line_id": "operating_expenses",
+        "statement_line_name": "运营费用"
+      }
+    ],
+    "bank_gl_mappings": [
+      {
+        "entity_id": "cn_dtc_company",
+        "period": "2026-08",
+        "account_masked": "6222****7890",
+        "currency": "CNY",
+        "gl_account_code": "1001",
+        "bank_source_fingerprint": "e19f9f8890a364db8cc98b118d690d1288e62d2be4b0358d1204ed2a2f0dc77b",
+        "transaction_review": {
+          "status": "complete",
+          "reviewer_role": "finance_owner",
+          "rationale": "逐笔检查本月银行流水与原始收付款证据，未发现未认领项目。",
+          "evidence": [
+            "review://cn_dtc_company/2026-08/bank-transactions"
+          ]
+        },
+        "reconciling_items": []
+      }
+    ]
+  }
+}

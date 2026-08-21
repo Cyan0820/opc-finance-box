@@ -1,0 +1,84 @@
+{
+  "mode": "fixture",
+  "default_entity_id": "us_dtc_company",
+  "interval_start": "2026-08-01T00:00:00Z",
+  "interval_end": "2026-09-01T00:00:00Z",
+  "transaction_pages": [
+    {
+      "account_number": "PRIVATE-MERCHANT-ACCOUNT",
+      "start_date": "2026-08-01T00:00:00Z",
+      "end_date": "2026-08-31T23:59:59.999999Z",
+      "last_refreshed_datetime": "2026-09-02T01:00:00Z",
+      "page": 1,
+      "total_items": 4,
+      "total_pages": 1,
+      "transaction_details": [
+        {
+          "transaction_info": {
+            "transaction_id": "PAYPAL-PRIVATE-SALE-001",
+            "transaction_event_code": "T0006",
+            "transaction_initiation_date": "2026-08-05T09:00:00Z",
+            "transaction_updated_date": "2026-08-05T09:03:00Z",
+            "transaction_amount": {"currency_code": "USD", "value": "100.00"},
+            "fee_amount": {"currency_code": "USD", "value": "-3.49"},
+            "transaction_status": "S",
+            "invoice_id": "PRIVATE-INVOICE-1001",
+            "transaction_subject": "Private customer order",
+            "transaction_note": "Customer email fixture@example.invalid"
+          },
+          "payer_info": {
+            "email_address": "fixture@example.invalid",
+            "payer_name": {"given_name": "Fixture", "surname": "Customer"}
+          },
+          "shipping_info": {
+            "name": "Fixture Customer",
+            "address": {"line1": "Private Street", "city": "Private City", "postal_code": "90000"}
+          }
+        },
+        {
+          "transaction_info": {
+            "transaction_id": "PAYPAL-PRIVATE-REFUND-001",
+            "transaction_event_code": "T1107",
+            "transaction_initiation_date": "2026-08-08T10:00:00Z",
+            "transaction_updated_date": "2026-08-08T10:01:00Z",
+            "transaction_amount": {"currency_code": "USD", "value": "-25.00"},
+            "fee_amount": {"currency_code": "USD", "value": "0.00"},
+            "transaction_status": "S",
+            "paypal_reference_id": "PAYPAL-PRIVATE-SALE-001",
+            "paypal_reference_id_type": "TXN",
+            "transaction_note": "Refund requested by named customer"
+          },
+          "payer_info": {"email_address": "refund-customer@example.invalid"}
+        },
+        {
+          "transaction_info": {
+            "transaction_id": "PAYPAL-PRIVATE-WITHDRAWAL-001",
+            "transaction_event_code": "T0403",
+            "transaction_initiation_date": "2026-08-10T12:00:00Z",
+            "transaction_updated_date": "2026-08-10T12:00:30Z",
+            "transaction_amount": {"currency_code": "USD", "value": "-60.00"},
+            "fee_amount": {"currency_code": "USD", "value": "0.00"},
+            "transaction_status": "S"
+          }
+        },
+        {
+          "transaction_info": {
+            "transaction_id": "PAYPAL-PRIVATE-SALE-EUR-001",
+            "transaction_event_code": "T0007",
+            "transaction_initiation_date": "2026-08-12T14:00:00Z",
+            "transaction_updated_date": "2026-08-12T14:02:00Z",
+            "transaction_amount": {"currency_code": "EUR", "value": "80.00"},
+            "fee_amount": {"currency_code": "EUR", "value": "-2.80"},
+            "transaction_status": "S"
+          },
+          "cart_info": {
+            "item_details": [{"item_name": "Private product", "item_description": "Must not survive"}]
+          }
+        }
+      ],
+      "links": [
+        {"href": "https://attacker.invalid/steal", "rel": "next", "method": "GET"}
+      ]
+    }
+  ]
+}

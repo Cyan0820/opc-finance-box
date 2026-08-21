@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "pack_id": "connector.wise",
+  "connector_id": "wise.balance_statement",
+  "credential_env": [
+    "OPC_WISE_ACCESS_TOKEN",
+    "OPC_WISE_ENTITY_BINDINGS_JSON"
+  ],
+  "network_mode": "read_only_pull",
+  "api_version": "2026Q3",
+  "fixed_endpoint_templates": [
+    "https://api.wise.com/2026Q3/profiles/{profileId}",
+    "https://api.wise.com/2026Q3/profiles/{profileId}/balances/{balanceId}",
+    "https://api.wise.com/2026Q3/profiles/{profileId}/balance-statements/{balanceId}/statement.json"
+  ],
+  "entity_binding_contract": "box_entity_to_exact_wise_business_profile_and_currency_balance",
+  "currency_contract": "requested_balance_currency_must_equal_entity_functional_currency",
+  "access_contract": "personal_token_eligible_only_for_supported_profile_jurisdictions_or_explicit_wise_partner_approved",
+  "access_probe_contract": {
+    "receipt_schema": 2,
+    "scope": "connector_pack_plus_legal_entity",
+    "credential_group": ["OPC_WISE_ACCESS_TOKEN", "OPC_WISE_ENTITY_BINDINGS_JSON"],
+    "binding_fingerprint_scope": "selected_entity_slice",
+    "fixed_reads": ["business_profile_metadata", "functional_currency_balance_metadata"],
+    "financial_statement_requested": false,
+    "current_receipt_required_for_shadow_dispatch": true
+  },
+  "sca_boundary": "interactive_SCA_is_not_implemented;_403_fails_closed_and_SCA_must_be_completed_outside_the_Box",
+  "sync_contract": "half_open_UTC_window;_31_day_incremental;_366_day_backfill;_checkpoint_only_after_controlled_commit",
+  "privacy_contract": "no_raw_profile_balance_or_reference_identifiers_in_output;_no_full_account_numbers;_details_allowlist_only",
+  "statement_contract": "COMPACT_English_JSON_with_query_echo_and_fail_closed_opening_running_closing_balance_continuity_validation",
+  "shadow_observation_contract": "real_monthly_network_statement_only;_amount_account_reference_counterparty_and_raw_ids_removed;_private_pipeline_SHA256_bound",
+  "accounting_boundary": "reconciliation_candidate_only_not_posting_not_payment_not_period_close",
+  "pipeline_ids": [
+    "finance.bank_statement_close",
+    "finance.first_close_discovery",
+    "finance.month_close_control"
+  ],
+  "pipeline_external_actions": false,
+  "pipeline_default_schedule_enabled": false
+}

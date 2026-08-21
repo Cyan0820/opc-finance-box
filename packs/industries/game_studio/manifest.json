@@ -1,0 +1,20 @@
+{
+  "id": "industry.game_studio",
+  "kind": "industry",
+  "display_name": "Game Studio Edition",
+  "version": "0.1.0",
+  "status": "preview",
+  "capabilities": [
+    "game.channel_settlement",
+    "game.revenue_recognition",
+    "game.project_profitability",
+    "game.user_acquisition_finance",
+    "game.ltv_roi_review"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "game_principal_agent_assessment",
+    "user_acquisition_budget_change"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "荷兰 BV Shopify + Stripe 独立站 OPC 样板",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "reporting_currency": "EUR",
+  "entities": [
+    {
+      "id": "nl_store",
+      "name": "荷兰独立站 besloten vennootschap（演示）",
+      "tax_country": "NL",
+      "functional_currency": "EUR",
+      "accounting_basis": "Dutch_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": [
+        "nl_private_limited_company",
+        "kvk_registered",
+        "corporate_income_tax",
+        "vpb_filer",
+        "vat_registration_review_required",
+        "payroll_registration_review_required"
+      ]
+    }
+  ]
+}

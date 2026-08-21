@@ -1,0 +1,40 @@
+{
+  "box_version": 1,
+  "name": "我的美国 C Corporation Shopify + Stripe + ShipBob 独立站 OPC",
+  "data_mode": "demo",
+  "reporting_currency": "USD",
+  "core": "core.finance",
+  "business_models": [
+    "industry.commerce"
+  ],
+  "channels": [
+    "channel.dtc_storefront"
+  ],
+  "connectors": [
+    "connector.file_import",
+    "connector.shopify",
+    "connector.stripe",
+    "connector.shipbob"
+  ],
+  "features": [
+    "feature.shopify_stripe_order_to_cash"
+  ],
+  "entities": [
+    {
+      "id": "us_dtc_company",
+      "name": "美国独立站经营主体（C Corporation + ShipBob 演示）",
+      "jurisdiction": "US",
+      "functional_currency": "USD",
+      "accounting_basis": "US_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.us_federal",
+      "tax_registrations": [
+        "us_c_corporation",
+        "form_1120_filer",
+        "ein_confirmed",
+        "state_and_local_tax_review_required",
+        "sales_tax_nexus_review_required"
+      ]
+    }
+  ]
+}

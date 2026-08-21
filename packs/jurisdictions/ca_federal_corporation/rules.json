@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "CA",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖加拿大联邦注册居民公司的 Corporations Canada 主体证据、CRA BN/T2/GST-HST 登记证据及候选日历。系统不收集 corporation number、BN 或 program account 原值，不自行判定加拿大税务居民、CCPC、小企业扣除、GST/HST small supplier 或供应分类，不计算税率税额、分期付款，不覆盖省区公司税/QST/PST/RST/工资税，也不生成申报表或执行提交付款。",
+  "sources": [
+    {
+      "id": "ca_cra_t2_scope_2026",
+      "authority": "Canada Revenue Agency",
+      "title": "Corporation income tax return",
+      "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/corporations/corporation-income-tax-return.html",
+      "effective_from": "2026-04-09",
+      "status": "official guidance page details 2026-04-09; checked 2026-08-13"
+    },
+    {
+      "id": "ca_cra_t2_filing_deadline_2025",
+      "authority": "Canada Revenue Agency",
+      "title": "When to file your corporation income tax return",
+      "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/corporations/corporation-income-tax-return/when-file-your-corporation-income-tax-return.html",
+      "effective_from": "2025-05-26",
+      "status": "official guidance page details 2025-05-26; checked 2026-08-13"
+    },
+    {
+      "id": "ca_cra_balance_due_2026",
+      "authority": "Canada Revenue Agency",
+      "title": "Balance-due day",
+      "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/corporations/corporation-payments/paying-your-balance-corporation-tax/balance-day.html",
+      "effective_from": "2026-01-21",
+      "status": "official guidance page details 2026-01-21; checked 2026-08-13"
+    },
+    {
+      "id": "ca_cra_gst_hst_registration_2026",
+      "authority": "Canada Revenue Agency",
+      "title": "When to register for and start charging the GST/HST",
+      "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/when-register-charge.html",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "ca_cra_gst_hst_deadlines_2026",
+      "authority": "Canada Revenue Agency",
+      "title": "Reporting requirements and deadlines",
+      "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/file-gst-hst-return/reporting-requirements-deadlines.html",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "ca_corporations_canada_annual_return_2026",
+      "authority": "Innovation, Science and Economic Development Canada — Corporations Canada",
+      "title": "Policy on annual filings – Canada Business Corporations Act",
+      "url": "https://ised-isde.canada.ca/site/corporations-canada/en/business-corporations/policy-annual-filings-canada-business-corporations-act",
+      "effective_from": "2026-08-13",
+      "status": "official current policy checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "ca.company.federal.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的联邦注册公司，并分别保存公司法状态与加拿大税务居民复核证据；不收集 corporation number 原值。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ca_corporations_canada_annual_return_2026", "ca_cra_t2_scope_2026"]
+    },
+    {
+      "id": "ca.tax.bn_t2.registration.evidence",
+      "summary": "保存 CRA Business Number、corporation income tax program account 与 T2 filing scope 的证据引用；不保存 BN/program account 原值，也不代为登记。",
+      "effective_from": "2026-04-09",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ca_cra_t2_scope_2026"]
+    },
+    {
+      "id": "ca.gst_hst.registration.monitor",
+      "summary": "监控连续日历季度及单季收入、供应性质和加拿大连接事实，形成 GST/HST 登记复核提示；销售额或收货地不能自动证明 small supplier 状态、登记义务或适用税率。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ca_cra_gst_hst_registration_2026"]
+    },
+    {
+      "id": "ca.t2.return.calendar",
+      "summary": "T2 申报候选日为公司 tax year 结束后六个月；月末语义由确定性日历保留，周末/CRA 认可公共假日顺延及特殊期间仍须复核。",
+      "effective_from": "2025-05-26",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "months_after_date",
+        "anchor": "financial_year_end",
+        "months": 6,
+        "registration_any": ["t2_filer", "corporation_income_tax", "ca_federal_corporation"]
+      },
+      "source_ids": ["ca_cra_t2_filing_deadline_2025"]
+    },
+    {
+      "id": "ca.corporation_tax.balance.calendar",
+      "summary": "公司税余额通常在 tax year 结束后两个月到期，满足 CCPC、小企业扣除及收入/关联公司条件时部分税种可能为三个月；本 Pack 不自行判定这些条件，必须人工配置批准日期。",
+      "effective_from": "2026-01-21",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_tax_year_end",
+          "ccpc_status_evidence",
+          "small_business_deduction_claim_review",
+          "prior_taxable_income_and_business_limit_review",
+          "associated_corporation_review",
+          "approved_balance_due_date"
+        ],
+        "registration_any": ["t2_filer", "corporation_income_tax", "ca_federal_corporation"]
+      },
+      "source_ids": ["ca_cra_balance_due_2026"]
+    },
+    {
+      "id": "ca.gst_hst.return_payment.calendar",
+      "summary": "GST/HST 申报与付款日期取决于实际登记、reporting period、主体类型、fiscal year end、电子申报与具体 CRA 账户日期，必须按主体人工配置。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_gst_hst_registration",
+          "reporting_period_frequency",
+          "reporting_period_end",
+          "cra_account_due_date",
+          "approved_return_due_date",
+          "approved_payment_due_date"
+        ],
+        "registration_any": ["gst_hst", "gst_hst_registered", "ca_gst_hst"]
+      },
+      "source_ids": ["ca_cra_gst_hst_deadlines_2026"]
+    },
+    {
+      "id": "ca.corporations_canada.annual_return.calendar",
+      "summary": "CBCA active corporation 的 annual return 与 ISC information 应在实际 anniversary date 后 60 天内办理；仅在调用方提供周年日锚点时生成候选日期，并仍须核对 active 状态与当期 register 记录。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "days_after_date",
+        "anchor": "federal_corporation_anniversary_date",
+        "days": 60,
+        "registration_any": ["ca_federal_corporation", "cbca_corporation", "corporations_canada_annual_return"]
+      },
+      "source_ids": ["ca_corporations_canada_annual_return_2026"]
+    },
+    {
+      "id": "ca.t2.return.evidence",
+      "summary": "整理批准财务报表、GIFI/税务调整、适用 schedules、CCPC 等资格复核、授权、付款与回执计划；design Pack 不计算税额或生成可提交 T2。",
+      "effective_from": "2026-04-09",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ca_cra_t2_scope_2026", "ca_cra_balance_due_2026"]
+    }
+  ]
+}

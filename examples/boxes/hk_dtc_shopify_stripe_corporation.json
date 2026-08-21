@@ -1,0 +1,30 @@
+{
+  "box_version": 1,
+  "name": "香港法团 Shopify + Stripe 独立站 OPC 样板",
+  "data_mode": "demo",
+  "reporting_currency": "HKD",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "entities": [
+    {
+      "id": "hk_store",
+      "name": "香港独立站经营法团（演示）",
+      "jurisdiction": "HK",
+      "functional_currency": "HKD",
+      "accounting_basis": "HKFRS",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.hk",
+      "tax_registrations": [
+        "hk_corporation",
+        "business_registration_confirmed",
+        "profits_tax",
+        "bir51_filer",
+        "two_tier_eligibility_review_required",
+        "offshore_source_review_required"
+      ]
+    }
+  ]
+}

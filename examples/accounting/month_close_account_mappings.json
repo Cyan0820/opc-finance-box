@@ -1,0 +1,30 @@
+[
+  {
+    "account_code": "1001",
+    "source_account_name": "银行存款",
+    "statement_group": "assets",
+    "statement_line_id": "cash",
+    "statement_line_name": "现金及现金等价物"
+  },
+  {
+    "account_code": "3001",
+    "source_account_name": "实收资本",
+    "statement_group": "equity",
+    "statement_line_id": "contributed_capital",
+    "statement_line_name": "投入资本"
+  },
+  {
+    "account_code": "4001",
+    "source_account_name": "主营业务收入",
+    "statement_group": "revenue",
+    "statement_line_id": "operating_revenue",
+    "statement_line_name": "营业收入"
+  },
+  {
+    "account_code": "6602",
+    "source_account_name": "管理费用",
+    "statement_group": "expenses",
+    "statement_line_id": "operating_expenses",
+    "statement_line_name": "运营费用"
+  }
+]

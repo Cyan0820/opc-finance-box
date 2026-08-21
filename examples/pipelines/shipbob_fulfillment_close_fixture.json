@@ -1,0 +1,76 @@
+{
+  "pipeline_id": "commerce.shipbob_fulfillment_close",
+  "payload": {
+    "entity_id": "us_dtc_company",
+    "shipbob_request": {
+      "mode": "fixture",
+      "default_entity_id": "us_dtc_company",
+      "interval_start": "2026-08-01T00:00:00Z",
+      "interval_end": "2026-09-01T00:00:00Z",
+      "orders": [
+        {
+          "id": 51001,
+          "created_date": "2026-08-05T09:00:00Z",
+          "purchase_date": "2026-08-05T08:58:00Z",
+          "reference_id": "SHOPIFY-1001",
+          "order_number": "#1001",
+          "status": "Completed",
+          "type": "DTC",
+          "recipient": {
+            "email": "fixture@example.invalid",
+            "address": {"country": "US", "address1": "private fixture value"}
+          },
+          "products": [{"quantity": 2}],
+          "shipments": [
+            {
+              "id": 61001,
+              "created_date": "2026-08-05T09:05:00Z",
+              "actual_fulfillment_date": "2026-08-06T15:00:00Z",
+              "delivery_date": "2026-08-09T18:30:00Z",
+              "status": "Delivered",
+              "location": {"id": 228, "name": "US-WEST-3PL"},
+              "invoice_amount": 7.77,
+              "invoice_currency_code": "USD",
+              "products": [
+                {"inventory_items": [{"id": 91001, "quantity": 2}]}
+              ],
+              "tracking": {
+                "carrier": "USPS",
+                "tracking_number": "PRIVATE-TRACKING-001"
+              }
+            }
+          ]
+        }
+      ],
+      "returns": [
+        {
+          "id": 41001,
+          "insert_date": "2026-08-15T11:00:00Z",
+          "completed_date": "2026-08-19T10:00:00Z",
+          "status": "Completed",
+          "return_type": "Regular",
+          "fulfillment_center": {"id": 228, "name": "US-WEST-3PL"},
+          "original_shipment_id": 61001,
+          "store_order_id": "SHOPIFY-1001",
+          "customer_name": "private fixture value",
+          "invoice": {"amount": 3.25, "currency_code": "USD"},
+          "inventory": [
+            {
+              "id": 91001,
+              "sku": "SKU-TSHIRT-BLUE",
+              "quantity": 1,
+              "action_requested": {"action_type": "Restock"},
+              "action_taken": [
+                {
+                  "action": "Restock",
+                  "action_reason": "Sellable",
+                  "quantity_processed": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

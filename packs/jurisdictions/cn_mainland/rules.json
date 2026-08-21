@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "CN",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "国家级工作底稿规则；属地期限、纳税人认定、优惠资格和电子税务局模板必须按主体另行确认。",
+  "sources": [
+    {
+      "id": "cn_sat_vat_filing_2026_6",
+      "authority": "国家税务总局",
+      "title": "关于调整增值税纳税申报有关事项的公告（2026年第6号）",
+      "url": "https://fgk.chinatax.gov.cn/zcfgk/c100012/c5247507/content.html",
+      "effective_from": "2026-02-01",
+      "status": "全文有效"
+    },
+    {
+      "id": "cn_sat_cit_prepaid_2025_17",
+      "authority": "国家税务总局",
+      "title": "关于优化企业所得税预缴纳税申报有关事项的公告（2025年第17号）",
+      "url": "https://tianjin.chinatax.gov.cn/11200000000/0300/030004/03000418/20250714094006730.shtml",
+      "effective_from": "2025-10-01",
+      "status": "全文有效"
+    },
+    {
+      "id": "cn_sat_einvoice_2024_11",
+      "authority": "国家税务总局",
+      "title": "关于推广应用全面数字化电子发票的公告（2024年第11号）",
+      "url": "https://fgk.chinatax.gov.cn/zcfgk/c100012/c5236067/content.html",
+      "effective_from": "2024-12-01",
+      "status": "全文有效"
+    },
+    {
+      "id": "cn_sat_stamp_tax_2022_guidance",
+      "authority": "国家税务总局",
+      "title": "关于《国家税务总局关于实施〈中华人民共和国印花税法〉等有关事项的公告》的解读",
+      "url": "https://fgk.chinatax.gov.cn/zcfgk/c100015/c5200988/content.html",
+      "effective_from": "2022-07-01",
+      "status": "官方解读，2026-08-13核验"
+    },
+    {
+      "id": "cn_12366_iit_withholding_form",
+      "authority": "国家税务总局12366纳税服务平台",
+      "title": "个人所得税扣缴申报表",
+      "url": "https://12366.chinatax.gov.cn/bzds/068/068.html",
+      "effective_from": "2019-01-01",
+      "status": "官方表单与填报指引，2026-08-13核验"
+    }
+  ],
+  "rules": [
+    {
+      "id": "cn.vat.calendar.local_configuration",
+      "summary": "增值税申报周期、属地期限和节假日顺延必须按主体主管税务机关及电子税务局信息配置；本包不推断统一截止日。",
+      "effective_from": "2026-02-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_workpaper_approval",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["filing_frequency", "local_due_date_source", "period_end"]
+      },
+      "source_ids": ["cn_sat_vat_filing_2026_6"]
+    },
+    {
+      "id": "cn.cit.calendar.local_configuration",
+      "summary": "企业所得税预缴周期、属地期限和节假日顺延必须按主体征管信息配置；本包不推断统一截止日。",
+      "effective_from": "2025-10-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_workpaper_approval",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["prepayment_frequency", "local_due_date_source", "period_end"]
+      },
+      "source_ids": ["cn_sat_cit_prepaid_2025_17"]
+    },
+    {
+      "id": "cn.vat.return_workpaper.v2026_02",
+      "summary": "按2026年第6号公告调整后的填报要求准备一般纳税人、小规模纳税人和预缴表候选工作底稿。",
+      "effective_from": "2026-02-01",
+      "automation_level": "workpaper",
+      "human_review_required": true,
+      "source_ids": ["cn_sat_vat_filing_2026_6"]
+    },
+    {
+      "id": "cn.cit.prepaid_form_a.v2025_10",
+      "summary": "查账征收居民企业月度或季度预缴使用修订后的A类预缴申报表；出口和优惠事项仍需按实际业务复核。",
+      "effective_from": "2025-10-01",
+      "automation_level": "workpaper",
+      "human_review_required": true,
+      "source_ids": ["cn_sat_cit_prepaid_2025_17"]
+    },
+    {
+      "id": "cn.einvoice.evidence.v2024_12",
+      "summary": "保存数电发票票面、用途确认、红冲和查验状态，作为入账及税务复核证据。",
+      "effective_from": "2024-12-01",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["cn_sat_einvoice_2024_11"]
+    },
+    {
+      "id": "cn.stamp.tax_source_workpaper.v2022_07",
+      "summary": "根据应税合同、产权转移书据和营业账簿事实准备印花税税源候选；具体纳税期限按属地配置并人工复核。",
+      "effective_from": "2022-07-01",
+      "automation_level": "workpaper",
+      "human_review_required": true,
+      "source_ids": ["cn_sat_stamp_tax_2022_guidance"]
+    },
+    {
+      "id": "cn.iit.withholding_workpaper.current",
+      "summary": "根据工资薪金、人员身份和累计扣除事实准备个人所得税扣缴候选底稿；实名申报数据与申报端结果由有权人复核。",
+      "effective_from": "2019-01-01",
+      "automation_level": "workpaper",
+      "human_review_required": true,
+      "source_ids": ["cn_12366_iit_withholding_form"]
+    }
+  ]
+}

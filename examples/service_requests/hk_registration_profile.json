@@ -1,0 +1,22 @@
+{
+  "service_id": "tax.hk.registration_profile",
+  "entity_id": "hk_store",
+  "payload": {
+    "as_of": "2026-08-13",
+    "entity_type": "hong_kong_corporation",
+    "entity_type_evidence": {
+      "source_reference": "company-registry-and-entity-type-review",
+      "captured_at": "2026-08-13"
+    },
+    "brn_status": "confirmed",
+    "brn_evidence": {
+      "source_reference": "business-registration-certificate-reference-with-value-withheld",
+      "captured_at": "2026-08-13"
+    },
+    "profits_tax_status": "confirmed",
+    "profits_tax_evidence": {
+      "source_reference": "bir51-and-profits-tax-scope-review",
+      "captured_at": "2026-08-13"
+    }
+  }
+}

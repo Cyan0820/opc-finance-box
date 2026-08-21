@@ -1,0 +1,62 @@
+{
+  "pipeline_id": "paypal.transaction_close",
+  "payload": {
+    "entity_id": "us_dtc_company",
+    "paypal_request": {
+      "mode": "fixture",
+      "default_entity_id": "us_dtc_company",
+      "interval_start": "2026-08-01T00:00:00Z",
+      "interval_end": "2026-09-01T00:00:00Z",
+      "transaction_pages": [
+        {
+          "page": 1,
+          "total_items": 3,
+          "total_pages": 1,
+          "transaction_details": [
+            {
+              "transaction_info": {
+                "transaction_id": "PAYPAL-DEMO-SALE-001",
+                "transaction_event_code": "T0006",
+                "transaction_initiation_date": "2026-08-05T09:00:00Z",
+                "transaction_updated_date": "2026-08-05T09:03:00Z",
+                "transaction_amount": {"currency_code": "USD", "value": "100.00"},
+                "fee_amount": {"currency_code": "USD", "value": "-3.49"},
+                "transaction_status": "S",
+                "transaction_note": "private free text must not survive"
+              },
+              "payer_info": {"email_address": "fixture@example.invalid"},
+              "shipping_info": {"address": {"line1": "Private Street"}}
+            },
+            {
+              "transaction_info": {
+                "transaction_id": "PAYPAL-DEMO-REFUND-001",
+                "transaction_event_code": "T1107",
+                "transaction_initiation_date": "2026-08-08T10:00:00Z",
+                "transaction_updated_date": "2026-08-08T10:01:00Z",
+                "transaction_amount": {"currency_code": "USD", "value": "-25.00"},
+                "fee_amount": {"currency_code": "USD", "value": "0.00"},
+                "transaction_status": "S",
+                "paypal_reference_id": "PAYPAL-DEMO-SALE-001",
+                "paypal_reference_id_type": "TXN"
+              }
+            },
+            {
+              "transaction_info": {
+                "transaction_id": "PAYPAL-DEMO-SALE-EUR-001",
+                "transaction_event_code": "T0007",
+                "transaction_initiation_date": "2026-08-12T14:00:00Z",
+                "transaction_updated_date": "2026-08-12T14:02:00Z",
+                "transaction_amount": {"currency_code": "EUR", "value": "80.00"},
+                "fee_amount": {"currency_code": "EUR", "value": "-2.80"},
+                "transaction_status": "S"
+              }
+            }
+          ],
+          "links": [
+            {"href": "https://attacker.invalid/ignored", "rel": "next", "method": "GET"}
+          ]
+        }
+      ]
+    }
+  }
+}

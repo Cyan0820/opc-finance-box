@@ -1,0 +1,23 @@
+{
+  "box_version": 1,
+  "name": "新加坡独立站 + Wise Business OPC 样板",
+  "data_mode": "demo",
+  "reporting_currency": "SGD",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.wise"],
+  "features": [],
+  "entities": [
+    {
+      "id": "sg_store",
+      "name": "OPC Wise Demo Pte Ltd",
+      "jurisdiction": "SG",
+      "functional_currency": "SGD",
+      "accounting_basis": "SFRS",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.sg",
+      "tax_registrations": []
+    }
+  ]
+}

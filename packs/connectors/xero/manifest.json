@@ -1,0 +1,18 @@
+{
+  "id": "connector.xero",
+  "kind": "connector",
+  "display_name": "Xero 主体绑定只读会计 Connector",
+  "version": "0.2.0",
+  "status": "experimental",
+  "capabilities": ["connector.xero_trial_balance"],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "xero_entity_binding_review",
+    "xero_trial_balance_mapping_review"
+  ],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

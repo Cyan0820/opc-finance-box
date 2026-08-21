@@ -1,0 +1,24 @@
+{
+  "name": "我的美国 C Corporation Shopify + Stripe 独立站 OPC",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "us_store",
+      "name": "美国独立站经营主体（C Corporation 演示）",
+      "tax_country": "US",
+      "functional_currency": "USD",
+      "accounting_basis": "US_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": [
+        "us_c_corporation",
+        "form_1120_filer",
+        "ein_confirmed",
+        "state_and_local_tax_review_required",
+        "sales_tax_nexus_review_required"
+      ]
+    }
+  ]
+}

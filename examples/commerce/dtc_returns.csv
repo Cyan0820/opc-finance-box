@@ -1,0 +1,3 @@
+退货单号,订单号,法律主体ID,期间,渠道,商品SKU,币种,授权退货数量,已退款数量,退款金额不含税,退回税额
+RET-DEMO-1001,DTC-1002,cn_dtc_company,2026-07,DTC Store,SKU-DEMO-1,USD,2,2,50,5
+RET-DEMO-1002,DTC-1002,cn_dtc_company,2026-07,DTC Store,SKU-DEMO-2,USD,1,0,0,0

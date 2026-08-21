@@ -1,0 +1,18 @@
+{
+  "service_id": "tax.de_limited_liability_company.registration_profile",
+  "entity_id": "de_store",
+  "payload": {
+    "as_of": "2026-08-14",
+    "entity_type": "limited_liability_company_gmbh",
+    "entity_type_evidence": {"source_reference": "evidence://handelsregister/gmbh-legal-form", "captured_at": "2026-08-14"},
+    "tax_residency_evidence": {"source_reference": "evidence://advisor/german-residency-review", "captured_at": "2026-08-14"},
+    "commercial_register_status": "confirmed",
+    "commercial_register_evidence": {"source_reference": "evidence://handelsregister/company-status", "captured_at": "2026-08-14"},
+    "corporation_tax_status": "confirmed",
+    "corporation_tax_evidence": {"source_reference": "evidence://finanzamt/corporation-tax-registration", "captured_at": "2026-08-14"},
+    "trade_tax_status": "confirmed",
+    "trade_tax_evidence": {"source_reference": "evidence://municipality/trade-tax-registration", "captured_at": "2026-08-14"},
+    "vat_status": "not_registered",
+    "payroll_status": "not_registered"
+  }
+}

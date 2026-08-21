@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "FR",
+  "verified_at": "2026-08-14",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖法国 société par actions simplifiée unipersonnelle (SASU) 的 RNE/商业登记证据、利润税制（IS 或有证据的临时 IR 选择）、VAT 与年度账目证据和人工日历。系统不收集 SIREN、SIRET、税号或 VAT 号原值，不自行判定法国税务居民、利润税制、税率税额、IS 优惠税率、VAT 登记/制度/供应分类、CFE/CVAE、OSS/IOSS、工资与社会缴费、个人股息税或跨境税，也不生成申报表或执行提交付款。",
+  "sources": [
+    {
+      "id": "fr_service_public_sasu_current",
+      "authority": "Entreprendre Service Public / Direction de l’information légale et administrative",
+      "title": "Société par actions simplifiée unipersonnelle (SASU) : ce qu’il faut savoir",
+      "url": "https://entreprendre.service-public.gouv.fr/vosdroits/F37383?lang=fr",
+      "effective_from": "2026-08-14",
+      "status": "official guidance verified 2026-02-06 and checked 2026-08-14"
+    },
+    {
+      "id": "fr_service_public_sasu_tax_current",
+      "authority": "Entreprendre Service Public / Direction de l’information légale et administrative",
+      "title": "Fiscalité de la société par actions simplifiée unipersonnelle (SASU) : ce qu'il faut savoir",
+      "url": "https://entreprendre.service-public.gouv.fr/vosdroits/F36215",
+      "effective_from": "2026-02-21",
+      "status": "official guidance verified 2026-02-21 and checked 2026-08-14"
+    },
+    {
+      "id": "fr_service_public_annual_accounts_current",
+      "authority": "Entreprendre Service Public / Ministry of Justice",
+      "title": "Dépôt des comptes annuels d'une société",
+      "url": "https://entreprendre.service-public.gouv.fr/vosdroits/F31214",
+      "effective_from": "2025-06-11",
+      "status": "official guidance verified 2025-06-11 and checked 2026-08-14"
+    }
+  ],
+  "rules": [
+    {
+      "id": "fr.company.sasu.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的法国 SASU，并分别保存单一股东法律形式、RNE/商业登记状态、法定名称与法国税务居民复核证据；不收集 SIREN、SIRET 或税号原值。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": [
+        "fr_service_public_sasu_current"
+      ]
+    },
+    {
+      "id": "fr.profit_tax.regime.evidence",
+      "summary": "保存 SASU 当前利润税制（默认 IS 或有证据的临时 IR 选择）、申报制度、会计期间与 EFI/EDI 访问证据；不自动选择税制、税率或优惠。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["fr_service_public_sasu_tax_current"]
+    },
+    {
+      "id": "fr.vat.registration.evidence",
+      "summary": "保存 VAT 登记、franchise/réel simplifié/réel normal 制度、申报频率与交易范围复核证据；不自动判断登记义务、制度、供应分类或 OSS/IOSS。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["fr_service_public_sasu_tax_current"]
+    },
+    {
+      "id": "fr.annual_accounts.evidence",
+      "summary": "保存年度账目、单一股东批准决定、公司规模/保密选择、审计状态与提交渠道证据；不自动判断可提交文件范围。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["fr_service_public_sasu_current", "fr_service_public_annual_accounts_current"]
+    },
+    {
+      "id": "fr.profit_tax.return.calendar",
+      "summary": "利润申报期限取决于实际 IS/IR 税制、réel simplifié/normal、会计期间、首个财年和 EFI/EDI 方式；一般 3 个月或 5 月窗口不能替代主体批准日期。",
+      "effective_from": "2026-08-14",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_profit_tax_regime",
+          "confirmed_reporting_regime",
+          "confirmed_financial_year_end",
+          "first_period_and_no_close_review",
+          "efi_or_edi_channel_review",
+          "approved_profit_tax_return_due_date"
+        ],
+        "registration_any": ["fr_single_member_simplified_joint_stock_company", "sasu_company", "corporate_income_tax_is", "income_tax_ir_option"]
+      },
+      "source_ids": ["fr_service_public_sasu_tax_current"]
+    },
+    {
+      "id": "fr.corporate_income_tax.payment.calendar",
+      "summary": "IS 预缴和余额期限取决于已确认 IS 税制、财年结束、首个财年、前期税额、减免及实际专业账户；不得由系统直接套用固定日期。",
+      "effective_from": "2026-08-14",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_corporate_income_tax_is_regime",
+          "confirmed_financial_year_end",
+          "first_period_and_prior_tax_review",
+          "installment_exemption_review",
+          "professional_account_due_dates_reference",
+          "approved_is_payment_schedule"
+        ],
+        "registration_any": ["corporate_income_tax_is", "fr_corporate_income_tax"]
+      },
+      "source_ids": ["fr_service_public_sasu_tax_current"]
+    },
+    {
+      "id": "fr.vat.return_payment.calendar",
+      "summary": "VAT 期限取决于实际登记、franchise/réel simplifié/réel normal、月/季/年频率、首年事实、期间结束与专业账户日期，必须人工批准。",
+      "effective_from": "2026-08-14",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_vat_registration_and_regime",
+          "reporting_frequency",
+          "first_period_and_prior_vat_review",
+          "taxable_period_end",
+          "professional_account_due_date_reference",
+          "approved_vat_return_and_payment_due_date"
+        ],
+        "registration_any": ["vat", "vat_registered", "fr_vat"]
+      },
+      "source_ids": ["fr_service_public_sasu_tax_current"]
+    },
+    {
+      "id": "fr.annual_accounts.filing.calendar",
+      "summary": "SASU 年度账目提交取决于章程/单一股东确定的批准日期、电子或线下渠道、公司规模、保密/简化选择和审计状态；常见 6 个月做法不是统一法定锚点。",
+      "effective_from": "2026-08-14",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_financial_year_end",
+          "single_shareholder_approval_date",
+          "filing_channel_review",
+          "company_size_confidentiality_and_audit_review",
+          "required_documents_review",
+          "approved_annual_accounts_filing_due_date"
+        ],
+        "registration_any": ["fr_single_member_simplified_joint_stock_company", "sasu_company", "rne_registered"]
+      },
+      "source_ids": ["fr_service_public_sasu_current", "fr_service_public_annual_accounts_current"]
+    },
+    {
+      "id": "fr.return.evidence",
+      "summary": "整理批准年度账目、利润申报/VAT 底稿、税制与渠道复核、授权、付款计划、Guichet 提交计划与回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["fr_service_public_sasu_tax_current", "fr_service_public_annual_accounts_current"]
+    }
+  ]
+}

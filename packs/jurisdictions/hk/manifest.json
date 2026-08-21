@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.hk",
+  "kind": "jurisdiction",
+  "display_name": "香港法团利得税设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "HK",
+    "tax_readiness": "design",
+    "rules_effective_at": "2025-04-01",
+    "authority_scope": "香港法团的 BRN/UBI、利得税 BIR51、两级税率资格证据、预缴税和候选日历；排除税额计算、来源地/离岸判断、全球最低税、雇主报税、薪俸税、物业税、印花税、商业登记费及外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.hk.registration_profile",
+    "tax.hk.evidence_checklist",
+    "tax.hk.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

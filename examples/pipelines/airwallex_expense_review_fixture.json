@@ -1,0 +1,64 @@
+{
+  "pipeline_id": "finance.expense_evidence_review",
+  "payload": {
+    "entity_id": "sg_store",
+    "connector_request": {
+      "mode": "fixture",
+      "default_entity_id": "sg_store",
+      "fixture_binding": {
+        "legal_entity_id": "le_sg_demo",
+        "account_id": "acct_sg_demo",
+        "environment": "sandbox"
+      },
+      "from_created_at": "2026-08-01T00:00:00Z",
+      "to_created_at": "2026-09-01T00:00:00Z",
+      "currency_minor_units": {"SGD": 2, "USD": 2},
+      "objects": [
+        {
+          "id": "exp_demo_001",
+          "account_id": "acct_sg_demo",
+          "legal_entity_id": "le_sg_demo",
+          "status": "APPROVED",
+          "sync_status": "NOT_SYNCED",
+          "billing_amount": "128.40",
+          "billing_currency": "SGD",
+          "merchant": "Cloud Hosting",
+          "created_at": "2026-08-05T03:00:00Z",
+          "updated_at": "2026-08-06T04:00:00Z",
+          "settled_at": "2026-08-05T04:00:00Z",
+          "description": "Monthly infrastructure",
+          "approvers": ["finance@example.invalid"],
+          "attachments": [{"id": "att_001", "file_name": "receipt.pdf", "file_url": "https://files.example.invalid/private", "content_type": "application/pdf"}],
+          "comments": [{"content": "approved", "created_by": "finance@example.invalid"}],
+          "attendees": [],
+          "card_id": "card_private_001",
+          "card_transaction": {"status": "CLEARED", "amount": "98.00", "currency": "USD"},
+          "accounting_field_selections": [{"type": "DEPARTMENT", "value": "Engineering", "external_id": "private-dept"}],
+          "line_items": [{"id": "line_001", "description": "Compute", "transaction_amount": "98.00", "accounting_field_selections": [{"type": "GENERAL_LEDGER_ACCOUNT", "value": "Hosting"}]}]
+        },
+        {
+          "id": "exp_demo_002",
+          "account_id": "acct_sg_demo",
+          "legal_entity_id": "le_sg_demo",
+          "status": "APPROVED",
+          "sync_status": "READY_TO_SYNC",
+          "billing_amount": "42.00",
+          "billing_currency": "SGD",
+          "merchant": "App Analytics",
+          "created_at": "2026-08-12T02:00:00Z",
+          "updated_at": "2026-08-12T05:00:00Z",
+          "settled_at": "2026-08-12T03:00:00Z",
+          "description": "Analytics subscription",
+          "approvers": [],
+          "attachments": [],
+          "comments": [],
+          "attendees": [],
+          "card_id": "card_private_002",
+          "card_transaction": {"status": "CLEARED", "amount": "42.00", "currency": "SGD"},
+          "accounting_field_selections": [],
+          "line_items": []
+        }
+      ]
+    }
+  }
+}

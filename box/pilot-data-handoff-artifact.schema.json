@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opc.finance/schemas/pilot-data-handoff-artifact.schema.json",
+  "title": "OPC Finance Box Pilot Data Handoff Artifact",
+  "description": "Private Box-bound manifest for controlled first-company data intake. It records counts, classifications and fingerprints, never source files or financial values.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "runtime_fingerprint",
+    "plan_fingerprint",
+    "pilot_readiness_review_id",
+    "period",
+    "prepared_by",
+    "custodian_principal",
+    "entities",
+    "template_only",
+    "contains_credentials",
+    "contains_source_file_names_or_paths",
+    "contains_raw_source_identifiers",
+    "contains_raw_tax_identifiers",
+    "contains_financial_values",
+    "raw_files_copied",
+    "data_import_performed",
+    "external_actions_authorized"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "artifact_type": {
+      "enum": ["pilot_data_handoff_workpaper", "pilot_data_handoff_review"]
+    },
+    "runtime_fingerprint": {"$ref": "#/$defs/fingerprint"},
+    "plan_fingerprint": {"$ref": "#/$defs/fingerprint"},
+    "pilot_readiness_review_id": {"$ref": "#/$defs/review_id"},
+    "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+    "prepared_by": {"$ref": "#/$defs/actor"},
+    "custodian_principal": {"$ref": "#/$defs/actor"},
+    "entities": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/entity"}
+    },
+    "template_only": {"type": "boolean"},
+    "contains_credentials": {"const": false},
+    "contains_source_file_names_or_paths": {"const": false},
+    "contains_raw_source_identifiers": {"const": false},
+    "contains_raw_tax_identifiers": {"const": false},
+    "contains_financial_values": {"const": false},
+    "raw_files_copied": {"const": false},
+    "data_import_performed": {"const": false},
+    "external_actions_authorized": {"const": false},
+    "review": {"$ref": "#/$defs/review"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"artifact_type": {"const": "pilot_data_handoff_workpaper"}}},
+      "then": {
+        "properties": {"template_only": {"const": true}},
+        "not": {"required": ["review"]}
+      }
+    },
+    {
+      "if": {"properties": {"artifact_type": {"const": "pilot_data_handoff_review"}}},
+      "then": {
+        "required": ["review"],
+        "properties": {"template_only": {"const": false}}
+      }
+    }
+  ],
+  "$defs": {
+    "fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "review_id": {"type": "string", "pattern": "^[0-9a-f]{24}$"},
+    "actor": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._@:-]+$"
+    },
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(evidence|document|workpaper|registry|advisor|authority)://[A-Za-z0-9][A-Za-z0-9._/#:-]+$"
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_id", "data_domains"],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "data_domains": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/domain"}
+        }
+      }
+    },
+    "domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domain",
+        "display_name",
+        "required",
+        "not_applicable_allowed",
+        "mapped_entity_id",
+        "status",
+        "transfer_mode",
+        "source_file_count",
+        "source_manifest_sha256",
+        "period_coverage",
+        "contains_personal_data",
+        "privacy_control",
+        "source_owner",
+        "access_approved_by",
+        "evidence_references"
+      ],
+      "properties": {
+        "domain": {"type": "string", "minLength": 1, "maxLength": 128},
+        "display_name": {"type": "string", "minLength": 1, "maxLength": 200},
+        "required": {"type": "boolean"},
+        "not_applicable_allowed": {"type": "boolean"},
+        "mapped_entity_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "status": {"enum": ["pending", "delivered", "not_applicable"]},
+        "transfer_mode": {
+          "enum": ["pending", "local_only", "encrypted_archive", "controlled_drive", "not_applicable"]
+        },
+        "source_file_count": {"type": "integer", "minimum": 0, "maximum": 10000},
+        "source_manifest_sha256": {
+          "oneOf": [{"$ref": "#/$defs/fingerprint"}, {"type": "null"}]
+        },
+        "period_coverage": {
+          "type": "array",
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"}
+        },
+        "contains_personal_data": {"enum": ["unknown", "yes", "no"]},
+        "privacy_control": {
+          "enum": ["pending", "anonymized", "access_restricted", "not_required", "not_applicable"]
+        },
+        "source_owner": {"$ref": "#/$defs/actor"},
+        "access_approved_by": {"$ref": "#/$defs/actor"},
+        "evidence_references": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(evidence|document|workpaper|registry|advisor|authority)://[A-Za-z0-9][A-Za-z0-9._/#:-]+$"
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "actor",
+        "rationale",
+        "evidence_references",
+        "reviewed_at",
+        "workpaper_fingerprint",
+        "review_id"
+      ],
+      "properties": {
+        "decision": {"const": "approved_for_controlled_data_intake"},
+        "actor": {"$ref": "#/$defs/actor"},
+        "rationale": {"type": "string", "minLength": 12, "maxLength": 1000},
+        "evidence_references": {"$ref": "#/$defs/references"},
+        "reviewed_at": {"type": "string", "format": "date-time"},
+        "workpaper_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "review_id": {"$ref": "#/$defs/review_id"}
+      }
+    }
+  }
+}

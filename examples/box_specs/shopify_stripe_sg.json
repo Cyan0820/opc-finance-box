@@ -1,0 +1,21 @@
+{
+  "name": "我的新加坡 Shopify + Stripe 独立站 OPC",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "sg_store",
+      "name": "新加坡独立站经营主体",
+      "tax_country": "SG",
+      "functional_currency": "USD",
+      "accounting_basis": "SFRS",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": [
+        "corporate_income_tax",
+        "gst_review_required"
+      ]
+    }
+  ]
+}

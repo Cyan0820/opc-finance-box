@@ -1,0 +1,30 @@
+{
+  "box_version": 1,
+  "name": "英国 Ltd Shopify + Stripe 独立站 OPC 样板",
+  "data_mode": "demo",
+  "reporting_currency": "GBP",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "entities": [
+    {
+      "id": "uk_store",
+      "name": "英国独立站 Private Limited Company（演示）",
+      "jurisdiction": "GB",
+      "functional_currency": "GBP",
+      "accounting_basis": "UK_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.uk_limited_company",
+      "tax_registrations": [
+        "uk_limited_company",
+        "private_limited_company",
+        "corporation_tax",
+        "ct600_filer",
+        "companies_house_accounts",
+        "vat_registration_review_required"
+      ]
+    }
+  ]
+}

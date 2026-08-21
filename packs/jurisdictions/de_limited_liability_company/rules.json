@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "DE",
+  "verified_at": "2026-08-14",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖德国 Gesellschaft mit beschränkter Haftung (GmbH) 的 Handelsregister 主体证据、Körperschaftsteuer/Gewerbesteuer/VAT 登记证据、年度财务报表披露证据和人工日历。系统不收集 Handelsregisternummer、Steuernummer、USt-IdNr. 或税务标识符原值，不自行判定德国税务居民、税率税额、Solidaritätszuschlag、Gewerbesteuer 地方 Hebesatz、VAT 适用性或供应分类、OSS/IOSS、工资税、股息税或跨境税，也不生成申报表或执行提交付款。",
+  "sources": [
+    {
+      "id": "de_bmwe_gmbh_current",
+      "authority": "Federal Ministry for Economic Affairs and Energy (BMWE)",
+      "title": "Gesellschaft mit beschränkter Haftung (GmbH)",
+      "url": "https://www.existenzgruendungsportal.de/SharedDocs/Expertenforum_Unterseiten/Rechtsformen/Gesellschaft-mit-beschraenkter-Haftung-GmbH/Gesellschaft-mit-beschraenkter-Haftung-GmbH?nn=f41c74ec-04ca-47bf-9309-80b8ceb79b27",
+      "effective_from": "2026-08-14",
+      "status": "official current guidance checked 2026-08-14"
+    },
+    {
+      "id": "de_bundesportal_corporate_tax_current",
+      "authority": "Federal Portal / Hamburg tax administration",
+      "title": "Pay corporate tax",
+      "url": "https://verwaltung.bund.de/leistungsverzeichnis/EN/leistung/99102014002000/herausgeber/HH-S1000020010000011598/region/02",
+      "effective_from": "2026-08-14",
+      "status": "official current service guidance checked 2026-08-14"
+    },
+    {
+      "id": "de_bundesportal_vat_advance_current",
+      "authority": "Federal Portal / Lower Saxony tax administration",
+      "title": "Pre-notify sales tax",
+      "url": "https://verwaltung.bund.de/leistungsverzeichnis/EN/leistung/99102021241000/herausgeber/NI-8676521/region/030000000000",
+      "effective_from": "2026-01-01",
+      "status": "official current service guidance, including 2025 thresholds and 2026 startup treatment, checked 2026-08-14"
+    },
+    {
+      "id": "de_hgb_325_current",
+      "authority": "Federal Ministry of Justice / Federal Office of Justice",
+      "title": "Handelsgesetzbuch § 325 Offenlegung",
+      "url": "https://www.gesetze-im-internet.de/hgb/__325.html",
+      "effective_from": "2026-08-14",
+      "status": "official current statute checked 2026-08-14"
+    },
+    {
+      "id": "de_company_register_submit_current",
+      "authority": "Company Register (Unternehmensregister)",
+      "title": "Submit for disclosure",
+      "url": "https://www.unternehmensregister.de/en/howto/submit",
+      "effective_from": "2026-08-14",
+      "status": "official current submission guidance checked 2026-08-14"
+    }
+  ],
+  "rules": [
+    {
+      "id": "de.company.gmbh.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的德国 GmbH，分别保存 Handelsregister 法律形式、登记状态与税务居民复核证据；不收集登记号或税号原值。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["de_bmwe_gmbh_current"]
+    },
+    {
+      "id": "de.corporation_tax.registration.evidence",
+      "summary": "保存 Körperschaftsteuer 登记、税务期间、ELSTER/顾问访问权与 E-Bilanz 准备证据；不判断税率、Solidaritätszuschlag 或应纳税额。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["de_bundesportal_corporate_tax_current"]
+    },
+    {
+      "id": "de.trade_tax.registration.evidence",
+      "summary": "保存 Gewerbesteuer 登记、经营所在地和主管市镇复核证据；不选择或计算地方 Hebesatz、计税基础或税额。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["de_bmwe_gmbh_current", "de_bundesportal_corporate_tax_current"]
+    },
+    {
+      "id": "de.vat.registration.evidence",
+      "summary": "保存 VAT 登记、申报频率、延期状态与交易范围复核证据；不自动判断 VAT 登记义务、供应分类、税率或 OSS/IOSS。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["de_bundesportal_vat_advance_current"]
+    },
+    {
+      "id": "de.corporation_tax.return.calendar",
+      "summary": "Körperschaftsteuer 年度申报期限取决于纳税期间、是否由税务顾问代理、延期与 ELSTER 账户事实；一般期限不能替代主体批准日期。",
+      "effective_from": "2026-08-14",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_tax_period_end",
+          "tax_advisor_representation_status",
+          "extension_status_review",
+          "elster_access_review",
+          "approved_corporation_tax_due_date"
+        ],
+        "registration_any": ["de_limited_liability_company", "corporation_tax", "koerperschaftsteuer"]
+      },
+      "source_ids": ["de_bundesportal_corporate_tax_current"]
+    },
+    {
+      "id": "de.trade_tax.return.calendar",
+      "summary": "Gewerbesteuer 年度申报与预缴事项受主管市镇、税务顾问代理、延期和实际通知影响，必须按主体人工批准日期。",
+      "effective_from": "2026-08-14",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_trade_tax_registration",
+          "competent_municipality_review",
+          "tax_advisor_representation_status",
+          "extension_and_assessment_notice_review",
+          "approved_trade_tax_due_date"
+        ],
+        "registration_any": ["trade_tax", "gewerbesteuer", "de_limited_liability_company"]
+      },
+      "source_ids": ["de_bmwe_gmbh_current", "de_bundesportal_corporate_tax_current"]
+    },
+    {
+      "id": "de.vat.advance_return_payment.calendar",
+      "summary": "VAT 预申报期限取决于月/季频率、设立年度、前期税额、Dauerfristverlängerung、期间结束和账户日期；即使一般为期间后第 10 日，也必须人工批准实际日期。",
+      "effective_from": "2026-08-14",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_vat_registration",
+          "reporting_frequency",
+          "startup_and_prior_tax_review",
+          "permanent_extension_status",
+          "taxable_period_end",
+          "approved_vat_return_and_payment_due_date"
+        ],
+        "registration_any": ["vat", "vat_registered", "de_vat"]
+      },
+      "source_ids": ["de_bundesportal_vat_advance_current"]
+    },
+    {
+      "id": "de.company_register.financial_statements.calendar",
+      "summary": "GmbH 财务报表披露受财年结束、公司规模、报表确认/审计状态、适用披露或存档范围及电子提交渠道影响；HGB 最长期限不能替代较早适用期限的专业复核。",
+      "effective_from": "2026-08-14",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_financial_year_end",
+          "company_size_class_review",
+          "statements_approval_and_audit_status",
+          "disclosure_or_deposit_scope_review",
+          "company_register_channel_review",
+          "approved_financial_statements_disclosure_due_date"
+        ],
+        "registration_any": ["de_limited_liability_company", "gmbh_company", "commercial_register"]
+      },
+      "source_ids": ["de_hgb_325_current", "de_company_register_submit_current"]
+    },
+    {
+      "id": "de.return.evidence",
+      "summary": "整理批准财务报表、E-Bilanz、Körperschaftsteuer/Gewerbesteuer/VAT 底稿、授权、付款计划、Company Register 提交计划与回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-08-14",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["de_bundesportal_corporate_tax_current", "de_bundesportal_vat_advance_current", "de_hgb_325_current", "de_company_register_submit_current"]
+    }
+  ]
+}

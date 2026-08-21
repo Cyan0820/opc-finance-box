@@ -1,0 +1,17 @@
+{
+  "service_id": "tax.ae_domestic_juridical_person.registration_profile",
+  "entity_id": "ae_store",
+  "payload": {
+    "as_of": "2026-08-16",
+    "entity_type": "free_zone_juridical_person",
+    "entity_type_evidence": {"source_reference": "evidence://licensing-authority/legal-form", "captured_at": "2026-08-16"},
+    "tax_residency_evidence": {"source_reference": "evidence://advisor/uae-residency-review", "captured_at": "2026-08-16"},
+    "trade_licence_status": "confirmed",
+    "trade_licence_evidence": {"source_reference": "evidence://licensing-authority/current-licence", "captured_at": "2026-08-16"},
+    "corporate_tax_status": "confirmed",
+    "corporate_tax_evidence": {"source_reference": "evidence://fta/corporate-tax-registration", "captured_at": "2026-08-16"},
+    "free_zone_status": "confirmed",
+    "free_zone_evidence": {"source_reference": "evidence://advisor/free-zone-person-review", "captured_at": "2026-08-16"},
+    "vat_status": "not_registered"
+  }
+}

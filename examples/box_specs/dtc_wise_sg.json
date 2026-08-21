@@ -1,0 +1,17 @@
+{
+  "name": "新加坡独立站 + Wise Business OPC 样板",
+  "business_type": "commerce",
+  "channels": ["dtc"],
+  "integrations": ["wise"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "sg_store",
+      "name": "OPC Wise Demo Pte Ltd",
+      "tax_country": "SG",
+      "functional_currency": "SGD",
+      "accounting_basis": "SFRS",
+      "tax_registrations": []
+    }
+  ]
+}

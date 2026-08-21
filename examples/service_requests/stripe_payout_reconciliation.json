@@ -1,0 +1,55 @@
+{
+  "service_id": "stripe.reconcile_payouts",
+  "entity_id": "cn_dtc_company",
+  "payload": {
+    "arrival_date_tolerance_days": 3,
+    "payouts": [
+      {
+        "payout_id": "po_demo_001",
+        "entity_id": "cn_dtc_company",
+        "amount_minor": 7180,
+        "currency": "USD",
+        "arrival_date": 1786752000,
+        "balance_transaction_id": "txn_demo_payout_001",
+        "status": "paid",
+        "evidence": {
+          "source_file": "api:stripe",
+          "batch_id": "stripe-payout-demo",
+          "source_object_id": "po_demo_001"
+        }
+      }
+    ],
+    "balance_transactions": [
+      {
+        "balance_transaction_id": "txn_demo_payout_001",
+        "entity_id": "cn_dtc_company",
+        "amount_minor": -7180,
+        "fee_minor": 0,
+        "net_minor": -7180,
+        "currency": "USD",
+        "reporting_category": "payout",
+        "status": "available",
+        "evidence": {
+          "source_file": "api:stripe",
+          "batch_id": "stripe-balance-demo",
+          "source_object_id": "txn_demo_payout_001"
+        }
+      }
+    ],
+    "bank_transactions": [
+      {
+        "bank_transaction_id": "bank_demo_001",
+        "entity_id": "cn_dtc_company",
+        "amount_minor": 7180,
+        "currency": "USD",
+        "direction": "inflow",
+        "transaction_date": "2026-08-15",
+        "reference": "Stripe po_demo_001",
+        "evidence": {
+          "source_file": "bank-demo.csv",
+          "batch_id": "bank-demo"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "jurisdiction.cn_mainland",
+  "kind": "jurisdiction",
+  "display_name": "中国大陆税务工作底稿包",
+  "version": "2026.08.2-preview",
+  "status": "preview",
+  "jurisdiction": {
+    "code": "CN",
+    "tax_readiness": "workpaper",
+    "rules_effective_at": "2026-08-13",
+    "authority_scope": "国家规则；省市属地期限和电子税务局模板仍需配置"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.cn.vat_workpaper",
+    "tax.cn.cit_prepaid_workpaper",
+    "tax.cn.stamp_tax_source_workpaper",
+    "tax.cn.iit_withholding_workpaper",
+    "tax.cn.filing_calendar"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_treatment_decision",
+    "tax_workpaper_approval",
+    "tax_filing_release"
+  ]
+}

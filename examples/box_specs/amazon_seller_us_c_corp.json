@@ -1,0 +1,19 @@
+{
+  "name": "US Amazon Seller Marketplace OPC",
+  "business_type": "commerce",
+  "channels": ["marketplace"],
+  "integrations": ["amazon_seller"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "us_amazon_marketplace_company",
+      "name": "US Amazon marketplace company (confirm legal name)",
+      "jurisdiction": "US",
+      "tax_country": "US",
+      "functional_currency": "USD",
+      "accounting_basis": "US_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": []
+    }
+  ]
+}

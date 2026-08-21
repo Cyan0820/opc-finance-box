@@ -1,0 +1,24 @@
+{
+  "service_id": "marketplace.reconcile_inventory",
+  "entity_ids": ["cn_marketplace_company"],
+  "payload": {
+    "platform_inventory": [
+      {
+        "entity_id": "cn_marketplace_company",
+        "sku": "SKU-1",
+        "warehouse": "PLATFORM-WH-1",
+        "quantity": 10,
+        "evidence": ["platform-inventory-report-2026-07-31"]
+      }
+    ],
+    "ledger_inventory": [
+      {
+        "entity_id": "cn_marketplace_company",
+        "sku": "SKU-1",
+        "warehouse": "PLATFORM-WH-1",
+        "quantity": 9,
+        "evidence": ["inventory-ledger-2026-07-31"]
+      }
+    ]
+  }
+}

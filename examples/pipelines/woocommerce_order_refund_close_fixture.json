@@ -1,0 +1,56 @@
+{
+  "pipeline_id": "woocommerce.order_refund_close",
+  "payload": {
+    "entity_id": "us_dtc_company",
+    "woocommerce_request": {
+      "mode": "fixture",
+      "default_entity_id": "us_dtc_company",
+      "fixture_site_label": "us-dtc-pipeline-sample",
+      "interval_start": "2026-08-01T00:00:00Z",
+      "interval_end": "2026-09-01T00:00:00Z",
+      "order_pages": [
+        [
+          {
+            "id": 41001,
+            "status": "processing",
+            "currency": "USD",
+            "date_created_gmt": "2026-08-03T09:00:00",
+            "date_modified_gmt": "2026-08-08T11:00:00",
+            "discount_total": "5.00",
+            "discount_tax": "0.40",
+            "shipping_total": "10.00",
+            "shipping_tax": "0.80",
+            "cart_tax": "7.20",
+            "total": "102.20",
+            "total_tax": "8.00",
+            "prices_include_tax": false,
+            "billing": {"country": "US", "email": "removed@example.invalid"},
+            "shipping": {"country": "US", "address_1": "removed"},
+            "payment_method": "card_gateway",
+            "transaction_id": "private-transaction-41001",
+            "date_paid_gmt": "2026-08-03T09:01:00",
+            "date_completed_gmt": null,
+            "line_items": [
+              {"id": 51001, "name": "removed product", "product_id": 61, "quantity": 2, "sku": "REMOVED-SKU"}
+            ],
+            "refunds": [{"id": 61001, "reason": "removed", "total": "-20.00"}],
+            "meta_data": []
+          }
+        ]
+      ],
+      "refund_pages": [
+        [
+          {
+            "id": 61001,
+            "parent_id": 41001,
+            "date_created_gmt": "2026-08-08T10:30:00",
+            "amount": "20.00",
+            "reason": "removed",
+            "refunded_payment": true,
+            "line_items": []
+          }
+        ]
+      ]
+    }
+  }
+}

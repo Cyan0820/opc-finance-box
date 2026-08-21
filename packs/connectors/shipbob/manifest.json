@@ -1,0 +1,22 @@
+{
+  "id": "connector.shipbob",
+  "kind": "connector",
+  "display_name": "ShipBob 3PL 只读履约与退货证据 Connector",
+  "version": "0.1.0",
+  "status": "experimental",
+  "capabilities": [
+    "connector.shipbob_fulfillment_evidence"
+  ],
+  "requires": ["core.finance", "industry.commerce"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "shipbob_entity_binding_review",
+    "shipbob_order_mapping_review",
+    "shipbob_fulfillment_cost_review",
+    "return_disposition_review"
+  ],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

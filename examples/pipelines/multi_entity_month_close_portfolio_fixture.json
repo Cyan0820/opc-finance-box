@@ -1,0 +1,70 @@
+{
+  "pipeline_id": "finance.multi_entity_month_close_portfolio",
+  "payload": {
+    "period": "2026-07",
+    "entity_ids": ["cn_studio", "sg_publisher"],
+    "entity_close_controls": [
+      {
+        "entity_id": "cn_studio",
+        "period": "2026-07",
+        "source_pipeline_id": "finance.month_close_control",
+        "source_run_id": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_attempt_id": "cccccccccccccccccccccccc",
+        "source_evidence": ["pipeline-ledger://attempts/cccccccccccccccccccccccc"],
+        "close_control_ready_for_review": true,
+        "candidate_only": true,
+        "posting_performed": false,
+        "period_close_performed": false,
+        "blockers": [],
+        "currency_summaries": [
+          {
+            "currency": "CNY",
+            "bank_account_count": 1,
+            "cash": 500,
+            "assets": 800,
+            "liabilities": 200,
+            "revenue": 1000,
+            "expenses": 600,
+            "profit_before_tax_candidate": 400
+          }
+        ]
+      },
+      {
+        "entity_id": "sg_publisher",
+        "period": "2026-07",
+        "source_pipeline_id": "finance.month_close_control",
+        "source_run_id": "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "source_attempt_id": "dddddddddddddddddddddddd",
+        "source_evidence": ["pipeline-ledger://attempts/dddddddddddddddddddddddd"],
+        "close_control_ready_for_review": true,
+        "candidate_only": true,
+        "posting_performed": false,
+        "period_close_performed": false,
+        "blockers": [],
+        "currency_summaries": [
+          {
+            "currency": "USD",
+            "bank_account_count": 1,
+            "cash": 20,
+            "assets": 50,
+            "liabilities": 10,
+            "revenue": 100,
+            "expenses": 40,
+            "profit_before_tax_candidate": 60
+          }
+        ]
+      }
+    ],
+    "fx_rates": {
+      "USD": {
+        "period": "2026-07",
+        "pnl_rate": 7.1,
+        "closing_rate": 7.2,
+        "source_reference": "fx://approved/2026-07/USD-CNY",
+        "review_status": "approved",
+        "reviewed_by": "finance_reviewer",
+        "evidence": ["month-average and closing-rate workpaper"]
+      }
+    }
+  }
+}

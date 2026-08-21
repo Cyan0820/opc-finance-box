@@ -1,0 +1,19 @@
+{
+  "id": "connector.wise",
+  "kind": "connector",
+  "display_name": "Wise Business 主体绑定只读银行 Connector",
+  "version": "0.2.0",
+  "status": "experimental",
+  "capabilities": ["connector.wise_balance_statement"],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "wise_entity_profile_binding_review",
+    "wise_balance_account_mapping_review",
+    "wise_statement_access_review"
+  ],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

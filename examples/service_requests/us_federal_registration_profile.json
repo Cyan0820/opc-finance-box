@@ -1,0 +1,17 @@
+{
+  "service_id": "tax.us_federal.registration_profile",
+  "entity_id": "us_store",
+  "payload": {
+    "as_of": "2026-08-13",
+    "federal_tax_classification": "c_corporation",
+    "classification_evidence": {
+      "source_reference": "demo:formation-and-federal-classification-review",
+      "captured_at": "2026-08-13"
+    },
+    "ein_status": "confirmed",
+    "ein_evidence": {
+      "source_reference": "demo:IRS-EIN-confirmation-reference-with-value-redacted",
+      "captured_at": "2026-08-13"
+    }
+  }
+}

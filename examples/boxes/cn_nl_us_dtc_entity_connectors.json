@@ -1,0 +1,59 @@
+{
+  "box_version": 1,
+  "name": "CN NL US DTC OPC Entity-bound Connectors",
+  "data_mode": "demo",
+  "reporting_currency": "EUR",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": [
+    "connector.file_import",
+    "connector.xero",
+    "connector.shopify",
+    "connector.stripe",
+    "connector.wise"
+  ],
+  "features": ["feature.shopify_stripe_order_to_cash", "feature.multi_entity"],
+  "entities": [
+    {
+      "id": "cn_ops",
+      "name": "CN 独立站 OPC 经营主体（待确认）",
+      "jurisdiction": "CN",
+      "functional_currency": "CNY",
+      "accounting_basis": "PRC_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.cn_mainland",
+      "tax_registrations": []
+    },
+    {
+      "id": "nl_sales",
+      "name": "NL 独立站 OPC 经营主体（待确认）",
+      "jurisdiction": "NL",
+      "functional_currency": "EUR",
+      "accounting_basis": "Dutch_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.nl_private_limited_company",
+      "tax_registrations": []
+    },
+    {
+      "id": "us_ops",
+      "name": "US 独立站 OPC 经营主体（待确认）",
+      "jurisdiction": "US",
+      "functional_currency": "USD",
+      "accounting_basis": "US_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.us_federal",
+      "tax_registrations": []
+    }
+  ],
+  "connector_bindings": [
+    {
+      "connector_pack": "connector.file_import",
+      "entity_ids": ["cn_ops", "nl_sales", "us_ops"]
+    },
+    {"connector_pack": "connector.shopify", "entity_ids": ["nl_sales"]},
+    {"connector_pack": "connector.stripe", "entity_ids": ["nl_sales"]},
+    {"connector_pack": "connector.wise", "entity_ids": ["us_ops"]},
+    {"connector_pack": "connector.xero", "entity_ids": ["cn_ops"]}
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "box_version": 1,
+  "name": "中国主体第三方电商平台 OPC 样板",
+  "data_mode": "demo",
+  "reporting_currency": "CNY",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.marketplace_commerce"],
+  "connectors": ["connector.file_import"],
+  "features": [],
+  "entities": [
+    {
+      "id": "cn_marketplace_company",
+      "name": "第三方平台经营主体（演示）",
+      "jurisdiction": "CN",
+      "functional_currency": "CNY",
+      "accounting_basis": "PRC_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.cn_mainland",
+      "tax_registrations": ["corporate_income_tax", "vat_taxpayer_type_to_confirm"]
+    }
+  ]
+}

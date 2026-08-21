@@ -1,0 +1,27 @@
+{
+  "name": "我的新西兰有限公司 Shopify + Stripe 独立站 OPC",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "nz_store",
+      "name": "新西兰注册独立站有限公司（演示）",
+      "tax_country": "NZ",
+      "functional_currency": "NZD",
+      "accounting_basis": "NZ_GAAP",
+      "fiscal_year_end": "03-31",
+      "tax_registrations": [
+        "nz_limited_company",
+        "companies_register_company",
+        "companies_office_annual_return",
+        "company_ird_confirmed",
+        "company_income_tax",
+        "ir4_filer",
+        "gst_registration_review_required",
+        "employer_registration_review_required"
+      ]
+    }
+  ]
+}

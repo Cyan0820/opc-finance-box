@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "baseline_id": "sg-store-2026-08-four-source",
+  "pipeline_id": "dtc.shopify_stripe_daily_close",
+  "entity_id": "sg_store",
+  "sample_period": "2026-08",
+  "covered_pack_ids": [
+    "connector.shopify",
+    "connector.stripe",
+    "connector.wise",
+    "feature.shopify_stripe_order_to_cash"
+  ],
+  "prepared_by": "independent-source-preparer",
+  "prepared_at": "2026-08-14T08:30:00+08:00",
+  "source_expectations": [
+    {
+      "source_role": "store_orders_transactions_refunds",
+      "connector_id": "shopify.orders",
+      "expected_record_count": 4,
+      "evidence_references": ["source-export://shopify/sg-store/2026-08"]
+    },
+    {
+      "source_role": "processor_balance_activity",
+      "connector_id": "stripe.balance_transactions",
+      "expected_record_count": 3,
+      "evidence_references": ["source-export://stripe/balance/sg-store/2026-08"]
+    },
+    {
+      "source_role": "processor_payouts",
+      "connector_id": "stripe.payouts",
+      "expected_record_count": 1,
+      "evidence_references": ["source-export://stripe/payouts/sg-store/2026-08"]
+    },
+    {
+      "source_role": "bank_balance_statement",
+      "connector_id": "wise.balance_statement",
+      "expected_record_count": 1,
+      "evidence_references": ["source-export://wise/sgd/sg-store/2026-08"]
+    }
+  ],
+  "control_expectations": [
+    {"control_id": "pipeline_ready", "expected_value": true},
+    {"control_id": "processor_link_matched_count", "expected_value": 2},
+    {"control_id": "processor_link_exception_count", "expected_value": 0},
+    {"control_id": "payout_bank_candidate_count", "expected_value": 1},
+    {"control_id": "payout_bank_exception_count", "expected_value": 0}
+  ],
+  "evidence_references": [
+    "workpaper://sg-store/2026-08/source-count-tie-out",
+    "review://sg-store/2026-08/source-scope-confirmation"
+  ]
+}

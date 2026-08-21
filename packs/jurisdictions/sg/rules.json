@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "SG",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "当前只用于税务登记事实、申报日历候选和证据清单；不计算应纳税额，不生成可提交表单。",
+  "sources": [
+    {
+      "id": "sg_iras_cit_basic_guide",
+      "authority": "Inland Revenue Authority of Singapore",
+      "title": "Basic Guide to Corporate Income Tax for Companies",
+      "url": "https://www.iras.gov.sg/taxes/corporate-income-tax/basics-of-corporate-income-tax/basic-guide-to-corporate-income-tax-for-companies/",
+      "effective_from": "2026-01-01",
+      "status": "official guidance checked 2026-08-13"
+    },
+    {
+      "id": "sg_iras_gst_due_dates",
+      "authority": "Inland Revenue Authority of Singapore",
+      "title": "GST Due Dates and Requests for Extension",
+      "url": "https://www.iras.gov.sg/taxes/goods-services-tax-%28gst%29/filing-gst/due-dates-and-requests-for-extension",
+      "effective_from": "2025-08-21",
+      "status": "official guidance checked 2026-08-13"
+    },
+    {
+      "id": "sg_iras_gst_registration",
+      "authority": "Inland Revenue Authority of Singapore",
+      "title": "Do I need to register for GST",
+      "url": "https://www.iras.gov.sg/taxes/goods-services-tax-%28gst%29/gst-registration-deregistration/do-i-need-to-register-for-gst",
+      "effective_from": "2026-08-07",
+      "status": "official guidance checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "sg.cit.calendar.eci",
+      "summary": "ECI通常在财年结束后三个月内申报；是否符合豁免必须基于主体实际收入和ECI事实复核。",
+      "effective_from": "2026-01-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "months_after_date",
+        "anchor": "financial_year_end",
+        "months": 3
+      },
+      "source_ids": ["sg_iras_cit_basic_guide"]
+    },
+    {
+      "id": "sg.cit.calendar.annual_return",
+      "summary": "Form C-S、C-S Lite或Form C的年度申报截止日候选为11月30日，具体表型和豁免由有权人确认。",
+      "effective_from": "2026-01-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "annual_fixed_after_date",
+        "anchor": "financial_year_end",
+        "month": 11,
+        "day": 30,
+        "year_offset": 1
+      },
+      "source_ids": ["sg_iras_cit_basic_guide"]
+    },
+    {
+      "id": "sg.gst.calendar.registered_entity",
+      "summary": "已登记GST主体的申报和缴款通常在会计期间结束后一个月到期。",
+      "effective_from": "2025-08-21",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "months_after_date",
+        "anchor": "gst_period_end",
+        "months": 1,
+        "registration_any": ["gst", "gst_registered"]
+      },
+      "source_ids": ["sg_iras_gst_due_dates"]
+    },
+    {
+      "id": "sg.gst.registration.monitor",
+      "summary": "监控应税营业额与未来12个月预测并提示登记复核；不能仅凭订单总额自动认定GST登记义务。",
+      "effective_from": "2026-08-07",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["sg_iras_gst_registration"]
+    }
+  ]
+}

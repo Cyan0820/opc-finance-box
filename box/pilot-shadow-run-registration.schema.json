@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opc.finance/schemas/pilot-shadow-run-registration.schema.json",
+  "title": "OPC Finance Box First Pilot Shadow Run Registration",
+  "description": "Private Box-bound receipt that binds one fully reviewed month-close Shadow Run per legal entity to the approved pilot data handoff period. It contains no financial values and grants no posting, payment, close or filing authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "runtime_fingerprint",
+    "pilot_readiness_review_id",
+    "pilot_data_handoff_review_id",
+    "period",
+    "registered_at",
+    "registered_by",
+    "rationale",
+    "evidence_references",
+    "ledger_integrity",
+    "ledger_chain_head_at_registration",
+    "entity_runs",
+    "all_entities_covered",
+    "all_runs_ready",
+    "all_reviews_complete",
+    "registrar_role_separation_verified",
+    "raw_pipeline_request_or_result_persisted",
+    "financial_values_persisted",
+    "posting_authorized",
+    "payment_authorized",
+    "period_close_authorized",
+    "external_filing_authorized",
+    "external_actions_authorized",
+    "registration_id"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "artifact_type": {"const": "pilot_shadow_run_registration"},
+    "runtime_fingerprint": {"$ref": "#/$defs/fingerprint"},
+    "pilot_readiness_review_id": {"$ref": "#/$defs/id"},
+    "pilot_data_handoff_review_id": {"$ref": "#/$defs/id"},
+    "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+    "registered_at": {"type": "string", "format": "date-time"},
+    "registered_by": {"$ref": "#/$defs/actor"},
+    "rationale": {"type": "string", "minLength": 12, "maxLength": 1000},
+    "evidence_references": {"$ref": "#/$defs/references"},
+    "ledger_integrity": {"const": "sha256_hash_chain"},
+    "ledger_chain_head_at_registration": {
+      "oneOf": [
+        {"$ref": "#/$defs/fingerprint"},
+        {"const": "GENESIS"}
+      ]
+    },
+    "entity_runs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/entity_run"}
+    },
+    "all_entities_covered": {"const": true},
+    "all_runs_ready": {"const": true},
+    "all_reviews_complete": {"const": true},
+    "registrar_role_separation_verified": {"const": true},
+    "raw_pipeline_request_or_result_persisted": {"const": false},
+    "financial_values_persisted": {"const": false},
+    "posting_authorized": {"const": false},
+    "payment_authorized": {"const": false},
+    "period_close_authorized": {"const": false},
+    "external_filing_authorized": {"const": false},
+    "external_actions_authorized": {"const": false},
+    "registration_id": {"$ref": "#/$defs/id"}
+  },
+  "$defs": {
+    "fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "id": {"type": "string", "pattern": "^[0-9a-f]{24}$"},
+    "actor": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._@:-]+$"
+    },
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(evidence|document|workpaper|registry|advisor|authority)://[A-Za-z0-9][A-Za-z0-9._/#:-]+$"
+      }
+    },
+    "entity_run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_id",
+        "attempt_id",
+        "pipeline_id",
+        "period",
+        "result_fingerprint"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "attempt_id": {"$ref": "#/$defs/id"},
+        "pipeline_id": {"const": "finance.month_close_control"},
+        "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+        "result_fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    }
+  }
+}

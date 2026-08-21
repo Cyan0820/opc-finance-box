@@ -1,0 +1,25 @@
+{
+  "runtime_fingerprint": "replace_with_current_64_character_runtime_fingerprint",
+  "period": "2026-07",
+  "currency": "USD",
+  "metric_type_ids": [
+    "dtc_net_sales",
+    "dtc_refund_return_rate",
+    "dtc_inventory_days_on_hand"
+  ],
+  "operand_values": {
+    "gross_order_sales_ex_tax_including_shipping": "1250.25",
+    "discounts_and_refunds_ex_tax": "125.20",
+    "refunds_ex_tax": "100.02",
+    "gross_merchandise_sales_ex_tax": "1250.25",
+    "average_inventory_cost": "600",
+    "trailing_twelve_month_cost_of_goods_sold": "2400"
+  },
+  "confirmed_control_type_ids": [
+    "order_and_refund_period_scope_aligned",
+    "tax_inclusive_policy_confirmed",
+    "return_authorization_and_receipt_scope_aligned",
+    "period_end_inventory_evidence_confirmed",
+    "inventory_cost_basis_approved"
+  ]
+}

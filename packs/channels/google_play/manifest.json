@@ -1,0 +1,15 @@
+{
+  "id": "channel.google_play",
+  "kind": "channel",
+  "display_name": "Google Play",
+  "version": "0.1.0",
+  "status": "preview",
+  "capabilities": [
+    "channel.google_play_settlement_import",
+    "channel.google_play_fee_reconciliation",
+    "channel.google_play_receivable"
+  ],
+  "requires": ["core.finance", "industry.game_studio"],
+  "conflicts": [],
+  "manual_review_gates": ["channel_contract_mapping"]
+}

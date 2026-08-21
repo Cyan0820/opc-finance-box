@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>智能财务工作台</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="./styles.css?v=20260816-81" />
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div><strong>智能财务工作台</strong><small>游戏公司版</small></div><button class="sidebar-close" id="sidebar-close" aria-label="关闭导航">关闭</button></div>
+    <nav>
+      <button class="nav-item active" data-module="workbench" data-view="agent">工作台</button>
+      <button class="nav-item" data-module="builder" data-view="box-builder">配置工作台</button>
+      <button class="nav-item" data-module="confirmations" data-view="confirmations">待我确认 <span id="nav-confirmation-count">0</span></button>
+      <button class="nav-item" data-module="pipelines" data-view="pipeline-launch">财务任务流 <span id="nav-pipeline-count">0</span></button>
+      <button class="nav-item" data-module="tax-packs" data-view="tax-workspace">税务能力包</button>
+      <button class="nav-item" data-module="analysis" data-view="bp">分析</button>
+      <button class="nav-item" data-module="documents" data-view="documents">资料</button>
+      <button class="nav-item" data-module="settings" data-view="settings">设置</button>
+    </nav>
+    <div class="sidebar-note">
+      <span>工作原则</span>
+      <strong>明细自动处理，关键判断由你确认</strong>
+      <p>不会自动付款，也不会把税务底稿当成已经申报。</p>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div class="topbar-title"><button class="menu-button" id="menu-button" aria-label="打开导航" aria-controls="sidebar" aria-expanded="false">菜单</button><div><p class="eyebrow" id="company-context">示例游戏公司</p><h1 id="page-title">财务目标组合</h1></div></div>
+      <div class="topbar-controls">
+        <div class="language-switch" id="language-switch" role="group" aria-label="界面语言">
+          <button type="button" data-locale="zh-CN" aria-pressed="true">中文</button>
+          <button type="button" data-locale="en" aria-pressed="false">英文</button>
+        </div>
+        <div class="top-actions">
+          <input id="file-input" type="file" accept=".xlsx" multiple hidden />
+          <input id="agent-file-input" type="file" accept=".xlsx,.csv,.pdf,.png,.jpg,.jpeg,.webp" multiple hidden />
+          <select id="sample-scenario" aria-label="选择观察口径"><option value="group">全球管理汇总</option><option value="domestic">国服主体</option><option value="overseas">海外主体</option></select>
+          <button class="button ghost" id="sample-download">示例数据</button>
+          <button class="button ghost" id="run-agent-button">立即运行</button>
+          <button class="button primary" id="agent-upload-button">添加资料</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="module-tabs" id="module-tabs"></div>
+    <div class="statutory-scope-bar" id="statutory-scope-bar" hidden>
+      <div><span>法定工作区</span><strong>逐主体独立处理</strong></div>
+      <label>法律主体<select id="ops-entity"></select></label>
+      <small id="ops-entity-note">凭证、税务、银行与审批不进入集团合并口径。</small>
+    </div>
+
+    <section class="notice" id="notice">
+      <div><strong>按币种独立核对</strong><span>禁止把CNY、HKD、USD直接相加；只有配置汇率后才能查看折算口径。</span></div>
+      <button id="notice-close">知道了</button>
+    </section>
+
+    <section class="view" id="view-box-home">
+      <div class="box-home-hero">
+        <div><p class="eyebrow" id="box-home-edition">智能财务工作台</p><h2 id="box-home-name">正在读取当前工作台…</h2><p id="box-home-description">行业、渠道、主体和纳税地区将从已验证的工作台配置加载。</p></div>
+        <div class="box-home-actions"><span id="box-home-status" class="status pending">读取中</span><button class="button ghost" data-go="box-builder">创建新工作台</button><button class="button primary" data-go="pipeline-launch">查看可用财务任务流</button></div>
+      </div>
+      <div id="box-home-metrics" class="metrics"><div class="skeleton-block">正在读取工作台配置…</div></div>
+      <div class="grid two box-home-grid">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">法律主体隔离</p><h2>主体与纳税地区</h2></div><span class="status pending">各自法定账</span></div><div class="table-wrap"><table><thead><tr><th>法律主体</th><th>地区</th><th>本位币</th><th>会计准则</th><th>税务能力包</th><th>成熟度</th></tr></thead><tbody id="box-home-entities"></tbody></table></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">运行边界</p><h2>必须保留的人工作用</h2></div></div><div id="box-home-guardrails" class="box-home-list"></div></article>
+      </div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">可替换配置</p><h2>当前能力包组合</h2></div><span id="box-home-pack-summary" class="quiet-label"></span></div><div id="box-home-packs" class="box-pack-grid"></div></article>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">上线前说明</p><h2>当前警告</h2></div></div><div id="box-home-warnings" class="box-home-list"></div></article>
+    </section>
+
+    <section class="view" id="view-box-builder">
+      <div class="agent-heading box-builder-heading">
+        <div><p class="eyebrow">行业能力包 + 渠道能力包 + 法律主体 + 税务能力包</p><h2>配置智能财务工作台</h2><p>按公司的业务、主体和纳税地区，生成一套可复制、可调整的智能财务工作台配置。生成候选不会替换当前运行中的工作台。</p></div>
+        <span id="box-builder-state" class="status pending">等待选择</span>
+      </div>
+      <div class="decision-banner warning"><div><strong>国家选择不是报税结论</strong><span>本位币、会计准则和年结日只是可编辑起点；税务能力包会明确显示“设计框架、工作底稿、申报辅助”三种成熟度，税务登记默认留空等待确认。</span></div></div>
+      <div class="box-builder-grid">
+        <article class="panel box-builder-form-panel">
+          <div class="panel-head"><div><p class="eyebrow">产品配置</p><h2>选择业务与主体</h2></div><span class="quiet-label" id="box-builder-catalog-summary">—</span></div>
+          <div class="box-builder-form">
+            <label class="wide">工作台名称<input id="box-builder-name" value="我的智能财务工作台" data-i18n-value /></label>
+            <label>业务样板<select id="box-builder-profile"></select></label>
+            <label>纳税地区能力包<select id="box-builder-jurisdiction"></select></label>
+            <label>主主体数据源<select id="box-builder-integration"><option value="">暂不选择</option></select></label>
+            <label>数据模式<select id="box-builder-data-mode"><option value="demo">演示 · 安全样板</option><option value="live">正式 · 待接真实资料</option></select></label>
+            <label>主体编码<input id="box-builder-entity-id" value="opc_company" /></label>
+            <label>法律主体名称<input id="box-builder-entity-name" value="经营主体（待确认）" data-i18n-value /></label>
+            <label>本位币<input id="box-builder-currency" maxlength="3" /></label>
+            <label>会计准则<input id="box-builder-accounting-basis" /></label>
+            <label>财年结束<input id="box-builder-fiscal-year-end" value="12-31" placeholder="MM-DD" /></label>
+            <div class="box-builder-jurisdiction-note wide" id="box-builder-jurisdiction-note">正在读取已安装税务能力包…</div>
+            <div class="box-builder-binding-draft wide" id="box-builder-binding-draft"><strong>数据源主体范围</strong><span>正在读取已安装数据连接器能力包…</span></div>
+            <div class="box-builder-entity-heading wide"><div><strong>其他法律主体</strong><span>每个主体分别选择税务能力包和数据源；管理报告币种沿用第一个主体，可在复制后修改。</span></div><button class="button ghost" id="box-builder-add-entity" type="button">添加主体</button></div>
+            <div id="box-builder-additional-entities" class="box-builder-additional-entities wide"></div>
+          </div>
+          <div class="box-builder-actions"><button class="button primary" id="box-builder-preview">生成并校验候选</button></div>
+        </article>
+        <article class="panel box-builder-guide">
+          <div class="panel-head"><div><p class="eyebrow">输出边界</p><h2>这一步会生成什么</h2></div></div>
+          <div class="box-home-list">
+            <div class="box-home-list-item"><span>1</span><p>严格配置文件：能力包、主体、币种、会计准则、纳税地区和完整数据连接器主体绑定均可复制调整。</p></div>
+            <div class="box-home-list-item"><span>2</span><p>只展示当前组合真正可执行的财务任务流与请求起点，不跨行业暴露。</p></div>
+            <div class="box-home-list-item"><span>3</span><p>上线任务、税务成熟度和人工复核关口；不会创建定时任务或外部授权。</p></div>
+            <div class="box-home-list-item warning"><span>!</span><p>候选不会自动保存到服务器，也不会热切换当前运行时。复制配置后仍需显式校验、保存和重启。</p></div>
+          </div>
+        </article>
+      </div>
+      <section id="box-builder-result" class="box-builder-result" hidden>
+        <div id="box-builder-metrics" class="metrics"></div>
+        <div class="box-builder-output-grid">
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">能力包驱动</p><h2>候选能力与财务任务流</h2></div><span id="box-builder-pipeline-count" class="quiet-label"></span></div><div id="box-builder-pipelines" class="box-builder-pipelines"></div><div id="box-builder-warnings" class="box-home-list"></div><div class="box-builder-checklist-head"><div><p class="eyebrow">按阶段与负责人</p><h3>上线诊断清单</h3></div><span id="box-builder-checklist-count" class="status pending">待读取</span></div><div id="box-builder-checklist" class="box-builder-checklist"></div></article>
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">可编辑交付物</p><h2>严格工作台配置</h2></div><span class="status ok">已校验</span></div><div id="box-builder-bindings" class="box-builder-binding-result"></div><label class="pipeline-json-editor box-builder-json">工作台配置文件<textarea id="box-builder-config" rows="22" readonly aria-label="生成的工作台配置"></textarea></label><label class="pipeline-json-editor box-builder-cli">可复现命令（路径与执行人需替换）<textarea id="box-builder-cli-command" rows="9" readonly aria-label="可复现的工作台初始化命令"></textarea></label><section class="box-builder-handoff-receipt" id="box-builder-handoff-receipt"><div class="box-builder-handoff-head"><div><p class="eyebrow">本地字节校验</p><h3>配置包接收收据</h3></div><span class="status pending" id="box-builder-handoff-status">等待下载校验</span></div><p id="box-builder-handoff-note">下载前，浏览器会重新计算实际响应字节的 SHA-256；缺少或不匹配时不会保存文件。</p><div class="box-builder-handoff-details" id="box-builder-handoff-details"></div><label class="pipeline-json-editor box-builder-handoff-command">接收与安全展开命令<textarea id="box-builder-handoff-command" rows="11" readonly aria-label="配置包校验与安全展开命令"></textarea></label><div class="box-builder-handoff-actions"><button class="button ghost" id="box-builder-copy-receipt" disabled>复制校验收据</button><button class="button ghost" id="box-builder-download-receipt" disabled>下载收据文件</button><button class="button ghost" id="box-builder-copy-handoff" disabled>复制接收命令</button></div></section><div class="box-builder-copy-actions"><button class="button ghost" id="box-builder-copy-cli">复制命令</button><button class="button ghost" id="box-builder-copy-spec">复制简化规格</button><button class="button ghost" id="box-builder-copy-config">复制严格配置</button><button class="button primary" id="box-builder-download-bundle">下载并校验配置包</button></div></article>
+        </div>
+      </section>
+    </section>
+
+    <section class="view" id="view-tax-workspace">
+      <div class="ops-toolbar tax-workspace-toolbar"><div><p class="eyebrow">逐主体法定范围 · 版本化规则 · 时效签认 · 候选日历</p><h2>税务能力包工作台</h2><p>统一查看每个法律主体的税务包、登记配置、官方来源、规则时效与适用性签认。配置代码不是登记证据，候选日期也不是申报或付款授权。</p></div><div><label>期间年度<input id="tax-workspace-year" type="number" min="1900" max="9999" /></label><label>控制观察日<input id="tax-workspace-as-of" type="date" /></label><button class="button ghost" id="tax-workspace-refresh">重新生成</button></div></div>
+      <div class="decision-banner warning"><div><strong>税务能力包成熟度必须原样保留</strong><span>“设计框架”只提供结构与证据控制，“工作底稿”只生成底稿；即使达到“申报辅助”，仍需有权人复核并在外部系统提交。</span></div></div>
+      <div id="tax-workspace-metrics" class="metrics"><div class="skeleton-block">正在读取各主体税务能力包…</div></div>
+      <div id="tax-workspace-entities" class="tax-workspace-entities"></div>
+      <section id="tax-workspace-detail" class="tax-workspace-detail"><div class="skeleton-block">正在建立法定税务视图…</div></section>
+    </section>
+
+    <section class="view active" id="view-agent">
+      <div class="agent-heading">
+        <div><p class="eyebrow">目标驱动 · 依据可追溯</p><h2>财务目标组合</h2><p id="agent-scale-note">小团队，也可能拥有高营收、高流水、多渠道与多币种业务。</p></div>
+        <div class="agent-heading-meta"><span id="agent-period">账期待载入</span><span id="agent-mode" class="status pending">载入中</span></div>
+      </div>
+      <div class="agent-pipeline" aria-label="智能助手工作流程"><span class="active">目标</span><i></i><span>计划</span><i></i><span>执行</span><i></i><span>确认</span><i></i><span>交付物</span></div>
+      <div id="agent-run-note" class="agent-run-note"></div>
+      <div id="agent-scope-summary" class="agent-scope-summary"></div>
+      <div class="agent-layout">
+        <div class="agent-main">
+          <div id="goal-portfolio" class="goal-portfolio"><div class="skeleton-block">正在建立财务目标…</div></div>
+        </div>
+        <aside class="decision-rail">
+          <div class="section-head"><div><p class="eyebrow">按风险排序</p><h2>待我确认</h2></div><button class="text-button" data-go="confirmations">查看全部</button></div>
+          <div id="agent-confirmation-preview" class="confirmation-preview"><div class="skeleton-block">正在扫描关键事项…</div></div>
+        </aside>
+      </div>
+      <section class="deliverable-section">
+        <div class="section-head"><div><p class="eyebrow">来源、状态与决定</p><h2>最近交付物与证据</h2></div><span id="deliverable-summary" class="quiet-label"></span></div>
+        <div class="table-wrap"><table><thead><tr><th>交付物</th><th>所属目标</th><th>状态</th><th>证据状态</th><th>说明</th><th>操作</th></tr></thead><tbody id="agent-deliverables"></tbody></table></div>
+      </section>
+    </section>
+
+    <section class="view" id="view-confirmations">
+      <div class="agent-heading">
+        <div><p class="eyebrow">只保留需要人做的决定</p><h2>待我确认</h2><p>硬阻塞事项先补资料，不提供批准动作；金额按币种分别展示。</p></div>
+        <div class="confirmation-toolbar"><select id="confirmation-domain"><option value="">全部类型</option></select><select id="confirmation-priority"><option value="">全部优先级</option><option>紧急</option><option>高</option><option>中</option><option>普通</option></select></div>
+      </div>
+      <div id="confirmation-metrics" class="metrics"></div>
+      <div id="confirmation-list" class="confirmation-list"><div class="skeleton-block">正在整理确认事项…</div></div>
+    </section>
+
+    <section class="view" id="view-pipeline-control">
+      <div class="ops-toolbar pipeline-control-toolbar">
+        <div><p class="eyebrow">候选结果 · 独立复核 · 防篡改校验</p><h2>财务任务流运行与复核</h2><p>查看各类财务任务流的安全运行摘要；复核只改变候选释放状态，不入账、不付款，也不触发外部动作。</p></div>
+        <div><span id="pipeline-identity" class="quiet-label">正在读取身份…</span><button class="button ghost" id="pipeline-refresh">刷新</button></div>
+      </div>
+      <div id="pipeline-integrity-banner" class="decision-banner warning"><div><strong>正在验证运行台账</strong><span>完成 SHA-256 事件链验证前，复核动作保持关闭。</span></div></div>
+      <div id="pipeline-control-metrics" class="metrics"><div class="skeleton-block">正在读取运行记录…</div></div>
+      <article class="panel pipeline-schedule-panel"><div class="panel-head"><div><p class="eyebrow">只读状态 · 显式审批 · 原子租约</p><h2>调度运行状态</h2></div><span id="pipeline-schedule-summary" class="status pending">读取中</span></div><div id="pipeline-schedule-list" class="pipeline-schedule-list"><div class="skeleton-block">正在计算到期与重试状态…</div></div></article>
+      <div class="pipeline-control-grid">
+        <article class="panel pipeline-review-panel"><div class="panel-head"><div><p class="eyebrow">按尝试归组</p><h2>待复核控制门</h2></div><span id="pipeline-review-summary" class="status pending">读取中</span></div><div id="pipeline-review-queue" class="pipeline-review-queue"><div class="skeleton-block">正在整理复核门…</div></div></article>
+        <article class="panel pipeline-attempt-panel"><div class="panel-head"><div><p class="eyebrow">只含安全摘要</p><h2>最近运行尝试</h2></div><span id="pipeline-attempt-summary" class="quiet-label"></span></div><div id="pipeline-attempt-list" class="pipeline-attempt-list"><div class="skeleton-block">正在读取尝试…</div></div></article>
+      </div>
+      <article class="panel pipeline-detail-panel"><div class="panel-head"><div><p class="eyebrow">请求与完整结果不落盘</p><h2>尝试详情</h2></div><span class="status pending">控制面摘要</span></div><div id="pipeline-attempt-detail" class="pipeline-attempt-detail"><div class="empty-state">选择一条运行尝试，查看连接器、服务阶段与复核历史。</div></div></article>
+    </section>
+
+    <section class="view" id="view-pipeline-launch">
+      <div class="ops-toolbar pipeline-launch-toolbar"><div><p class="eyebrow">可编辑请求 · 无密钥模板 · 运行前预检</p><h2>启动当前工作台的财务任务流</h2><p>从能力包自动生成的请求起点开始修改。预检不会读取数据源；只有明确点击“运行并记录候选”才会调用数据连接器。</p></div><div><span id="pipeline-operator-identity" class="quiet-label">正在读取身份…</span><button class="button ghost" id="pipeline-catalog-refresh">刷新目录</button></div></div>
+      <div class="decision-banner warning"><div><strong>凭证和密钥不能写进任务请求配置</strong><span>Shopify、Stripe、Wise、Xero、PayPal、WooCommerce、ShipBob、Amazon Seller 等凭证与主体绑定只通过服务端环境配置；运行结果仍是候选结果，不是入账、付款、报税或外部授权。</span></div></div>
+      <div id="pipeline-launch-metrics" class="metrics"><div class="skeleton-block">正在读取财务任务流目录…</div></div>
+      <div class="pipeline-launch-grid">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">由当前能力包筛选</p><h2>可用财务任务流</h2></div><span id="pipeline-catalog-summary" class="quiet-label"></span></div><div id="pipeline-catalog-list" class="pipeline-catalog-list"><div class="skeleton-block">正在加载…</div></div></article>
+        <article class="panel pipeline-editor-panel"><div class="panel-head"><div><p class="eyebrow">先替换全部占位符</p><h2 id="pipeline-editor-title">请求编辑器</h2></div><span id="pipeline-editor-status" class="status pending">未预检</span></div><div id="pipeline-template-requirements" class="pipeline-template-requirements"></div><label class="pipeline-json-editor">财务任务流请求配置<textarea id="pipeline-request-editor" rows="22" spellcheck="false" aria-label="财务任务流请求配置"></textarea></label><div id="pipeline-preflight-result" class="pipeline-preflight-result"></div><div class="pipeline-launch-actions"><button class="button ghost" id="pipeline-template-reset">恢复模板</button><button class="button ghost" id="pipeline-preflight-button">只做安全预检</button><button class="button primary" id="pipeline-record-button" disabled>运行并记录候选</button></div></article>
+      </div>
+    </section>
+
+    <section class="view" id="view-connector-onboarding">
+      <div class="ops-toolbar connector-onboarding-toolbar"><div><p class="eyebrow">无密钥状态 · 财务任务流实际引用 · 有界并行验证</p><h2>数据连接器上线准备</h2><p>这里只判断当前工作台的数据连接器是否具备进入样例数据或只读并行验证的前提，不读取凭证值，也不连接外部数据源。</p></div><button class="button ghost" id="connector-readiness-refresh">刷新状态</button></div>
+      <article class="panel pilot-readiness-panel" id="trial-onboarding-panel" hidden><header><div><p class="eyebrow">已验证试用 · 五段创始人路径 · 不制造完成</p><h3>从演示工作台到自己的可编辑系统</h3><p>只在通过试用启动命令开启的已验证环境显示；把完整上线控制压成当前下一步和可复制模板，不读取凭证或私有证据。</p></div><span id="trial-onboarding-status" class="status pending">读取中</span></header><div id="trial-onboarding-metrics" class="metrics"><div class="skeleton-block">正在整理创始人下一步…</div></div><div class="activation-init-contract"><strong>建议下一条命令</strong><code id="trial-onboarding-command">正在读取命令模板…</code></div><div id="trial-onboarding-journey" class="box-home-list"></div><footer>页面不会执行命令、记录上线清单完成、返回试用路径/人员/金额，或把“演示可运行”解释为“生产就绪”。</footer></article>
+      <article class="panel pilot-readiness-panel"><header><div><p class="eyebrow">依赖编排 · 角色分离 · 可复制命令</p><h3>首客激活操作波次</h3><p>根据十一道权威门禁只开放当前依赖已经满足的工作；税务适用性与连接器配置可并行，后续资料交接、观察和晋级按证据顺序推进。</p></div><span id="activation-status" class="status pending">读取中</span></header><div id="activation-metrics" class="metrics"><div class="skeleton-block">正在编排当前首客激活波次…</div></div><div class="activation-init-contract"><strong>私有工作区初始化</strong><code id="activation-init-command">正在读取初始化命令…</code></div><div class="activation-access-contract"><strong>数据连接器权限范围与下一动作</strong><small>按能力包 + 法律主体投影；默认提前 7 天提示续期，并生成可去重的安全告警候选，但不自动发送通知。</small><div id="activation-access-list" class="activation-wave"><div class="skeleton-block">正在读取数据连接器权限范围…</div></div></div><div id="activation-wave" class="activation-wave"></div><footer>命令只包含占位符且不会自动执行；页面不返回私有路径、凭证、人员、证据引用或金额。</footer></article>
+      <article class="panel pilot-readiness-panel"><header><div><p class="eyebrow">十一项门禁 · 单一安全摘要 · 不返回私有证据</p><h3>生产准备度总表</h3><p>统一汇总能力包契约、税务规则与适用性、数据连接器配置与真实并行证据、首家准入、资料交接、连续月份证据和逐能力包稳定候选独立批准；单项就绪不会越过后续门禁。</p></div><span id="production-readiness-status" class="status pending">读取中</span></header><div id="production-readiness-metrics" class="metrics"><div class="skeleton-block">正在汇总全部生产准备门禁…</div></div><div id="production-readiness-stages" class="box-home-list"></div><footer>此总表只读验证晋级账本，不修改能力包状态，也不是法定关账、过账、付款或外部申报授权。</footer></article>
+      <article class="panel pilot-readiness-panel"><header><div><p class="eyebrow">真实匿名来源 · 当前独立复核 · 能力包覆盖</p><h3>数据连接器并行证据登记</h3><p>只读检查私有轮换目录中的第二版并行证据；凭证配置、演示基准或财务任务流自身输出都不能代替独立来源证据。</p></div><span id="connector-shadow-status" class="status pending">读取中</span></header><div id="connector-shadow-metrics" class="metrics"><div class="skeleton-block">正在验证数据连接器并行证据目录…</div></div><div id="connector-shadow-packs" class="box-home-list"></div><footer>页面不返回目录、文件名、人员、证据引用、源记录控制或金额；通过也不自动执行稳定版晋级。</footer></article>
+      <article class="panel pilot-readiness-panel"><header><div><p class="eyebrow">首家真实一人公司 · 私有签认只读投影</p><h3>首家试运行与首次并行关账准入</h3><p>逐主体资料域、数据映射和独立复核必须与当前工作台完全匹配；本页不返回执行人、证据路径、账号、税号或金额。</p></div><span id="pilot-readiness-status" class="status pending">读取中</span></header><div id="pilot-readiness-metrics" class="metrics"><div class="skeleton-block">正在验证首家试运行准入件…</div></div><div id="pilot-readiness-alerts" class="pilot-readiness-alerts"></div><div id="pilot-readiness-entities" class="pilot-readiness-entities"></div><section class="pilot-handoff-projection"><header><div><p class="eyebrow">真实资料交接 · 私有清单安全投影</p><h4>受控资料接收门</h4><p>只显示逐主体资料域计数、试运行准入绑定和布尔门禁，不返回文件名、路径、清单指纹、执行人、证据或金额。</p></div><span id="pilot-handoff-status" class="status pending">读取中</span></header><div id="pilot-handoff-metrics" class="metrics"><div class="skeleton-block">正在验证资料交接签认…</div></div><div id="pilot-handoff-entities" class="pilot-readiness-entities"></div></section><section class="pilot-handoff-projection"><header><div><p class="eyebrow">首次月结试跑 · 台账绑定安全投影</p><h4>首个受控观察门</h4><p>只显示逐主体月结试跑是否已完成全部复核并绑定交接期间，不返回运行编号、结果指纹、执行人、复核理由、证据或金额。</p></div><span id="pilot-shadow-run-status" class="status pending">读取中</span></header><div id="pilot-shadow-run-metrics" class="metrics"><div class="skeleton-block">正在验证首次月结试跑登记…</div></div><div id="pilot-shadow-run-entities" class="pilot-readiness-entities"></div></section><section class="pilot-handoff-projection"><header><div><p class="eyebrow">首次观察结果 · 第四角色只读投影</p><h4>下一并行观察期间放行门</h4><p>只显示逐主体报告、组合签认与登记运行记录是否形成当前闭环；不返回报告金额、运行编号、内容指纹、执行人、理由或证据。</p></div><span id="pilot-shadow-observation-status" class="status pending">读取中</span></header><div id="pilot-shadow-observation-metrics" class="metrics"><div class="skeleton-block">正在验证首次观察复核…</div></div><div id="pilot-shadow-observation-entities" class="pilot-readiness-entities"></div></section><section class="pilot-handoff-projection"><header><div><p class="eyebrow">后续月份 · Runbook 只读恢复</p><h4>月度工作区与报告进度</h4><p>逐月重验工作区、前序归档和 Runbook 链，只显示报告步骤与恢复位置；报告完成永远不等于权威证据通过。</p></div><span id="pilot-shadow-periods-status" class="status pending">读取中</span></header><div id="pilot-shadow-periods-metrics" class="metrics"><div class="skeleton-block">正在读取月度恢复位置…</div></div><div id="pilot-shadow-current-task" class="pilot-shadow-current-task"><div class="skeleton-block">正在整理本月安全任务队列…</div></div><div id="pilot-shadow-periods-list" class="pilot-readiness-entities"></div></section><section class="pilot-handoff-projection"><header><div><p class="eyebrow">连续观察期间 · 独立连续性复核</p><h4>稳定版晋级证据准备门</h4><p>重新验证至少两个连续月份的登记、运行台账、逐主体报告及观察复核；只显示期间和计数，不返回路径、内容指纹、执行人、运行编号或金额。</p></div><span id="pilot-shadow-series-status" class="status pending">读取中</span></header><div id="pilot-shadow-series-metrics" class="metrics"><div class="skeleton-block">正在验证连续观察期间…</div></div></section><footer>即使状态为“可准备晋级证据”，也不代表稳定版晋级、会计政策、法定关账、过账、付款或申报获批。</footer></article>
+      <article class="panel pilot-business-control-panel"><header><div><p class="eyebrow">能力包驱动 · 财务负责人方法覆盖层 · 可修改</p><h3>本业务的月度财务控制重点</h3><p>按当前行业、渠道和数据连接器组合生成控制目标、来源边界与创始人复盘问题；它不读取财务值，也不会把数据源当成完整账簿。</p></div><span id="pilot-business-control-status" class="status pending">读取中</span></header><div id="pilot-business-control-overlay" class="pilot-business-control-overlay"><div class="skeleton-block">正在组合本业务的月度控制重点…</div></div><footer>这里只提供方法类型，不返回记录、金额、凭证或路径；真实完成状态仍由月结验证器和独立复核决定。</footer></article>
+      <article class="panel pilot-cfo-metric-panel"><header><div><p class="eyebrow">能力包驱动 · 财务负责人指标字典 · 可修改</p><h3>本业务如何定义关键财务指标</h3><p>按当前业务模型生成指标公式、必需数据域和聚合边界；缺输入时显示不可用，不把缺数填零，也不跨主体或币种直接相加。</p></div><span id="pilot-cfo-metric-status" class="status pending">读取中</span></header><div id="pilot-cfo-metric-catalog" class="pilot-cfo-metric-catalog"><div class="skeleton-block">正在组合本业务的指标定义…</div></div><footer>这里只展示定义，不计算或返回实际指标值；指标结果也不能代替总账勾稽、会计政策、税务判断或权威月结验证。</footer></article>
+      <div id="connector-readiness-boundary" class="decision-banner warning"><div><strong>凭证存在不等于已核对</strong><span>完成服务方接口契约、主体映射、有界并行验证、财务勾稽和独立放行后，才能考虑调度。</span></div></div>
+      <div id="connector-readiness-metrics" class="metrics"><div class="skeleton-block">正在读取数据连接器就绪状态…</div></div>
+      <article class="panel pilot-readiness-panel"><header><div><p class="eyebrow">按服务方能力包归组 · 明确下一步 · 命令不自动执行</p><h3>数据源上线前诊断</h3><p>把同一服务方的多个数据集适配器合并成一个创始人待办，先解决凭证引用与主体绑定，再用 CLI 显式完成最小只读权限探测，最后初始化私有并行请求。</p></div><span id="connector-provider-status" class="status pending">读取中</span></header><div id="connector-provider-metrics" class="metrics"><div class="skeleton-block">正在整理服务方级阻塞与下一步…</div></div><div id="connector-provider-list" class="activation-wave"></div><footer>本页诊断不会验证外部账号、读取凭证值、访问数据源、生成私有请求、完成财务勾稽或放行调度；联网权限探测只能由有权人在 CLI 显式发起。</footer></article>
+      <article class="panel connector-sync-panel"><header><div><p class="eyebrow">跨运行控制 · 只读状态</p><h3>同步检查点与失败隔离</h3><p>这里只展示已提交水位、待提交候选和隔离区；执行、提交与解决仍仅限命令行操作。</p></div><span class="connector-access network">不含原始请求/响应</span></header><div id="connector-sync-metrics" class="metrics"><div class="skeleton-block">正在读取同步控制状态…</div></div><div id="connector-sync-list" class="connector-sync-list"></div></article>
+      <div id="connector-readiness-list" class="connector-readiness-list"></div>
+      <details class="panel connector-unreferenced"><summary><strong>当前财务任务流未引用的已安装数据连接器</strong><span id="connector-unreferenced-count">0</span></summary><div id="connector-unreferenced-list"></div></details>
+    </section>
+
+    <section class="view" id="view-documents">
+      <div class="agent-heading">
+        <div><p class="eyebrow">统一入口</p><h2>把财务资料直接交给智能助手</h2><p>支持对账单、银行流水、发票、采购验收、工资、预算、PDF 和图片。智能助手先识别预览，确认后才写入台账。</p></div>
+        <div class="document-upload-actions"><select id="document-upload-entity" aria-label="上传资料所属主体"><option value="">上传时选择主体（可稍后确认）</option></select><button class="button primary" id="document-upload-button">添加资料</button></div>
+      </div>
+      <div class="document-drop" id="agent-drop-zone"><strong>拖入文件或文件夹中的多份资料</strong><span>结构不同没有关系；系统会逐份分类并保留原始证据。多主体资料必须先确认归属，不能按币种或渠道猜测。</span></div>
+      <div class="section-head"><div><p class="eyebrow">处理状态</p><h2>资料收件箱</h2></div><button class="text-button" id="document-refresh">刷新</button></div>
+      <div id="document-list" class="document-list"><div class="skeleton-block">正在读取资料…</div></div>
+    </section>
+
+    <section class="view" id="view-overview">
+      <div class="toolbar">
+        <div class="segmented" id="currency-tabs"></div>
+        <div class="source-status"><span class="dot"></span><span id="source-status">载入示例中…</span></div>
+      </div>
+      <div class="metrics" id="metric-cards"></div>
+      <div class="grid two">
+        <article class="panel chart-panel">
+          <div class="panel-head"><div><p class="eyebrow">按月趋势</p><h2>结算金额与实收</h2></div><div class="legend"><span class="legend-settlement">结算金额</span><span class="legend-net">实收</span></div></div>
+          <div class="chart" id="trend-chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">结算漏斗</p><h2>从流水到实收</h2></div></div>
+          <div id="waterfall" class="waterfall"></div>
+        </article>
+      </div>
+      <article class="panel">
+        <div class="panel-head"><div><p class="eyebrow">本期结算</p><h2>项目与渠道</h2></div><button class="text-button" data-go="records">查看全部 →</button></div>
+        <div class="table-wrap"><table><thead><tr><th>账期</th><th>游戏 / 渠道</th><th>结算币种</th><th class="numeric">流水</th><th class="numeric">退款/坏账</th><th class="numeric">结算金额</th><th class="numeric">实收</th><th>状态</th></tr></thead><tbody id="overview-table"></tbody></table></div>
+      </article>
+    </section>
+
+    <section class="view" id="view-revenue-close">
+      <div class="ops-toolbar revenue-close-toolbar"><div><p class="eyebrow">账单 → 合同口径 → 应收</p><h2>收入结算核对</h2><p>系统自动匹配当前主体的渠道规则并重算结算金额；你只处理有结论的确认项。批准后才形成应收，会计收入政策另行复核。</p></div><div><button class="button ghost" id="revenue-close-refresh">刷新</button><button class="button primary" id="revenue-close-upload">导入渠道账单</button></div></div>
+      <div class="revenue-close-steps" aria-label="收入结算闭环"><div class="done"><span>1</span><strong>识别账单</strong><small>保留原始行与字段映射</small></div><i></i><div><span>2</span><strong>合同口径</strong><small>主体、游戏、渠道、币种、公式</small></div><i></i><div><span>3</span><strong>业务复核</strong><small>只确认或退回，不改原金额</small></div><i></i><div><span>4</span><strong>形成应收</strong><small>进入回款、核销与会计政策</small></div></div>
+      <div class="decision-banner warning"><div><strong>没有渠道规则，不会凭经验猜分成</strong><span>先在“资料 → 首次上线”的渠道规则中补结算公式、证据引用和生效月份；法务条款仍不进入系统。</span></div><button class="text-button" data-go="onboarding">维护渠道规则</button></div>
+      <div id="revenue-close-metrics" class="metrics"><div class="skeleton-block">正在读取收入候选…</div></div>
+      <div id="revenue-close-list" class="revenue-close-list"><div class="skeleton-block">正在核对渠道规则与结算公式…</div></div>
+    </section>
+
+    <section class="view" id="view-bp">
+      <div class="ops-toolbar"><div><p class="eyebrow">经营概览</p><h2>先看结论，再按需要下钻</h2></div><div><select id="bp-period"></select><select id="bp-scenario"><option>基准</option><option>保守</option><option>乐观</option></select><button class="button primary" data-go="qa">针对结果提问</button></div></div>
+      <div id="bp-demo-note"></div>
+      <div id="bp-metrics" class="metrics"></div>
+      <div class="analysis-grid">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">经营变化</p><h2>主要变化与原因</h2></div><button class="text-button" data-go="overview">查看收入 →</button></div><div id="analysis-drivers" class="analysis-list"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">资金状况</p><h2>现金安全</h2></div><button class="text-button" data-go="planning">查看预测 →</button></div><div id="analysis-cash" class="analysis-cash"></div></article>
+        <article class="panel analysis-actions"><div class="panel-head"><div><p class="eyebrow">待办建议</p><h2>现在建议做什么</h2></div><button class="text-button" data-go="qa">继续追问 →</button></div><div id="bp-messages" class="audit-list"></div></article>
+      </div>
+      <article class="panel marketing-finance-panel"><div class="panel-head"><div><p class="eyebrow">投放经营 · 财务视角</p><h2>资源经济性与追加 / 回撤门控</h2></div><span class="status pending">不代替投手</span></div><div id="marketing-boundary" class="marketing-boundary"></div><div id="marketing-metrics" class="metrics marketing-metrics"></div><div class="table-wrap"><table><thead><tr><th>项目</th><th class="numeric">媒体消耗</th><th class="numeric">财务投放费</th><th class="numeric">差额</th><th class="numeric">付费获客成本</th><th class="numeric">流水 / 消耗</th><th>增量与用户终身价值证据</th><th>资源门控</th></tr></thead><tbody id="marketing-finance-table"></tbody></table></div></article>
+      <article class="panel game-collection-panel"><div class="panel-head"><div><p class="eyebrow">同一游戏 · 多主体</p><h2>国服与海外回款与催收</h2></div><span class="status pending">管理视图只读</span></div><div id="game-collection-summary" class="game-collection-summary"></div><div class="table-wrap"><table><thead><tr><th>游戏 / 本地版本</th><th>主体 / 币种</th><th class="numeric">已形成应收</th><th class="numeric">未回款</th><th>承诺回款情景</th><th>催收优先级</th><th>下一步</th></tr></thead><tbody id="game-collection-table"></tbody></table></div></article>
+      <article class="panel project-labor-panel"><div class="panel-head"><div><p class="eyebrow">人员成本池 → 工时 / 比例证据 → 项目利润候选</p><h2>项目人力成本桥</h2></div><span class="status pending">隐私汇总</span></div><div id="project-labor-guardrail" class="project-cost-guardrail"></div><div class="table-wrap"><table><thead><tr><th>项目</th><th>主体 / 币种</th><th class="numeric">工资分配</th><th class="numeric">雇主成本</th><th class="numeric">项目成本候选</th><th class="numeric">员工扣款</th><th class="numeric">代扣代缴</th><th>工时 / 比例证据</th><th class="numeric">研发工时候选</th><th>判断边界</th></tr></thead><tbody id="project-labor-table"></tbody></table></div></article>
+      <article class="panel prepaid-cost-panel"><div class="panel-head"><div><p class="eyebrow">合同权利 / 服务期 → 验收 → 发票 → 已批准政策 → 期间释放</p><h2>授权与云资源成本候选桥</h2></div><span class="status pending">只读候选</span></div><div id="prepaid-cost-guardrail" class="project-cost-guardrail"></div><div class="table-wrap"><table><thead><tr><th>事项 / 项目</th><th>主体 / 币种</th><th>合同服务期</th><th>候选分类 / 政策</th><th class="numeric">成本基础</th><th class="numeric">验收 / 发票</th><th class="numeric">已付款</th><th class="numeric">本期释放候选</th><th class="numeric">未释放候选</th><th>状态与边界</th></tr></thead><tbody id="prepaid-cost-table"></tbody></table></div><div class="prepaid-release-head"><strong>期间释放表</strong><span>没有当期权利或服务证据的月份保持为零，不顺延到其他月份。</span></div><div class="table-wrap"><table><thead><tr><th>项目</th><th>主体 / 币种</th><th>期间</th><th class="numeric">计划释放</th><th class="numeric">证据支持候选</th><th class="numeric">候选余额</th><th>证据状态</th></tr></thead><tbody id="prepaid-release-table"></tbody></table></div></article>
+      <article class="panel project-cost-panel"><div class="panel-head"><div><p class="eyebrow">采购申请 → 订单 → 交付 → 验收 → 发票 → 付款</p><h2>项目采购成本桥</h2></div><span class="status pending">主体 / 币种分列</span></div><div id="project-cost-guardrail" class="project-cost-guardrail"></div><div class="table-wrap"><table><thead><tr><th>项目</th><th>主体 / 币种</th><th class="numeric">预算</th><th class="numeric">批准占用</th><th class="numeric">订单承诺</th><th class="numeric">待验收交付</th><th class="numeric">已验收实际</th><th class="numeric">待开票</th><th class="numeric">待付款</th><th class="numeric">预算剩余</th><th>证据状态</th></tr></thead><tbody id="project-cost-table"></tbody></table></div></article>
+      <article class="panel project-result-panel"><div class="panel-head"><div><p class="eyebrow">项目表现</p><h2>项目结果快照</h2></div><span class="status pending">管理口径</span></div><div class="table-wrap"><table><thead><tr><th>游戏 / 阶段</th><th class="numeric">收入</th><th class="numeric">人力成本候选</th><th class="numeric">已验收采购</th><th class="numeric">授权/云释放候选</th><th class="numeric">直接成本</th><th class="numeric">直接贡献</th><th class="numeric">未履约承诺</th><th class="numeric">承诺后贡献</th><th>数据情况</th></tr></thead><tbody id="bp-project-table"></tbody></table></div></article>
+    </section>
+
+    <section class="view" id="view-qa">
+      <div class="qa-shell">
+        <div class="qa-intro"><p class="eyebrow">财务问答</p><h2>基于公司的真实业务数据回答</h2><p>回答会引用当前账期的结算、工资、采购、预算、现金、月结和经营指标，给出倾向、证据、置信度、选择利弊和下一步。</p></div>
+        <div id="qa-suggestions" class="qa-suggestions"></div>
+        <div id="qa-history" class="qa-history"><div class="qa-empty">可以先问：“这个月哪个游戏最赚钱？”</div></div>
+        <div class="qa-compose"><textarea id="qa-question" rows="2" placeholder="例如：现金还能撑多久？要不要给表现最好的项目加投放？"></textarea><button class="button primary" id="qa-submit">开始分析</button></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-onboarding">
+      <div class="ops-toolbar"><div><p class="eyebrow">数据准备</p><h2>先把公司翻译成统一财务语言</h2></div><div class="onboarding-toolbar-controls"><label>法律主体<select id="onboarding-entity"></select></label><label>首月期间<input id="onboarding-period" type="month" /></label><input id="onboarding-input" type="file" accept=".xlsx" hidden /><input id="kpi-input" type="file" accept=".xlsx" hidden /><button class="button ghost" id="kpi-upload">单独导入经营指标</button><button class="button ghost" id="onboarding-template">下载前置导入模板</button><button class="button primary" id="onboarding-upload">上传填写后的上线包</button></div></div>
+      <div class="decision-banner warning"><div><strong>正确顺序：主体 → 项目 → 渠道 → 组织 → 期初 → 历史实际 → 预算/经营指标</strong><span>相同唯一编码会更新，不同编码会追加；所有导入保留审计记录。合同法务条款不进系统，只维护分成、币种、账期、区域等业务事实。</span></div></div>
+      <div id="onboarding-metrics" class="metrics"></div>
+      <article class="panel first-close-panel"><div class="panel-head"><div><p class="eyebrow">首月上线门</p><h2>候选资料不算完成；按主体和期间验证覆盖</h2></div><span id="first-close-status" class="status pending">读取中</span></div><div id="first-close-summary" class="first-close-summary"></div><div id="first-close-grid" class="first-close-grid"></div></article>
+      <div class="grid two"><article class="panel"><div class="panel-head"><div><p class="eyebrow">上线检查</p><h2>上线就绪检查</h2></div></div><div id="onboarding-steps" class="onboarding-steps"></div></article><article class="panel"><div class="panel-head"><div><p class="eyebrow">数据质量</p><h2>主数据与经营指标体检</h2></div></div><div id="onboarding-quality" class="audit-list"></div></article></div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">导入顺序</p><h2>前置导入如何落到系统</h2></div></div><div class="table-wrap"><table><thead><tr><th>顺序</th><th>工作表/资料</th><th>进入模块</th><th>更新方式</th></tr></thead><tbody id="onboarding-order"></tbody></table></div></article>
+    </section>
+
+    <section class="view" id="view-close">
+      <div class="ops-toolbar"><div><label>关账期间<select id="ops-period"></select></label></div><div class="close-actions"><div class="source-status"><span class="dot"></span><span id="close-progress-text">正在生成月结计划…</span></div><button class="button primary" id="close-period-button">执行关账检查</button></div></div>
+      <div class="metrics" id="close-metrics"></div>
+      <div id="close-result" class="close-result"></div>
+      <div class="module-map" id="module-map"></div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">月结检查</p><h2>月结任务与阻塞事项</h2></div><span class="status pending">关账后第7日目标</span></div><div id="close-task-list" class="close-task-list"></div></article>
+    </section>
+
+    <section class="view" id="view-shadow-close">
+      <div class="ops-toolbar shadow-close-toolbar"><div><p class="eyebrow">并行关账验证</p><h2>用人工关账包验证智能助手</h2><p>先对比、再解释、最后由独立复核人签认。不回写正式账、税表或银行记录。</p></div><div class="shadow-close-actions"><label>法律主体<select id="shadow-close-entity"></select></label><label>期间<input id="shadow-close-period" type="month" /></label><input id="shadow-close-input" type="file" accept=".xlsx" hidden /><button class="button ghost" id="shadow-close-template">下载基准模板</button><button class="button primary" id="shadow-close-upload">导入人工基准</button></div></div>
+      <div class="decision-banner warning"><div><strong>数据差异不会被“自动修正”</strong><span>系统保留人工数、智能助手结果、容差、差异原因和签认指纹；任一结果变化后，旧签认自动失效。</span></div></div>
+      <div id="shadow-close-metrics" class="metrics"></div>
+      <div id="shadow-close-empty" class="panel shadow-close-empty"></div>
+      <div id="shadow-close-results" hidden>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">对比摘要</p><h2>总账、报表与税务</h2></div><span id="shadow-close-status" class="status pending">待对比</span></div><div id="shadow-close-domains" class="shadow-domain-grid"></div><div class="table-wrap"><table><thead><tr><th>域 / 编码</th><th>科目或指标</th><th class="numeric">人工基准</th><th class="numeric">智能助手结果</th><th class="numeric">差异</th><th>判断</th><th>原因</th><th>逐项差异处置</th></tr></thead><tbody id="shadow-close-table"></tbody></table></div></article>
+        <article class="panel shadow-review-panel"><div class="panel-head"><div><p class="eyebrow">独立签认</p><h2>只对当前数据指纹有效</h2></div><span id="shadow-review-status" class="status pending">待复核</span></div><div id="shadow-review-current" class="shadow-review-current"></div><div class="shadow-review-form"><label>复核结论<select id="shadow-review-decision"><option>验证通过</option><option>接受差异</option><option>退回补数</option></select></label><label>复核人<input id="shadow-review-actor" value="独立复核人" data-i18n-value /></label><label class="wide">判断依据<textarea id="shadow-review-rationale" rows="3" placeholder="说明核对了哪些底稿、口径和截止时点"></textarea></label><label class="wide">证据引用（接受差异时必填，分号分隔）<input id="shadow-review-evidence" placeholder="例如：人工关账包；银行余额调节表；税务工作底稿" /></label><div class="wide shadow-review-actions"><button class="button primary" id="shadow-review-submit">提交签认</button></div></div></article>
+      </div>
+    </section>
+
+    <section class="view" id="view-vouchers">
+      <div class="decision-banner"><div><strong>系统会先给出判断建议</strong><span>每张凭证说明推荐口径、影响、缺失证据和谁来复核；只有确认后的草稿才能进入总账。</span></div></div>
+      <div id="voucher-list" class="voucher-list"></div>
+    </section>
+
+    <section class="view" id="view-review">
+      <div class="ops-toolbar"><div><p class="eyebrow">复核与留痕</p><h2>凭证决策与操作留痕</h2></div><div><button class="button ghost" id="audit-refresh">刷新日志</button><button class="button primary" id="accountant-pack">下载外部会计复核包</button></div></div>
+      <div class="decision-banner"><div><strong>接受、退回和关账都不会覆盖历史</strong><span>每次导入、复核与关账尝试都保留时间、执行人、对象和原因；阻塞凭证无法被直接接受。</span></div></div>
+      <div id="review-metrics" class="metrics"></div>
+      <div class="grid two"><article class="panel"><div class="panel-head"><div><p class="eyebrow">凭证复核</p><h2>本期复核结果</h2></div></div><div id="review-list" class="audit-list"></div></article><article class="panel"><div class="panel-head"><div><p class="eyebrow">操作记录</p><h2>最近操作日志</h2></div></div><div id="audit-list" class="audit-list"></div></article></div>
+    </section>
+
+    <section class="view" id="view-ledger">
+      <div class="ops-toolbar"><div><input id="opening-input" type="file" accept=".xlsx" hidden /><button class="button primary" id="opening-upload">导入上期期末/本期期初余额</button></div></div><div class="decision-banner"><div><strong>这是草稿试算，不是已经申报的法定报表</strong><span>只汇总借贷平衡且未阻塞的凭证；资产负债表必须先导入上期经确认的期末余额。</span></div></div>
+      <article id="ledger-adapter-card" class="panel"></article>
+      <div id="ledger-metrics" class="metrics"></div>
+      <div class="grid two"><article class="panel"><div class="panel-head"><div><p class="eyebrow">试算平衡</p><h2>科目试算</h2></div><span id="trial-status" class="status pending">草稿</span></div><div class="table-wrap"><table><thead><tr><th>科目</th><th class="numeric">借方</th><th class="numeric">贷方</th><th class="numeric">净额</th></tr></thead><tbody id="trial-table"></tbody></table></div></article><article class="panel"><div class="panel-head"><div><p class="eyebrow">报表草稿</p><h2>本期经营摘要</h2></div></div><div id="period-report" class="waterfall"></div></article></div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">银行对账</p><h2>银行对账状态</h2></div></div><div id="bank-reconciliation" class="authority-list"></div></article>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">财务报表</p><h2>资产负债与利润草稿</h2></div><span id="statement-status" class="status pending">待期初数</span></div><div id="financial-statements" class="metrics"></div></article>
+    </section>
+
+    <section class="view" id="view-tax">
+      <div class="ops-toolbar"><div><p class="eyebrow">税务申报</p><h2>申报表、勾稽与回执闭环</h2></div><div><button class="button ghost" id="tax-workbook-download">下载工作底稿</button><button class="button primary" id="tax-filing-package-download">下载申报辅助包</button></div></div>
+      <div class="decision-banner warning"><div><strong>“生成申报表”不等于“可以直接上传”</strong><span>系统区分候选填报值、复核完成值和属地上传文件；2026年增值税口径已接入，印花税等属地模板需从主管电子税务局取得后逐一适配。</span></div></div>
+      <div id="tax-summary" class="metrics"></div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">表单发布契约</p><h2>当前期间使用什么表、能否释放</h2></div><span id="tax-release-summary" class="status pending">读取中</span></div><div id="tax-filing-contracts" class="authority-list"></div></article>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">申报流程</p><h2>从台账到申报回执</h2></div></div><div id="tax-workflow" class="tax-workflow"></div></article>
+      <div id="tax-return-list" class="tax-return-list"></div>
+      <details class="tax-details"><summary>税务判断事项与资料缺口</summary><div id="tax-list" class="tax-list"></div></details>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">跨境复核</p><h2>海外渠道税务口径与证据</h2></div></div><div id="cross-border-reviews" class="audit-list"></div></article>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">政策依据</p><h2>本期使用的公开依据</h2></div></div><div id="authority-list" class="authority-list"></div></article>
+    </section>
+
+    <section class="view" id="view-planning">
+      <div class="ops-toolbar"><div><p class="eyebrow">滚动预测</p><h2>预算差异、未来12个月现金与跑道</h2></div><div><select id="planning-scenario"><option>基准</option><option>保守</option><option>乐观</option></select><input id="planning-input" type="file" accept=".xlsx" multiple hidden /><button class="button primary" id="planning-upload">导入预算/预测</button></div></div>
+      <div class="decision-banner"><div><strong>业务口径输入，财务口径输出</strong><span>只需填月份、游戏/项目、收入或支出、类别、金额、情景和是否已承诺。外币未配预测汇率前不与人民币直接相加。</span></div></div>
+      <div id="planning-metrics" class="metrics"></div>
+      <div class="grid two"><article class="panel"><div class="panel-head"><div><p class="eyebrow">现金预测</p><h2>滚动现金预测</h2></div></div><div id="cash-forecast" class="cash-forecast"></div></article><article class="panel"><div class="panel-head"><div><p class="eyebrow">预警建议</p><h2>预警与选择利弊</h2></div></div><div id="planning-recommendations" class="audit-list"></div></article></div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">预算执行</p><h2>按月、收支类别的差异</h2></div></div><div class="table-wrap"><table><thead><tr><th>月份</th><th>类别</th><th>方向</th><th class="numeric">预算</th><th class="numeric">实际</th><th class="numeric">差异</th><th>判断</th></tr></thead><tbody id="variance-table"></tbody></table></div></article>
+    </section>
+
+    <section class="view" id="view-procurement">
+      <div class="ops-toolbar"><div><p class="eyebrow">采购付款</p><h2>采购申请—寻源—订单—验收—发票—付款</h2></div><div><input id="procurement-input" type="file" accept=".xlsx" multiple hidden /><button class="button ghost" id="vendor-bank-change-new">供应商收款账户</button><button class="button ghost" id="procurement-request-new">新建采购申请</button><button class="button primary" id="procurement-upload">导入采购台账</button></div></div>
+      <div class="decision-banner"><div><strong>小团队只保留真正有用的控制</strong><span>系统逐行核对数量×单价、采购订单、验收、发票和付款；已交付未开票会进入月结暂估建议，不复制大公司的审批层级。</span></div></div>
+      <div id="procurement-metrics" class="metrics"></div>
+      <div class="grid two procurement-workflow-grid">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">下一步</p><h2>已批准申请与订单</h2></div><span id="procurement-order-ready" class="status pending">读取中</span></div><div id="procurement-order-actions" class="flow-list"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">履约</p><h2>里程碑交付与验收</h2></div><span id="procurement-delivery-ready" class="status pending">读取中</span></div><div id="procurement-delivery-actions" class="flow-list"></div></article>
+      </div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">三单匹配</p><h2>采购与应付明细</h2></div><span id="procurement-status" class="status pending">等待导入</span></div><div class="table-wrap large"><table><thead><tr><th>采购订单 / 日期</th><th>项目 / 类目</th><th>供应商 / 条目</th><th class="numeric">数量</th><th class="numeric">单价</th><th class="numeric">订单</th><th>验收</th><th>发票</th><th>付款</th><th>异常与建议</th></tr></thead><tbody id="procurement-table"><tr><td colspan="10">请导入采购或订单台账。本阶段不会读取合同正文或处理法务条款。</td></tr></tbody></table></div></article>
+    </section>
+
+    <section class="view" id="view-banking">
+      <div class="ops-toolbar"><div><p class="eyebrow">资金核对</p><h2>银行流水认领与收付款核对</h2></div><div><input id="bank-input" type="file" accept=".xlsx" multiple hidden /><button class="button primary" id="bank-upload">导入银行流水</button></div></div>
+      <div class="decision-banner"><div><strong>银行账号只做脱敏展示</strong><span>优先用金额、币种、交易对手和摘要匹配应收应付；高置信匹配仍保留规则和证据，无法识别的款项不会随意入账。</span></div></div>
+      <div id="bank-metrics" class="metrics"></div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">流水匹配</p><h2>银行流水与匹配建议</h2></div><span id="bank-status" class="status pending">等待导入</span></div><div class="table-wrap large"><table><thead><tr><th>日期 / 流水号</th><th>方向</th><th>交易对手</th><th>摘要</th><th>币种</th><th class="numeric">金额</th><th>匹配建议</th><th>状态</th></tr></thead><tbody id="bank-table"><tr><td colspan="8">请导入银行导出的 `.xlsx` 流水。系统不保存原文件，账号在页面中脱敏。</td></tr></tbody></table></div></article>
+    </section>
+
+    <section class="view" id="view-flows">
+      <div class="ops-toolbar"><div><p class="eyebrow">收付款与费用</p><h2>从应收应付到审批和银行核销</h2></div><div><select id="flow-entity" aria-label="法律主体"></select><button class="button ghost" id="flow-refresh">刷新状态</button><button class="button ghost" id="asset-new">登记资产/待摊</button><button class="button ghost" id="accrual-new">新增费用暂估</button><button class="button primary" id="expense-new">提交费用报销</button></div></div>
+      <div class="decision-banner"><div><strong>智能助手准备事实，人决定资金动作</strong><span>付款申请必须绑定具体应付、报销或工资批次；跨主体、跨币种、超验收、缺发票或缺授权的动作会被阻断。系统不直接操作银行。</span></div></div>
+      <div id="flow-metrics" class="metrics"></div>
+      <div id="flow-alerts" class="flow-alerts"></div>
+      <div class="grid two">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">应收</p><h2>渠道回款</h2></div><span id="receivable-count" class="status pending"></span></div><div id="receivable-list" class="flow-list"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">应付</p><h2>供应商与工资付款</h2></div><span id="payable-count" class="status pending"></span></div><div id="payable-list" class="flow-list"></div></article>
+      </div>
+      <div class="grid two">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">资金动作</p><h2>付款申请</h2></div><button class="text-button" data-go="confirmations">去统一确认 →</button></div><div id="payment-request-list" class="flow-list"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">员工费用</p><h2>费用报销</h2></div><button class="text-button" data-go="confirmations">去统一确认 →</button></div><div id="expense-claim-list" class="flow-list"></div></article>
+      </div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">待认领流水</p><h2>确认收付款用途</h2></div><span class="status pending">核销不改原始流水</span></div><div id="allocation-list" class="flow-list"></div></article>
+    </section>
+
+    <section class="view" id="view-settings">
+      <div class="ops-toolbar"><div><p class="eyebrow">财务档案</p><h2>全系统的主体与规则入口</h2></div><button class="button primary" id="profile-save">保存财务档案</button></div>
+      <div class="decision-banner warning"><div><strong>先配置基础事实，才能形成可靠判断</strong><span>纳税人类型、申报周期和属地决定税务任务；会计准则和本位币决定凭证及报表。业务同学只需填写已知事实，不需要自己判断税法。</span></div></div>
+      <div class="profile-layout">
+        <article class="panel profile-form"><div class="panel-head"><div><p class="eyebrow">主体信息</p><h2>主体与核算</h2></div></div><div class="form-grid profile-fields">
+          <label>公司名称<input id="profile-company-name" /></label><label>统一社会信用代码<input id="profile-credit-code" /></label>
+          <label>注册及主管税务地区<input id="profile-city" placeholder="如：上海市徐汇区" /></label><label>记账本位币<input id="profile-currency" value="CNY" disabled /></label>
+          <label>执行会计准则<select id="profile-standard"><option>小企业会计准则</option><option>企业会计准则</option></select></label><label>目标关账日（第几日）<input id="profile-close-days" type="number" min="1" max="30" /></label>
+          <label>增值税纳税人类型<select id="profile-vat-type"><option>待配置</option><option>小规模纳税人</option><option>一般纳税人</option></select></label><label>增值税申报周期<select id="profile-vat-frequency"><option>待配置</option><option>月度</option><option>季度</option></select></label>
+          <label>企业所得税申报周期<select id="profile-cit-frequency"><option>季度</option><option>月度</option></select></label><label>所得税征收方式<select id="profile-cit-method"><option>查账征收</option><option>核定征收</option></select></label>
+          <label>上海增值税申报试点身份<select id="profile-sh-vat-pilot"><option>待确认</option><option>已纳入试点</option><option>未纳入试点</option><option>不适用</option></select></label><label>说明<input value="以主管税务机关通知为准" disabled /></label>
+          <label>外部会计/代账机构<input id="profile-provider" /></label><label>复核联系人<input id="profile-contact" /></label>
+          <label>高置信自动建议阈值<input id="profile-threshold" type="number" min="0.5" max="1" step="0.01" /></label><label>重大事项金额（CNY）<input id="profile-materiality" type="number" min="0" /></label>
+          <label>预测起点现金（CNY）<input id="profile-opening-cash" type="number" min="0" placeholder="有银行余额时可留空" /></label><label>最低现金缓冲（CNY）<input id="profile-minimum-cash" type="number" min="0" /></label>
+          <label>月末汇率来源<input id="profile-fx-source" placeholder="如：中国人民银行/中间价" /></label><label>当前关账期 USD/CNY<input id="profile-usd-rate" type="number" min="0" step="0.000001" /></label>
+          <label>当前关账期 HKD/CNY<input id="profile-hkd-rate" type="number" min="0" step="0.000001" /></label><label>当前关账期汇率账期<input id="profile-fx-period" placeholder="YYYY-MM" /></label>
+          <label>当前期间资产确认<select id="profile-asset-attestation"><option value="">待确认</option><option>无新增及处置</option><option>已核对资产卡片</option></select></label><label>资产确认账期<input id="profile-asset-period" placeholder="YYYY-MM" /></label>
+        </div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">配置检查</p><h2>配置缺口与影响</h2></div></div><div id="profile-gaps" class="profile-gaps"></div></article>
+      </div>
+    </section>
+
+    <section class="view" id="view-invoices">
+      <div class="ops-toolbar"><div><p class="eyebrow">发票台账</p><h2>发票查验、去重与采购匹配</h2></div><div><input id="invoice-input" type="file" accept=".xlsx" multiple hidden /><button class="button primary" id="invoice-upload">导入发票台账</button></div></div>
+      <div class="decision-banner warning"><div><strong>打印件或截图不能代替原始电子凭证</strong><span>系统检查查验状态、价税勾稽、重复发票、红冲作废和采购匹配；原始电子件及元数据需安全归档。</span></div></div>
+      <div id="invoice-metrics" class="metrics"></div><article class="panel"><div class="table-wrap large"><table><thead><tr><th>发票号码 / 日期</th><th>销售方</th><th>项目</th><th class="numeric">不含税金额</th><th class="numeric">税额</th><th class="numeric">价税合计</th><th>采购匹配</th><th>查验/入账</th><th>异常</th></tr></thead><tbody id="invoice-table"><tr><td colspan="9">请导入从税务数字账户或发票台账导出的 `.xlsx`。</td></tr></tbody></table></div></article>
+    </section>
+
+    <section class="view" id="view-payroll">
+      <div class="ops-toolbar"><div><p class="eyebrow">人员薪酬</p><h2>工资、法定扣款、雇主成本与付款底稿</h2></div><div><input id="payroll-input" type="file" accept=".xlsx" hidden /><button class="button primary" id="payroll-upload">导入工资表</button></div></div>
+      <div class="decision-banner"><div><strong>人员身份默认匿名化</strong><span>系统使用累计预扣法试算个税；研发工资只能作为候选额，必须由项目和工时证据支持后才能进入加计扣除底稿。</span></div></div>
+      <div id="payroll-metrics" class="metrics"></div><article class="panel"><div class="table-wrap large"><table><thead><tr><th>匿名员工</th><th>部门 / 项目</th><th class="numeric">应发工资</th><th class="numeric">员工扣款</th><th class="numeric">代扣税</th><th class="numeric">实发工资</th><th class="numeric">雇主总成本</th><th>状态与异常</th></tr></thead><tbody id="payroll-table"><tr><td colspan="8">请导入工资台账；姓名和工号不会展示在前端。</td></tr></tbody></table></div></article>
+    </section>
+
+    <section class="view" id="view-records">
+      <div class="filterbar"><input id="record-search" type="search" placeholder="搜索游戏、渠道、文件或账期" /><select id="record-currency"></select><select id="record-status"><option value="">全部状态</option><option>已核对</option><option>待确认</option><option>异常</option></select><button class="button ghost" id="export-button">导出表格</button></div>
+      <article class="panel"><div class="table-wrap large"><table><thead><tr><th>账期</th><th>范围</th><th>游戏</th><th>平台 / 渠道</th><th>币种</th><th class="numeric">流水</th><th class="numeric">分成基数</th><th class="numeric">分成比例</th><th class="numeric">结算金额</th><th class="numeric">代扣税</th><th class="numeric">实收</th><th>状态</th><th>证据</th></tr></thead><tbody id="records-table"></tbody></table></div></article>
+    </section>
+
+    <section class="view" id="view-exceptions">
+      <div class="exception-summary"><div><span>异常事项</span><strong id="exception-count">0</strong></div><div><span>待确认事项</span><strong id="pending-count">0</strong></div><p>系统只会对勾稽清楚的记录标记“已核对”；缺口会留在这里，不会自动写入收入。</p></div>
+      <div id="exception-list" class="exception-list"></div>
+    </section>
+
+    <section class="view" id="view-sources">
+      <div class="drop-zone" id="drop-zone"><div class="upload-icon">↑</div><h2>把对账单拖到这里</h2><p>支持国内与海外 `.xlsx`；一次最多120MB。原文件不会被修改或保存在项目中。</p><button class="button primary" id="drop-button">选择文件</button></div>
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">数据血缘</p><h2>已解析文件</h2></div></div><div id="source-list" class="source-list"></div></article>
+    </section>
+
+    <section class="view" id="view-templates">
+      <div class="template-intro">
+        <div><p class="eyebrow">可复用规则</p><h2>已记住的对账单处理方式</h2><p>模板只保存工作表、表头映射、业务缺省值和结算公式，不保存原始对账数据。</p></div>
+        <button class="button primary" id="template-upload-button">配置新模板</button>
+      </div>
+      <div id="template-list" class="template-list"></div>
+    </section>
+
+    <div class="modal" id="mapping-modal" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-head"><div><p class="eyebrow">首次导入配置</p><h2>把这张表翻译成统一结算口径</h2></div><button class="modal-close" id="mapping-close">×</button></div>
+        <div class="steps"><span class="active">1 选择数据区</span><span>2 确认字段</span><span>3 业务规则</span></div>
+        <div class="mapping-grid">
+          <section class="config-panel">
+            <label>工作表<select id="mapping-sheet"></select></label>
+            <label>表头所在行<select id="mapping-header"></select></label>
+            <div class="field-map-head"><strong>标准字段</strong><span>原表列</span></div>
+            <div id="field-mapping" class="field-mapping"></div>
+          </section>
+          <section class="config-panel">
+            <h3>业务身份与结算规则</h3>
+            <div class="form-grid">
+              <label>模板名称<input id="template-name" placeholder="如：游戏A · Google Play月结" /></label>
+              <label>业务范围<select id="default-scope"><option>海外</option><option>国内</option></select></label>
+              <label>游戏<input id="default-game" placeholder="如：游戏A" /></label>
+              <label>平台<input id="default-platform" placeholder="如：Android" /></label>
+              <label>渠道<input id="default-channel" placeholder="如：Google Play" /></label>
+              <label>结算币种<input id="default-currency" placeholder="CNY / USD / HKD" /></label>
+              <label>缺省分成比例<input id="default-share-rate" type="number" step="0.01" placeholder="如 0.7 或 70" /></label>
+              <label>结算金额口径<select id="formula-mode"><option value="declared">使用表内结算金额</option><option value="share_base_x_rate">分成基数 × 分成比例</option><option value="channel_net_x_rate">渠道后净额 × 分成比例</option></select></label>
+            </div>
+            <div class="preview-box"><strong>表头预览</strong><div id="header-preview"></div></div>
+            <div class="mapping-note">系统会把原表列翻译成统一字段；无法确认的字段可以留空，但账期与至少一个金额字段必须存在。</div>
+          </section>
+        </div>
+        <div class="modal-actions"><label class="save-template"><input type="checkbox" id="save-template" checked /> 记住为以后自动匹配的模板</label><button class="button ghost" id="mapping-cancel">取消</button><button class="button primary" id="mapping-run">确认并生成结算底稿</button></div>
+      </div>
+    </div>
+
+    <div class="loading" id="loading"><div class="spinner"></div><strong>正在解析对账单</strong><span>识别工作表、金额口径和结算勾稽…</span></div>
+    <div class="toast" id="toast"></div>
+  </main>
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="modal" id="flow-modal" aria-hidden="true"><div class="modal-card flow-modal-card"><div class="modal-head"><div><p class="eyebrow" id="flow-modal-kicker">资金动作</p><h2 id="flow-modal-title">发起事项</h2></div><button id="flow-modal-close">关闭</button></div><div id="flow-modal-body" class="flow-form"></div><div class="modal-actions"><button class="button ghost" id="flow-modal-cancel">取消</button><button class="button primary" id="flow-modal-submit">提交</button></div></div></div>
+  <script src="./i18n.js?v=20260816-81"></script>
+  <script src="./app.js?v=20260816-81"></script>
+</body>
+</html>

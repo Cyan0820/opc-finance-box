@@ -1,0 +1,15 @@
+{
+  "id": "channel.domestic_game_platforms",
+  "kind": "channel",
+  "display_name": "中国游戏渠道",
+  "version": "0.1.0",
+  "status": "preview",
+  "capabilities": [
+    "channel.domestic_game_settlement_import",
+    "channel.domestic_game_share_reconciliation",
+    "channel.domestic_game_receivable"
+  ],
+  "requires": ["core.finance", "industry.game_studio"],
+  "conflicts": [],
+  "manual_review_gates": ["channel_contract_mapping"]
+}

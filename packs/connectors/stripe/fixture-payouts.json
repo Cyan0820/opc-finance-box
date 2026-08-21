@@ -1,0 +1,27 @@
+{
+  "mode": "fixture",
+  "default_entity_id": "cn_dtc_company",
+  "objects": [
+    {
+      "id": "po_demo_001",
+      "object": "payout",
+      "amount": 7180,
+      "arrival_date": 1786752000,
+      "automatic": true,
+      "balance_transaction": "txn_demo_payout_001",
+      "created": 1786579200,
+      "currency": "usd",
+      "description": "Demo automatic payout",
+      "failure_balance_transaction": null,
+      "failure_code": null,
+      "failure_message": null,
+      "livemode": false,
+      "method": "standard",
+      "reconciliation_status": "not_applicable",
+      "source_type": "card",
+      "statement_descriptor": null,
+      "status": "paid",
+      "type": "bank_account"
+    }
+  ]
+}

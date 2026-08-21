@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "pack_id": "connector.shopify",
+  "credential_env": ["OPC_SHOPIFY_ADMIN_TOKEN"],
+  "required_access_scopes": ["read_orders"],
+  "optional_historical_scope": "read_all_orders",
+  "access_probe": {
+    "operator_network_opt_in_required": true,
+    "query": "currentAppInstallation.accessScopes.handle",
+    "write_scopes_allowed": false,
+    "unrelated_read_scopes_allowed": false,
+    "provider_account_binding": "private_store_domain",
+    "private_receipt_required_for_live_shadow": true,
+    "receipt_maximum_age_days": 30,
+    "receipt_is_digital_signature": false
+  },
+  "network_mode": "read_only_admin_graphql",
+  "api_version": "2026-07",
+  "endpoint_pattern": "https://{single-store}.myshopify.com/admin/api/2026-07/graphql.json",
+  "pii_collection": "country_code_only_no_customer_identity",
+  "accounting_boundary": "order_payment_and_refund_evidence_not_revenue_or_margin",
+  "webhooks_used": false,
+  "monthly_close_capture": {
+    "created_population": "created_at within half-open UTC calendar month",
+    "updated_population": "updated_at from month start through source_observed_at",
+    "source_observed_at_deadline_hours_after_month_end": 72,
+    "refund_period_field": "processedAt",
+    "nested_refund_connections_must_be_complete": true,
+    "successful_refund_transaction_reconciliation_required": true,
+    "tax_inclusive_orders_auto_allocated": false,
+    "historical_snapshot_backfill_claimed": false
+  }
+}

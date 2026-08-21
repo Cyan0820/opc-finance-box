@@ -1,0 +1,26 @@
+{
+  "id": "industry.commerce",
+  "kind": "industry",
+  "display_name": "Commerce Edition",
+  "version": "0.4.0",
+  "status": "experimental",
+  "capabilities": [
+    "commerce.order_to_cash",
+    "commerce.refunds",
+    "commerce.return_inventory_reconciliation",
+    "commerce.import_landed_cost",
+    "commerce.inventory_cost",
+    "commerce.fulfillment_cost",
+    "commerce.product_margin"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "commerce_source_mapping",
+    "inventory_valuation_policy",
+    "refund_exception",
+    "return_disposition_review",
+    "import_landed_cost_policy",
+    "revenue_cutoff"
+  ]
+}

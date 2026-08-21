@@ -1,0 +1,11 @@
+{
+  "pipeline_id": "finance.trial_balance_review",
+  "payload": {
+    "entity_id": "cn_dtc_company",
+    "period": "2026-08",
+    "connector_id": "file.trial_balance",
+    "connector_request": {
+      "path": "examples/accounting/trial_balance.csv"
+    }
+  }
+}

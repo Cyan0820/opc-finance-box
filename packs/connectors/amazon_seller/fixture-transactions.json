@@ -1,0 +1,117 @@
+{
+  "mode": "fixture",
+  "default_entity_id": "us_amazon_marketplace_company",
+  "fixture_region": "NA",
+  "fixture_seller_id": "PRIVATE-AMAZON-SELLER-001",
+  "fixture_marketplace_ids": ["ATVPDKIKX0DER"],
+  "marketplace_id": "ATVPDKIKX0DER",
+  "interval_start": "2026-08-01T00:00:00Z",
+  "interval_end": "2026-09-01T00:00:00Z",
+  "transaction_pages": [
+    {
+      "payload": {
+        "nextToken": "PRIVATE-OPAQUE-NEXT-TOKEN",
+        "transactions": [
+          {
+            "sellingPartnerMetadata": {
+              "sellingPartnerId": "PRIVATE-AMAZON-SELLER-001",
+              "accountType": "PAYABLE",
+              "marketplaceId": "ATVPDKIKX0DER"
+            },
+            "relatedIdentifiers": [
+              {"relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "PRIVATE-ORDER-1001"},
+              {"relatedIdentifierName": "FINANCIAL_EVENT_GROUP_ID", "relatedIdentifierValue": "PRIVATE-EVENT-GROUP-01"}
+            ],
+            "transactionType": "Shipment",
+            "transactionId": "PRIVATE-AMAZON-TXN-SALE-001",
+            "transactionStatus": "Released",
+            "description": "Private named customer order payment",
+            "postedDate": "2026-08-05T09:00:00Z",
+            "totalAmount": {"currencyAmount": "90.00", "currencyCode": "USD"},
+            "marketplaceDetails": {"marketplaceId": "ATVPDKIKX0DER", "marketplaceName": "Amazon.com Private Store"},
+            "items": [
+              {
+                "description": "Private Product Alpha",
+                "totalAmount": {"currencyAmount": "90.00", "currencyCode": "USD"},
+                "relatedIdentifiers": [
+                  {"itemRelatedIdentifierName": "TRANSACTION_ID", "itemRelatedIdentifierValue": "PRIVATE-ITEM-TXN-01"}
+                ],
+                "contexts": [
+                  {"contextType": "ProductContext", "asin": "PRIVATE-ASIN-01", "sku": "PRIVATE-SKU-01", "quantityShipped": 2, "fulfillmentNetwork": "FBA"}
+                ],
+                "breakdowns": [
+                  {
+                    "breakdownType": "Sales",
+                    "breakdownAmount": {"currencyAmount": "100.00", "currencyCode": "USD"},
+                    "breakdowns": [
+                      {"breakdownType": "Principal", "breakdownAmount": {"currencyAmount": "100.00", "currencyCode": "USD"}, "breakdowns": []}
+                    ]
+                  },
+                  {
+                    "breakdownType": "Expenses",
+                    "breakdownAmount": {"currencyAmount": "-10.00", "currencyCode": "USD"},
+                    "breakdowns": [
+                      {"breakdownType": "Commission", "breakdownAmount": {"currencyAmount": "-10.00", "currencyCode": "USD"}, "breakdowns": []}
+                    ]
+                  }
+                ]
+              }
+            ],
+            "contexts": [{"contextType": "AmazonPayContext", "storeName": "Private Store", "orderType": "Private", "channel": "FBA"}],
+            "breakdowns": []
+          },
+          {
+            "sellingPartnerMetadata": {
+              "sellingPartnerId": "PRIVATE-AMAZON-SELLER-001",
+              "accountType": "PAYABLE",
+              "marketplaceId": "ATVPDKIKX0DER"
+            },
+            "relatedIdentifiers": [
+              {"relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "PRIVATE-ORDER-1001"},
+              {"relatedIdentifierName": "REFUND_ID", "relatedIdentifierValue": "PRIVATE-REFUND-1001"}
+            ],
+            "transactionType": "Refund",
+            "transactionId": "PRIVATE-AMAZON-TXN-REFUND-001",
+            "transactionStatus": "RELEASED",
+            "description": "Customer refund with private reason",
+            "postedDate": "2026-08-08T10:00:00Z",
+            "totalAmount": {"currencyAmount": "-20.00", "currencyCode": "USD"},
+            "marketplaceDetails": {"marketplaceId": "ATVPDKIKX0DER", "marketplaceName": "Amazon.com"},
+            "items": [],
+            "breakdowns": [
+              {"breakdownType": "Refunds", "breakdownAmount": {"currencyAmount": "-20.00", "currencyCode": "USD"}, "breakdowns": []}
+            ]
+          }
+        ]
+      },
+      "links": [{"href": "https://attacker.invalid/steal", "rel": "next"}]
+    },
+    {
+      "payload": {
+        "transactions": [
+          {
+            "sellingPartnerMetadata": {
+              "sellingPartnerId": "PRIVATE-AMAZON-SELLER-001",
+              "accountType": "PAYABLE",
+              "marketplaceId": "ATVPDKIKX0DER"
+            },
+            "relatedIdentifiers": [
+              {"relatedIdentifierName": "SETTLEMENT_ID", "relatedIdentifierValue": "PRIVATE-SETTLEMENT-01"}
+            ],
+            "transactionType": "Service Fee",
+            "transactionId": "PRIVATE-AMAZON-TXN-FEE-001",
+            "transactionStatus": "DEFERRED",
+            "description": "Private service plan description",
+            "postedDate": "2026-08-12T11:00:00Z",
+            "totalAmount": {"currencyAmount": "-15.00", "currencyCode": "USD"},
+            "marketplaceDetails": {"marketplaceId": "ATVPDKIKX0DER", "marketplaceName": "Amazon.com"},
+            "items": [],
+            "breakdowns": [
+              {"breakdownType": "Expenses", "breakdownAmount": {"currencyAmount": "-15.00", "currencyCode": "USD"}, "breakdowns": []}
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

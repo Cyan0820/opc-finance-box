@@ -1,0 +1,11 @@
+{
+  "service_id": "tax.sg.build_calendar",
+  "entity_id": "sg_publisher",
+  "payload": {
+    "period_year": 2026,
+    "as_of": "2026-08-13",
+    "anchors": {
+      "gst_period_end": ["2026-09-30"]
+    }
+  }
+}

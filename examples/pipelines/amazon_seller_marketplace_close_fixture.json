@@ -1,0 +1,113 @@
+{
+  "pipeline_id": "amazon_seller.marketplace_close",
+  "payload": {
+    "entity_id": "us_amazon_marketplace_company",
+    "amazon_seller_marketplace_request": {
+      "default_entity_id": "us_amazon_marketplace_company",
+      "mode": "fixture",
+      "marketplace_id": "ATVPDKIKX0DER",
+      "interval_start": "2026-08-01T00:00:00Z",
+      "interval_end": "2026-09-01T00:00:00Z",
+      "orders_time_basis": "created",
+      "fixture_seller_id": "PIPELINE-PRIVATE-SELLER",
+      "fixture_marketplace_ids": ["ATVPDKIKX0DER"],
+      "fixture_region": "NA",
+      "fixture_inventory_observed_at": "2026-09-01T00:05:00Z",
+      "order_pages": [
+        {
+          "orders": [
+            {
+              "orderId": "PIPELINE-PRIVATE-ORDER-01",
+              "createdTime": "2026-08-05T10:00:00Z",
+              "lastUpdatedTime": "2026-08-06T10:00:00Z",
+              "salesChannel": {
+                "channelName": "AMAZON",
+                "marketplaceId": "ATVPDKIKX0DER",
+                "marketplaceName": "Private Marketplace"
+              },
+              "buyer": {"buyerName": "Must Not Survive"},
+              "recipient": {"deliveryAddress": {"addressLine1": "Must Not Survive"}},
+              "proceeds": {"grandTotal": {"amount": "100.00", "currencyCode": "USD"}},
+              "fulfillment": {
+                "fulfillmentStatus": "SHIPPED",
+                "fulfilledBy": "AMAZON"
+              },
+              "orderItems": [
+                {
+                  "orderItemId": "PIPELINE-PRIVATE-ITEM-01",
+                  "quantityOrdered": 1,
+                  "product": {
+                    "asin": "PIPELINE-PRIVATE-ASIN-01",
+                    "sellerSku": "PIPELINE-PRIVATE-SKU-01",
+                    "title": "Must Not Survive"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "inventory_pages": [
+        {
+          "payload": {
+            "granularity": {
+              "granularityType": "Marketplace",
+              "granularityId": "ATVPDKIKX0DER"
+            },
+            "inventorySummaries": [
+              {
+                "asin": "PIPELINE-PRIVATE-ASIN-01",
+                "fnSku": "PIPELINE-PRIVATE-FNSKU-01",
+                "sellerSku": "PIPELINE-PRIVATE-SKU-01",
+                "condition": "NewItem",
+                "lastUpdatedTime": "2026-09-01T00:01:00Z",
+                "productName": "Must Not Survive",
+                "totalQuantity": 10,
+                "inventoryDetails": {
+                  "fulfillableQuantity": 7,
+                  "inboundWorkingQuantity": 1,
+                  "inboundShippedQuantity": 1,
+                  "inboundReceivingQuantity": 0,
+                  "reservedQuantity": {
+                    "totalReservedQuantity": 1,
+                    "pendingCustomerOrderQuantity": 1
+                  },
+                  "researchingQuantity": {"totalResearchingQuantity": 0},
+                  "unfulfillableQuantity": {"totalUnfulfillableQuantity": 0}
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "transaction_pages": [
+        {
+          "payload": {
+            "transactions": [
+              {
+                "transactionId": "PIPELINE-PRIVATE-TXN-01",
+                "transactionType": "Shipment",
+                "transactionStatus": "Released",
+                "postedDate": "2026-08-07T00:00:00Z",
+                "totalAmount": {"currencyCode": "USD", "currencyAmount": "90.00"},
+                "sellingPartnerMetadata": {
+                  "sellingPartnerId": "PIPELINE-PRIVATE-SELLER",
+                  "marketplaceId": "ATVPDKIKX0DER",
+                  "accountType": "Payable"
+                },
+                "relatedIdentifiers": [
+                  {
+                    "relatedIdentifierName": "ORDER_ID",
+                    "relatedIdentifierValue": "PIPELINE-PRIVATE-ORDER-01"
+                  }
+                ],
+                "breakdowns": [],
+                "items": []
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

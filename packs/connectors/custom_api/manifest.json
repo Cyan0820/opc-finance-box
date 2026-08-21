@@ -1,0 +1,14 @@
+{
+  "id": "connector.custom_api",
+  "kind": "connector",
+  "display_name": "可编辑 API Connector SDK",
+  "version": "0.1.0",
+  "status": "experimental",
+  "capabilities": [
+    "connector.custom_api_commerce_example",
+    "connector.batch_evidence_contract"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": ["connector_mapping_approval"]
+}

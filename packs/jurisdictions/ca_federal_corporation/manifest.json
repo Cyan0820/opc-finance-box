@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.ca_federal_corporation",
+  "kind": "jurisdiction",
+  "display_name": "加拿大联邦公司 T2 / GST-HST 税务设计包",
+  "version": "0.4.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "CA",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-04-09",
+    "authority_scope": "加拿大联邦注册居民公司的 Corporations Canada 主体证据、CRA BN/T2/GST-HST 登记证据、T2 候选期限及公司税余额、GST-HST、联邦 annual return 人工日历；排除 CCPC/小企业扣除判定、税率税额、分期付款、省区公司税与销售税、工资税、跨境税、申报表生成和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.ca_federal_corporation.registration_profile",
+    "tax.ca_federal_corporation.evidence_checklist",
+    "tax.ca_federal_corporation.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

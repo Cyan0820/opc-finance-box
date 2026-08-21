@@ -1,0 +1,33 @@
+{
+  "box_version": 1,
+  "name": "德国 GmbH Shopify + Stripe 独立站 OPC 样板",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "core": "core.finance",
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "data_mode": "demo",
+  "reporting_currency": "EUR",
+  "entities": [
+    {
+      "id": "de_store",
+      "name": "德国独立站 Gesellschaft mit beschränkter Haftung（演示）",
+      "jurisdiction": "DE",
+      "functional_currency": "EUR",
+      "accounting_basis": "German_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.de_limited_liability_company",
+      "tax_registrations": [
+        "de_limited_liability_company",
+        "gmbh_company",
+        "commercial_register",
+        "corporation_tax",
+        "koerperschaftsteuer",
+        "trade_tax",
+        "gewerbesteuer",
+        "vat_registration_review_required",
+        "payroll_registration_review_required"
+      ]
+    }
+  ]
+}

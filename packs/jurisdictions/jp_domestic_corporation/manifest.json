@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.jp_domestic_corporation",
+  "kind": "jurisdiction",
+  "display_name": "日本株式会社 / 合同会社法人税务设计包",
+  "version": "0.1.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "JP",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-16",
+    "authority_scope": "日本内国法人中的株式会社（Kabushiki Kaisha）或合同会社（Godo Kaisha）的商业登记、国税法人税、地方税、消费税/适格请求书、源泉所得税和人工日历证据；排除分支、外国法人、其他法人类型、税务居民判定、税率税额、青色申告资格、集团通算、消费税课税身份、简易课税、跨境与常设机构、转让定价、关税、工资社会保险、申报表生成和外部提交付款"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.jp_domestic_corporation.registration_profile",
+    "tax.jp_domestic_corporation.evidence_checklist",
+    "tax.jp_domestic_corporation.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

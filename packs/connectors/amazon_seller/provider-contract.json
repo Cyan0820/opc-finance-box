@@ -1,0 +1,89 @@
+{
+  "schema_version": 3,
+  "pack_id": "connector.amazon_seller",
+  "legacy_credential_env": [
+    "OPC_AMAZON_SELLER_CLIENT_ID",
+    "OPC_AMAZON_SELLER_CLIENT_SECRET",
+    "OPC_AMAZON_SELLER_REFRESH_TOKEN",
+    "OPC_AMAZON_SELLER_REGION",
+    "OPC_AMAZON_SELLER_ID",
+    "OPC_AMAZON_SELLER_MARKETPLACE_IDS_JSON"
+  ],
+  "entity_credential_binding_env": "OPC_AMAZON_SELLER_ENTITY_BINDINGS_JSON",
+  "entity_credential_binding_fields": [
+    "environment",
+    "region",
+    "seller_id",
+    "marketplace_ids",
+    "client_id_env",
+    "client_secret_env",
+    "refresh_token_env"
+  ],
+  "operations": {
+    "amazon_seller.transaction_activity": {
+      "required_roles": ["Finance and Accounting"],
+      "api_contracts": ["Finances API v2024-06-19 listTransactions"],
+      "endpoints": ["GET /finances/2024-06-19/transactions"],
+      "datasets": ["commerce.amazon_seller_transactions"]
+    },
+    "amazon_seller.marketplace_evidence": {
+      "required_roles": [
+        "Finance and Accounting",
+        "Finance and Accounting or Inventory and Order Tracking",
+        "Amazon Fulfillment or Product Listing"
+      ],
+      "api_contracts": [
+        "Orders API v2026-01-01 searchOrders",
+        "FBA Inventory API v1 getInventorySummaries",
+        "Finances API v2024-06-19 listTransactions"
+      ],
+      "endpoints": [
+        "GET /orders/2026-01-01/orders?includedData=FULFILLMENT",
+        "GET /fba/inventory/v1/summaries?details=true&granularityType=Marketplace",
+        "GET /finances/2024-06-19/transactions"
+      ],
+      "datasets": [
+        "commerce.amazon_seller_orders",
+        "commerce.amazon_seller_inventory",
+        "commerce.amazon_seller_transactions"
+      ],
+      "inventory_time_model": "current_fetch_time_observation_not_historical_period_end",
+      "orders_restricted_datasets_requested": false,
+      "one_lwa_exchange_for_three_sources": true
+    }
+  },
+  "access_probe": {
+    "request_schema": 1,
+    "receipt_schema": 2,
+    "token_endpoint": "POST https://api.amazon.com/auth/o2/token",
+    "endpoints": [
+      "GET /sellers/v1/marketplaceParticipations",
+      "GET /orders/2026-01-01/orders?maxResultsPerPage=1&includedData=FULFILLMENT",
+      "GET /fba/inventory/v1/summaries?details=false",
+      "GET /finances/2024-06-19/transactions"
+    ],
+    "all_bound_marketplaces_active_required": true,
+    "seller_id_provider_verified": false,
+    "source_records_retained": false,
+    "financial_values_requested": true,
+    "financial_values_retained": false
+  },
+  "network_mode": "in_memory_single_lwa_refresh_token_exchange_then_fixed_region_read_only_sp_api",
+  "token_endpoint": "POST https://api.amazon.com/auth/o2/token",
+  "production_hosts": {
+    "NA": "sellingpartnerapi-na.amazon.com",
+    "EU": "sellingpartnerapi-eu.amazon.com",
+    "FE": "sellingpartnerapi-fe.amazon.com"
+  },
+  "legacy_single_entity_fetch_compatible": true,
+  "multi_entity_fetch_requires_alias_binding": true,
+  "pagination": "opaque_tokens_are_replayed_only_to_the_same_fixed_endpoint_with_identical_filters",
+  "window_contract": "maximum_31_day_half_open_orders_and_finances_interval;_inventory_is_current_at_fetch",
+  "source_binding": "one_box_entity_to_exact_seller_region_and_allowlisted_marketplace_ids",
+  "data_minimization": "orders_only_fulfillment;_drop_buyer_recipient_address_store_product_title_raw_sku_asin_fnsku_and_source_ids",
+  "source_id_policy": "hash_transaction_order_item_sku_asin_fnsku_and_related_business_identifiers_with_the_seller_binding",
+  "accounting_boundary": "cross_source_difference_candidates_not_completeness_revenue_tax_bank_settlement_inventory_valuation_cogs_adjustment_or_posting",
+  "aws_sigv4_used": false,
+  "business_write_endpoints_used": false,
+  "notifications_used": false
+}

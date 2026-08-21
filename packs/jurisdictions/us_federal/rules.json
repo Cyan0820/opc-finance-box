@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "US",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖美国联邦境内 C corporation 的实体分类/EIN 证据、2025 Form 1120 候选日历配置和 corporate estimated tax 证据清单。州及地方所得税、sales/use tax、payroll、excise、franchise、foreign information returns、CAMT、S corporation、partnership 和未确认分类的 LLC 均不在范围内；不计算税额，不生成可提交表单。",
+  "sources": [
+    {
+      "id": "us_irs_form_1120_instructions_2025",
+      "authority": "Internal Revenue Service",
+      "title": "Instructions for Form 1120 (2025)",
+      "url": "https://www.irs.gov/instructions/i1120",
+      "effective_from": "2025-01-01",
+      "status": "official tax-year 2025 instructions checked 2026-08-13"
+    },
+    {
+      "id": "us_irs_publication_542_current",
+      "authority": "Internal Revenue Service",
+      "title": "About Publication 542, Corporations",
+      "url": "https://www.irs.gov/forms-pubs/about-publication-542",
+      "effective_from": "2024-01-01",
+      "status": "current publication index checked 2026-08-13; underlying publication revision January 2024"
+    },
+    {
+      "id": "us_irs_ein_current",
+      "authority": "Internal Revenue Service",
+      "title": "Employer identification number",
+      "url": "https://www.irs.gov/businesses/employer-identification-number",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "us_irs_topic_407_entity_classification",
+      "authority": "Internal Revenue Service",
+      "title": "Topic no. 407, Business income",
+      "url": "https://www.irs.gov/taxtopics/tc407",
+      "effective_from": "2026-04-13",
+      "status": "official guidance last reviewed or updated 2026-04-13; checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "us.federal.c_corp.classification.evidence",
+      "summary": "先确认主体是境内 C corporation 或已选择按 C corporation 纳税并保留分类证据；S corporation、partnership 和未确认分类的 LLC 不进入本 Pack 的 Form 1120 工作流。",
+      "effective_from": "2026-04-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["us_irs_topic_407_entity_classification"]
+    },
+    {
+      "id": "us.federal.ein.registration.evidence",
+      "summary": "保存 IRS 分配的 EIN 确认证据、法定名称和 responsible party 复核结果；系统不代为申请或变更 EIN。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["us_irs_ein_current"]
+    },
+    {
+      "id": "us.federal.form_1120.calendar.2025",
+      "summary": "Form 1120 一般在税年结束后第4个月第15日到期，但 6 月 30 日财年及周末/法定假日存在专门规则；必须按税年说明和主体税年结束日配置候选日期。",
+      "effective_from": "2025-01-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_form_1120_filer",
+          "tax_year_end",
+          "form_instructions_for_tax_year",
+          "june_30_fiscal_year_exception_review",
+          "weekend_and_federal_holiday_adjustment",
+          "approved_candidate_due_date"
+        ],
+        "registration_any": ["us_c_corporation", "c_corporation", "form_1120_filer"]
+      },
+      "source_ids": ["us_irs_form_1120_instructions_2025"]
+    },
+    {
+      "id": "us.federal.corporate_estimated_tax.calendar",
+      "summary": "普通 corporation 预计税额达到官方门槛时通常需要分期缴纳 estimated tax；适用性、每期金额、EFTPS 和第4/6/9/12个月第15日及顺延必须由当前年度资料确认。",
+      "effective_from": "2024-01-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "estimated_tax_applicability",
+          "current_year_estimated_tax_support",
+          "tax_year_start",
+          "installment_due_date_schedule",
+          "weekend_and_federal_holiday_adjustment",
+          "eftps_enrollment_and_payment_evidence"
+        ],
+        "registration_any": ["us_c_corporation", "c_corporation", "form_1120_filer"]
+      },
+      "source_ids": ["us_irs_publication_542_current"]
+    },
+    {
+      "id": "us.federal.form_1120.return_evidence.2025",
+      "summary": "为 2025 Form 1120 整理经批准财务报表、税务调整、税款/预估税、所需 schedules、签字授权和电子申报适用性证据；不在 design Pack 中计算税额或生成申报文件。",
+      "effective_from": "2025-01-01",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": [
+        "us_irs_form_1120_instructions_2025",
+        "us_irs_publication_542_current"
+      ]
+    }
+  ]
+}

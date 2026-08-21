@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.kr_domestic_corporation",
+  "kind": "jurisdiction",
+  "display_name": "韩国境内营利法人税务设计包",
+  "version": "0.1.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "KR",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-16",
+    "authority_scope": "韩国境内营利法人中的株式会社（Jusik Hoesa）、有限公司（Yuhan Hoesa）或有限责任公司（Yuhan Chaegim Hoesa）的法人登记、营业登记、法人税、地方法人所得税、增值税/电子税票、源泉税和人工日历证据；排除其他主体、外国法人或分支、税务居民判定、税率税额、中间预缴、地方主管机关与分摊、增值税身份与供应分类、优惠资格、跨境与常设机构、转让定价、关税、工资社会保险、申报表生成和外部提交付款"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.kr_domestic_corporation.registration_profile",
+    "tax.kr_domestic_corporation.evidence_checklist",
+    "tax.kr_domestic_corporation.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

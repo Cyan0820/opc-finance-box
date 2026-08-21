@@ -1,0 +1,22 @@
+{
+  "id": "connector.woocommerce",
+  "kind": "connector",
+  "display_name": "WooCommerce REST API 只读订单与退款证据 Connector",
+  "version": "0.1.0",
+  "status": "experimental",
+  "capabilities": [
+    "connector.woocommerce_order_refund_activity"
+  ],
+  "requires": ["core.finance", "industry.commerce"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "woocommerce_site_entity_binding_review",
+    "woocommerce_order_status_mapping_review",
+    "woocommerce_refund_completeness_review",
+    "woocommerce_tax_and_revenue_policy_review"
+  ],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

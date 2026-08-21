@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "AE",
+  "verified_at": "2026-08-16",
+  "review_policy": {
+    "max_age_days": 180,
+    "warning_days_before_expiry": 30,
+    "expiry_effect": "block_external_filing_and_calendar_release",
+    "reverification_triggers": [
+      "authority_source_change",
+      "rule_effective_date_change",
+      "pack_upgrade",
+      "entity_applicability_change",
+      "tax_registration_change"
+    ]
+  },
+  "applicability_review_policy": {
+    "max_age_days": 365,
+    "warning_days_before_expiry": 30,
+    "expiry_effect": "block_calendar_and_external_filing_release",
+    "reverification_triggers": [
+      "pack_upgrade",
+      "entity_applicability_change",
+      "tax_registration_change"
+    ]
+  },
+  "scope_note": "仅覆盖已由许可与设立证据确认的阿联酋境内 mainland LLC、single-person LLC 或自由区 juridical person，整理商业许可、Corporate Tax、Free Zone Person、VAT、会计记录与人工日历。系统不收集 trade licence number、Corporate Tax/VAT TRN、EmaraTax 用户标识或证书原值，不自行判断税务居民、有效管理控制地、Qualifying Free Zone Person、Qualifying/Excluded Income、税率税额、Small Business Relief、免税、税务集团、VAT 登记/供应分类/税率/进项抵扣、常设机构、转让定价、关税或社会保险，也不生成申报表或执行提交付款。所有日期必须结合主体 tax period、FTA 账户、官方通知、延期与当地专业复核人工批准。",
+  "sources": [
+    {
+      "id": "ae_government_mainland_legal_forms_current",
+      "authority": "UAE Government official portal",
+      "title": "Steps to start a business on the mainland",
+      "url": "https://u.ae/en/information-and-services/business/doing-business-on-the-mainland/steps-to-start-a-business-on-the-mainland",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "ae_fta_corporate_tax_registration_current",
+      "authority": "UAE Federal Tax Authority",
+      "title": "Corporate Tax Registration",
+      "url": "https://tax.gov.ae/en/services/corporate.tax.registration.aspx",
+      "effective_from": "2026-06-25",
+      "status": "official current service checked 2026-08-16"
+    },
+    {
+      "id": "ae_mof_corporate_tax_current",
+      "authority": "UAE Ministry of Finance",
+      "title": "Corporate Tax in the UAE",
+      "url": "https://mof.gov.ae/en/public-finance/tax/corporate-tax/",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "ae_fta_corporate_return_current",
+      "authority": "UAE Federal Tax Authority",
+      "title": "Corporate Tax returns and liabilities timeline",
+      "url": "https://tax.gov.ae/en/media.centre/News/federal.tax.authority.urges.submission.of.corporate.tax.returns.and.settlement.of.corporate.tax.liabilities.within.nine.months.from.the.end.of.the.tax.period.aspx",
+      "effective_from": "2025-09-24",
+      "status": "official guidance checked 2026-08-16"
+    },
+    {
+      "id": "ae_fta_free_zone_guidance_current",
+      "authority": "UAE Federal Tax Authority",
+      "title": "Corporate Tax guides, references and public clarifications",
+      "url": "https://tax.gov.ae/en/taxes/corporate.tax/corporate.tax.guides.references.aspx",
+      "effective_from": "2026-07-15",
+      "status": "official current guide index checked 2026-08-16"
+    },
+    {
+      "id": "ae_mof_free_zone_2025_current",
+      "authority": "UAE Ministry of Finance",
+      "title": "2025 Qualifying and Excluded Activities decisions",
+      "url": "https://mof.gov.ae/en/news/ministry-of-finance-issues-two-ministerial-decisions-on-qualifying-activities-and-excluded-activities-in-free-zones-for-corporate-tax-purposes-and-on-recognised-price-reporting-agencies/",
+      "effective_from": "2025-09-03",
+      "status": "official 2025 update checked 2026-08-16"
+    },
+    {
+      "id": "ae_fta_vat_current",
+      "authority": "UAE Federal Tax Authority",
+      "title": "VAT topics: registration, returns and payments",
+      "url": "https://tax.gov.ae/en/taxes/Vat/vat.topics.aspx",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "ae_fta_tax_residency_certificate_current",
+      "authority": "UAE Federal Tax Authority",
+      "title": "Issuance of Tax Certificates for Tax Residency",
+      "url": "https://tax.gov.ae/en/services/issuance.of.tax.certificates.aspx",
+      "effective_from": "2026-04-06",
+      "status": "official current service checked 2026-08-16"
+    },
+    {
+      "id": "ae_fta_records_current",
+      "authority": "UAE Federal Tax Authority",
+      "title": "Corporate Tax records and documentation reminder",
+      "url": "https://tax.gov.ae/en/media.centre/news/pr.28082025.aspx",
+      "effective_from": "2025-08-27",
+      "status": "official guidance checked 2026-08-16"
+    }
+  ],
+  "rules": [
+    {
+      "id": "ae.company.domestic.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的 UAE mainland LLC、single-person LLC 或自由区 juridical person，保存设立、法律形式、许可机关、Emirate、注册地址与税务居民专业复核证据；不收集许可或税号原值。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ae_government_mainland_legal_forms_current", "ae_fta_corporate_tax_registration_current", "ae_fta_tax_residency_certificate_current"]
+    },
+    {
+      "id": "ae.corporate_tax.registration.evidence",
+      "summary": "保存 Corporate Tax 登记、TRN 状态、tax period、EmaraTax 访问与分支归属证据；不判断登记义务、期限、豁免、税率或税额。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ae_fta_corporate_tax_registration_current", "ae_mof_corporate_tax_current"]
+    },
+    {
+      "id": "ae.free_zone.status.evidence",
+      "summary": "自由区主体保存许可机关、Free Zone Person、Qualifying Free Zone Person、Qualifying/Excluded Activities、substance、审计报表与 de minimis 专业复核证据；系统不据主体名称或地点判断资格、收入分类或税率。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ae_fta_free_zone_guidance_current", "ae_mof_free_zone_2025_current", "ae_mof_corporate_tax_current"]
+    },
+    {
+      "id": "ae.vat.registration.evidence",
+      "summary": "保存 VAT 登记、tax period、供应与进项税复核证据；不依收入、进口、销售目的地或 TRN 状态自动判断登记、供应分类、税率、金额或抵扣。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ae_fta_vat_current"]
+    },
+    {
+      "id": "ae.accounting.records.evidence",
+      "summary": "整理财务报表、交易、资产负债、库存、银行、发票和支持申报的信息；不自动选择 IFRS/IFRS for SMEs、现金/权责发生制、审计义务或记录保存期限例外。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ae_fta_records_current", "ae_fta_free_zone_guidance_current"]
+    },
+    {
+      "id": "ae.corporate_tax.return_payment.calendar",
+      "summary": "Corporate Tax 申报与付款的常规 tax-period 规则、例外期限、延期、Free Zone 状态与实际 EmaraTax 日期必须按主体复核并人工批准。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["confirmed_tax_period_end", "corporate_tax_registration_and_return_obligation_review", "free_zone_or_exempt_person_status_review", "extension_or_special_deadline_review", "emaratax_due_date_reference", "approved_corporate_tax_return_and_payment_due_date"],
+        "registration_any": ["ae_domestic_juridical_person", "corporate_tax", "uae_corporate_tax"]
+      },
+      "source_ids": ["ae_fta_corporate_return_current", "ae_fta_corporate_tax_registration_current"]
+    },
+    {
+      "id": "ae.vat.return_payment.calendar",
+      "summary": "VAT 期限取决于 FTA 分配的 tax period、登记状态、节假日、延期与 EmaraTax 账户；常规 28 天规则不能替代主体账户和税务师确认。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["confirmed_vat_registration_status", "confirmed_fta_vat_tax_period", "holiday_and_extension_review", "emaratax_vat_due_date_reference", "approved_vat_return_and_payment_due_date"],
+        "registration_any": ["vat", "uae_vat", "vat_registrant"]
+      },
+      "source_ids": ["ae_fta_vat_current"]
+    },
+    {
+      "id": "ae.return.evidence",
+      "summary": "整理批准财务报表、Corporate Tax/VAT 底稿、Free Zone 资格复核、EmaraTax 授权、付款计划和回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ae_fta_corporate_return_current", "ae_fta_vat_current", "ae_fta_records_current", "ae_fta_free_zone_guidance_current"]
+    }
+  ]
+}

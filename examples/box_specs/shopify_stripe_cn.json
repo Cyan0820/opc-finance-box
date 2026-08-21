@@ -1,0 +1,22 @@
+{
+  "name": "我的中国 Shopify + Stripe 独立站 OPC",
+  "business_type": "ecommerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe"],
+  "data_mode": "demo",
+  "entities": [
+    {
+      "id": "cn_store",
+      "name": "中国独立站经营主体",
+      "tax_country": "CN",
+      "functional_currency": "CNY",
+      "accounting_basis": "PRC_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_registrations": [
+        "corporate_income_tax",
+        "vat_taxpayer_type_to_confirm",
+        "individual_income_tax_withholding"
+      ]
+    }
+  ]
+}

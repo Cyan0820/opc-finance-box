@@ -1,0 +1,12 @@
+{
+  "service_id": "tax.cn.vat_workpaper",
+  "entity_id": "cn_studio",
+  "payload": {
+    "period": "2026-07",
+    "taxpayer_type": "general",
+    "sales": [],
+    "input_invoices": [],
+    "adjustments": [],
+    "local_surcharge_profile": null
+  }
+}

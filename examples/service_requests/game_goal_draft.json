@@ -1,0 +1,9 @@
+{
+  "service_id": "agent.create_goal_draft",
+  "entity_ids": ["cn_studio", "sg_publisher"],
+  "payload": {
+    "objective": "完成 2026 年 7 月全球游戏业务财务复盘",
+    "period": "2026-07",
+    "actor": "OPC 负责人"
+  }
+}

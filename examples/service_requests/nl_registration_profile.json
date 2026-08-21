@@ -1,0 +1,16 @@
+{
+  "service_id": "tax.nl_private_limited_company.registration_profile",
+  "entity_id": "nl_store",
+  "payload": {
+    "as_of": "2026-08-13",
+    "entity_type": "private_limited_company_bv",
+    "entity_type_evidence": {"source_reference": "evidence://kvk/bv-company-status", "captured_at": "2026-08-13"},
+    "tax_residency_evidence": {"source_reference": "evidence://advisor/dutch-residency-review", "captured_at": "2026-08-13"},
+    "kvk_status": "confirmed",
+    "kvk_evidence": {"source_reference": "evidence://kvk/registration", "captured_at": "2026-08-13"},
+    "corporate_income_tax_status": "confirmed",
+    "corporate_income_tax_evidence": {"source_reference": "evidence://belastingdienst/vpb-registration", "captured_at": "2026-08-13"},
+    "vat_status": "not_registered",
+    "payroll_status": "not_registered"
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "KR",
+  "verified_at": "2026-08-16",
+  "review_policy": {
+    "max_age_days": 180,
+    "warning_days_before_expiry": 30,
+    "expiry_effect": "block_external_filing_and_calendar_release",
+    "reverification_triggers": [
+      "authority_source_change",
+      "rule_effective_date_change",
+      "pack_upgrade",
+      "entity_applicability_change",
+      "tax_registration_change"
+    ]
+  },
+  "applicability_review_policy": {
+    "max_age_days": 365,
+    "warning_days_before_expiry": 30,
+    "expiry_effect": "block_calendar_and_external_filing_release",
+    "reverification_triggers": [
+      "pack_upgrade",
+      "entity_applicability_change",
+      "tax_registration_change"
+    ]
+  },
+  "scope_note": "仅覆盖已由证据确认的韩国境内营利株式会社、有限公司或有限责任公司，整理法人登记、营业登记、法人税、地方法人所得税、增值税/电子税票、源泉税与人工日历。系统不收集法人登记号、营业登记号、税务编号或 HomeTax/WeTax 用户标识原值，不自行判断税务居民、法人税或地方税税率税额、中间预缴、主管地方政府及分摊、增值税登记/课税身份/供应分类、电子税票适用与日期、源泉扣缴、优惠与中小企业资格、跨境税、常设机构、转让定价、关税或社会保险，也不生成申报表或执行提交付款。所有候选期限须结合韩国官方税务日历、节假日、延期通知和主体账户人工批准。",
+  "sources": [
+    {
+      "id": "kr_investkorea_company_types_current",
+      "authority": "Invest KOREA / KOTRA",
+      "title": "Types of Foreign Enterprises (FIE)",
+      "url": "https://www.investkorea.org/ik-en/cntnts/i-342/web.do",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "kr_nts_business_registration_current",
+      "authority": "韩国国税厅（National Tax Service）",
+      "title": "法人等营业登记申请所需文件",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7778&mi=2444",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "kr_nts_corporate_income_tax_current",
+      "authority": "韩国国税厅（National Tax Service）",
+      "title": "法人税申报与缴纳期限",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6720",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "kr_nts_filing_returns_current",
+      "authority": "韩国国税厅（National Tax Service）",
+      "title": "Filing returns",
+      "url": "https://www.nts.go.kr/english/cm/cntnts/cntntsView.do?cntntsId=238886&mi=40008",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "kr_nts_etax_invoice_current",
+      "authority": "韩国国税厅（National Tax Service）",
+      "title": "电子税票开具与传输",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7789&mi=2458",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "kr_nts_withholding_current",
+      "authority": "韩国国税厅（National Tax Service）",
+      "title": "源泉税制度概览",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7701&mi=2289",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "kr_nts_tax_calendar_current",
+      "authority": "韩国国税厅（National Tax Service）",
+      "title": "2026 税务日历",
+      "url": "https://www.nts.go.kr/nts/ad/taxSchdul/selectList.do?mi=135747",
+      "effective_from": "2026-08-16",
+      "status": "official current calendar checked 2026-08-16"
+    },
+    {
+      "id": "kr_mois_local_corporate_income_tax_2026",
+      "authority": "韩国行政安全部（Ministry of the Interior and Safety）",
+      "title": "2026 年地方法人所得税集中申报期",
+      "url": "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=124957",
+      "effective_from": "2026-04-03",
+      "status": "official 2026 guidance checked 2026-08-16"
+    }
+  ],
+  "rules": [
+    {
+      "id": "kr.company.domestic.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的韩国境内营利株式会社、有限公司或有限责任公司，分别保存法人登记、法律形式、总部所在地和税务居民专业复核证据；不收集登记号码原值。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["kr_investkorea_company_types_current", "kr_nts_business_registration_current"]
+    },
+    {
+      "id": "kr.business_registration.evidence",
+      "summary": "保存营业登记申请、营业地点、经营范围、租赁或许可材料与 HomeTax 访问证据；不根据配置推断登记完成或法定期限。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["kr_nts_business_registration_current"]
+    },
+    {
+      "id": "kr.corporate_income_tax.registration.evidence",
+      "summary": "保存法人税登记、事业年度、HomeTax 与中间预缴适用性复核证据；不判断纳税义务、税率、税额、优惠或预缴金额。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["kr_nts_corporate_income_tax_current", "kr_nts_tax_calendar_current"]
+    },
+    {
+      "id": "kr.local_corporate_income_tax.evidence",
+      "summary": "保存地方法人所得税登记、实际营业地点、地方政府与 WeTax 申报路径证据；不推断主管机关、跨地方政府分摊、税率或税额。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["kr_mois_local_corporate_income_tax_2026"]
+    },
+    {
+      "id": "kr.vat.etax_invoice.evidence",
+      "summary": "保存 VAT 登记、课税期间、电子税票适用和 HomeTax 开具路径证据；不自动判断课税身份、供应分类、税率、进项抵扣或开具/传输日期。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["kr_nts_filing_returns_current", "kr_nts_etax_invoice_current"]
+    },
+    {
+      "id": "kr.withholding.registration.evidence",
+      "summary": "保存源泉扣缴义务、所得类型、付款周期与半年度缴纳批准证据；不根据创始人报酬、雇员人数或供应商类型自动判断扣缴。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["kr_nts_withholding_current", "kr_nts_tax_calendar_current"]
+    },
+    {
+      "id": "kr.corporate_income_tax.return_payment.calendar",
+      "summary": "法人税申报缴纳、延期、中间预缴、节假日和实际 HomeTax 账户状态均须按主体与当期官方日历复核并人工批准。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["confirmed_fiscal_year_end", "extension_status_review", "interim_payment_applicability_review", "hometax_account_due_date_reference", "approved_corporate_income_tax_return_and_payment_due_date"],
+        "registration_any": ["kr_domestic_corporation", "corporate_income_tax", "kr_corporate_income_tax"]
+      },
+      "source_ids": ["kr_nts_corporate_income_tax_current", "kr_nts_tax_calendar_current"]
+    },
+    {
+      "id": "kr.local_corporate_income_tax.return_payment.calendar",
+      "summary": "地方法人所得税取决于事业年度、营业地点、主管地方政府、跨地区分摊、延期与当期公告；必须保存 WeTax 或主管机关确认的批准日期。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["confirmed_fiscal_year_end", "confirmed_local_government_and_business_places", "local_allocation_review", "extension_status_review", "wetax_account_due_date_reference", "approved_local_corporate_income_tax_return_and_payment_due_date"],
+        "registration_any": ["kr_domestic_corporation", "local_corporate_income_tax"]
+      },
+      "source_ids": ["kr_mois_local_corporate_income_tax_2026"]
+    },
+    {
+      "id": "kr.vat.return_payment.calendar",
+      "summary": "法人 VAT 申报周期虽有官方常规季度节点，但实际适用、节假日、延期和登记状态必须按主体账户与当期日历人工批准。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["confirmed_vat_taxpayer_status", "confirmed_vat_period", "preliminary_and_final_return_review", "holiday_and_extension_review", "hometax_account_due_date_reference", "approved_vat_return_and_payment_due_date"],
+        "registration_any": ["vat", "kr_vat", "vat_taxpayer"]
+      },
+      "source_ids": ["kr_nts_filing_returns_current", "kr_nts_tax_calendar_current"]
+    },
+    {
+      "id": "kr.withholding.payment.calendar",
+      "summary": "源泉税期限取决于付款、所得类型、扣缴义务和半年度缴纳批准；不得仅凭 OPC 人数或工资存在自动采用月度或半年期限。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["confirmed_withholding_obligation", "income_types_and_payment_dates_review", "semiannual_payment_approval_review", "payment_statement_review", "approved_withholding_return_and_payment_due_date"],
+        "registration_any": ["withholding_tax", "withholding_agent", "payroll_withholding"]
+      },
+      "source_ids": ["kr_nts_withholding_current", "kr_nts_tax_calendar_current"]
+    },
+    {
+      "id": "kr.etax_invoice.issue_transmit.calendar",
+      "summary": "电子税票的开具和传输节点取决于实际供应时点、汇总开票条件、节假日、主体义务和更正事项；只生成证据任务，不自动开具或传输。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": ["confirmed_etax_invoice_obligation", "supply_time_and_aggregate_issue_review", "holiday_review", "hometax_issue_and_transmit_evidence", "approved_etax_invoice_issue_due_date", "approved_etax_invoice_transmit_due_date"],
+        "registration_any": ["etax_invoice", "electronic_tax_invoice", "vat"]
+      },
+      "source_ids": ["kr_nts_etax_invoice_current"]
+    },
+    {
+      "id": "kr.return.evidence",
+      "summary": "整理批准财务报表、法人税/地方税/VAT/源泉税底稿、电子税票控制、HomeTax/WeTax 授权、付款计划和回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["kr_nts_corporate_income_tax_current", "kr_nts_filing_returns_current", "kr_nts_etax_invoice_current", "kr_nts_withholding_current", "kr_mois_local_corporate_income_tax_2026"]
+    }
+  ]
+}

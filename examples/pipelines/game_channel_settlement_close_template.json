@@ -1,0 +1,27 @@
+{
+  "pipeline_id": "game.channel_settlement_close",
+  "payload": {
+    "entity_id": "sg_publisher",
+    "connector_id": "file.app_store_settlements",
+    "connector_request": {
+      "path": "/absolute/path/to/app-store-settlement.xlsx"
+    },
+    "contract_mappings": [
+      {
+        "entity_id": "sg_publisher",
+        "period": "2026-07",
+        "game": "REPLACE_WITH_GAME_FROM_STATEMENT",
+        "channel": "App Store",
+        "currency": "USD",
+        "contract_basis": 1000,
+        "contract_rate": 0.7,
+        "contract_adjustments": 0,
+        "evidence": {
+          "source_reference": "contract://replace-with-controlled-reference",
+          "captured_at": "2026-08-13"
+        }
+      }
+    ],
+    "tolerance": 0.01
+  }
+}

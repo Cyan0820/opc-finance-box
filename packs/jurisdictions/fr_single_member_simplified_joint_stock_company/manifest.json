@@ -1,0 +1,28 @@
+{
+  "id": "jurisdiction.fr_single_member_simplified_joint_stock_company",
+  "kind": "jurisdiction",
+  "display_name": "法国 SASU 企业所得税 / VAT 税务设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "FR",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-14",
+    "authority_scope": "法国 société par actions simplifiée unipersonnelle (SASU) 的 RNE/商业登记、利润税制（IS 或已证实的临时 IR 选择）、VAT 与年度账目证据和人工日历；排除 SAS、EURL、SARL、SA、分支、税务居民判定、税率税额、IS 优惠税率、CFE/CVAE、OSS/IOSS、工资与社会缴费、个人股息税、跨境税、申报表生成和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.fr_single_member_simplified_joint_stock_company.registration_profile",
+    "tax.fr_single_member_simplified_joint_stock_company.evidence_checklist",
+    "tax.fr_single_member_simplified_joint_stock_company.review_calendar_skeleton"
+  ],
+  "requires": [
+    "core.finance"
+  ],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

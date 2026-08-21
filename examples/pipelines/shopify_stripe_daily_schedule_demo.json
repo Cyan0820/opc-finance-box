@@ -1,0 +1,27 @@
+{
+  "schema_version": 2,
+  "timezone": "Asia/Shanghai",
+  "jobs": [
+    {
+      "job_id": "cn-dtc-shopify-stripe-daily-close",
+      "enabled": false,
+      "pipeline_id": "dtc.shopify_stripe_daily_close",
+      "entity_id": "cn_dtc_company",
+      "request_file": "shopify_stripe_daily_close_fixture.json",
+      "request_fingerprint": null,
+      "cadence": {
+        "kind": "daily",
+        "local_time": "06:00"
+      },
+      "execution_window_minutes": 60,
+      "max_attempts": 3,
+      "retry_delay_minutes": 15,
+      "lease_seconds": 900,
+      "operator": "REPLACE_WITH_OPERATOR_PRINCIPAL",
+      "alert_owner": "REPLACE_WITH_ALERT_OWNER",
+      "approved_by": null,
+      "approved_at": null,
+      "approval_fingerprint": null
+    }
+  ]
+}

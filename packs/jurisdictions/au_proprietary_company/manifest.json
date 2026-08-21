@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.au_proprietary_company",
+  "kind": "jurisdiction",
+  "display_name": "澳大利亚 Proprietary Limited Company 税务设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "AU",
+    "tax_readiness": "design",
+    "rules_effective_at": "2025-07-01",
+    "authority_scope": "澳大利亚 proprietary company 的 ASIC 主体证据、ABN/TFN/GST/PAYG 登记证据、Company tax return/BAS 人工日历与 ASIC annual review 候选；排除税额计算、税率/优惠资格、GST 供应分类、州税、工资税、super、FBT、跨境税、合并集团、SAP 判断和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.au_proprietary_company.registration_profile",
+    "tax.au_proprietary_company.evidence_checklist",
+    "tax.au_proprietary_company.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

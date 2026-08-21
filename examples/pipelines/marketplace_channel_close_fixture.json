@@ -1,0 +1,122 @@
+{
+  "pipeline_id": "marketplace.channel_close",
+  "payload": {
+    "entity_id": "cn_marketplace_company",
+    "connector_id": "example.marketplace_api_payload",
+    "connector_request": {
+      "payload": {
+        "batch_id": "demo-marketplace-close-2026-07-31",
+        "source_name": "fictional-marketplace-api",
+        "orders": [
+          {
+            "order_id": "MP-ORDER-1001",
+            "entity_id": "cn_marketplace_company",
+            "period": "2026-07",
+            "channel": "Demo Marketplace",
+            "destination_country": "CN",
+            "currency": "CNY",
+            "merchandise_gross_ex_tax": 100,
+            "discounts_ex_tax": 0,
+            "shipping_income_ex_tax": 0,
+            "tax_collected": 10,
+            "refunds_ex_tax": 20,
+            "refunded_tax": 2,
+            "cogs": 40,
+            "fulfillment_cost": 5,
+            "shipping_cost": 5
+          }
+        ],
+        "settlements": [
+          {
+            "settlement_id": "MP-PAYOUT-2026-07",
+            "entity_id": "cn_marketplace_company",
+            "period": "2026-07",
+            "channel": "Demo Marketplace",
+            "currency": "CNY",
+            "reported_order_inflow": 88,
+            "channel_and_payment_fees": 10,
+            "tax_withheld_or_remitted": 10,
+            "other_adjustments": 0,
+            "payout": 68
+          }
+        ],
+        "returns": [
+          {
+            "return_id": "MP-RET-1001",
+            "order_id": "MP-ORDER-1001",
+            "entity_id": "cn_marketplace_company",
+            "period": "2026-07",
+            "channel": "Demo Marketplace",
+            "sku": "SKU-1",
+            "currency": "CNY",
+            "authorized_quantity": 2,
+            "refunded_quantity": 2,
+            "refund_amount_ex_tax": 20,
+            "refunded_tax": 2
+          }
+        ],
+        "return_receipts": [
+          {
+            "receipt_id": "MP-RCPT-1001-A",
+            "return_id": "MP-RET-1001",
+            "entity_id": "cn_marketplace_company",
+            "period": "2026-07",
+            "sku": "SKU-1",
+            "warehouse": "PLATFORM-WH-1",
+            "received_quantity": 1,
+            "disposition": "restockable"
+          },
+          {
+            "receipt_id": "MP-RCPT-1001-B",
+            "return_id": "MP-RET-1001",
+            "entity_id": "cn_marketplace_company",
+            "period": "2026-07",
+            "sku": "SKU-1",
+            "warehouse": "PLATFORM-WH-2",
+            "received_quantity": 1,
+            "disposition": "damaged"
+          }
+        ],
+        "import_costs": [
+          {
+            "entry_line_id": "MP-IMPORT-LINE-1",
+            "import_entry_id": "MP-IMPORT-ENTRY-1",
+            "entity_id": "cn_marketplace_company",
+            "period": "2026-07",
+            "sku": "SKU-1",
+            "warehouse": "PLATFORM-WH-1",
+            "origin_country": "CN",
+            "destination_country": "US",
+            "currency": "USD",
+            "quantity": 10,
+            "declared_value": 100,
+            "inbound_freight": 20,
+            "insurance": 2,
+            "customs_duty": 8,
+            "import_tax": 10,
+            "brokerage": 5
+          }
+        ]
+      }
+    },
+    "platform_inventory": [
+      {
+        "entity_id": "cn_marketplace_company",
+        "sku": "SKU-1",
+        "warehouse": "PLATFORM-WH-1",
+        "quantity": 10,
+        "evidence": ["platform-inventory://2026-07-31/SKU-1"]
+      }
+    ],
+    "ledger_inventory": [
+      {
+        "entity_id": "cn_marketplace_company",
+        "sku": "SKU-1",
+        "warehouse": "PLATFORM-WH-1",
+        "quantity": 10,
+        "evidence": ["ledger-inventory://2026-07-31/SKU-1"]
+      }
+    ],
+    "tolerance": 0.01
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "service_id": "tax.au_proprietary_company.registration_profile",
+  "entity_id": "au_store",
+  "payload": {
+    "as_of": "2026-08-13",
+    "entity_type": "proprietary_company",
+    "entity_type_evidence": {
+      "source_reference": "evidence://asic/company-type",
+      "captured_at": "2026-08-13"
+    },
+    "abn_status": "confirmed",
+    "abn_evidence": {
+      "source_reference": "evidence://abr/abn-confirmation",
+      "captured_at": "2026-08-13"
+    },
+    "company_tfn_status": "confirmed",
+    "company_tfn_evidence": {
+      "source_reference": "evidence://ato/company-tfn-confirmation",
+      "captured_at": "2026-08-13"
+    },
+    "gst_status": "not_registered",
+    "payg_withholding_status": "not_registered"
+  }
+}

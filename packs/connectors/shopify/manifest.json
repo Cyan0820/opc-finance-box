@@ -1,0 +1,18 @@
+{
+  "id": "connector.shopify",
+  "kind": "connector",
+  "display_name": "Shopify Admin GraphQL 只读订单证据 Connector",
+  "version": "0.4.0",
+  "status": "experimental",
+  "capabilities": [
+    "connector.shopify_orders",
+    "connector.shopify_monthly_order_evidence"
+  ],
+  "requires": ["core.finance", "industry.commerce"],
+  "conflicts": [],
+  "manual_review_gates": ["shopify_mapping_approval"],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

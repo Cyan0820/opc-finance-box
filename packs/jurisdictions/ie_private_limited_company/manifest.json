@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.ie_private_limited_company",
+  "kind": "jurisdiction",
+  "display_name": "爱尔兰 LTD 公司 CT1 / VAT 税务设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "IE",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-13",
+    "authority_scope": "爱尔兰 Private Company Limited by Shares 的 CRO 主体与 annual return 证据、Revenue tax reference/CT1/VAT 登记证据及候选日历；排除税务居民、CT/VAT 资格与税率判断、preliminary tax、EU VAT/OSS/IOSS、PAYE/PRSI、跨境税、申报表生成和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.ie_private_limited_company.registration_profile",
+    "tax.ie_private_limited_company.evidence_checklist",
+    "tax.ie_private_limited_company.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

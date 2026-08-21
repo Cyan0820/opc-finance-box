@@ -1,0 +1,26 @@
+{
+  "id": "jurisdiction.nz_limited_company",
+  "kind": "jurisdiction",
+  "display_name": "新西兰有限公司 IR4 / GST 税务设计包",
+  "version": "0.3.0",
+  "status": "experimental",
+  "jurisdiction": {
+    "code": "NZ",
+    "tax_readiness": "design",
+    "rules_effective_at": "2026-08-13",
+    "authority_scope": "新西兰注册有限公司的 Companies Register 主体与 annual return 证据、IRD/IR4/GST 登记证据及人工候选日历；排除税务居民与公司类型判定、税率税额、provisional tax、GST 供应分类、PAYE/FBT、跨境税、申报表生成和外部提交"
+  },
+  "rules_file": "rules.json",
+  "capabilities": [
+    "tax.nz_limited_company.registration_profile",
+    "tax.nz_limited_company.evidence_checklist",
+    "tax.nz_limited_company.review_calendar_skeleton"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "tax_registration_confirmation",
+    "tax_advisor_review",
+    "tax_filing_release"
+  ]
+}

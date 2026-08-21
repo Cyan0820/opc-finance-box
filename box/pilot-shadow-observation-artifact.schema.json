@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opc.finance/schemas/pilot-shadow-observation-artifact.schema.json",
+  "title": "OPC Finance Box First Pilot Shadow Observation Receipt",
+  "description": "Private no-values receipt binding one verified first-pilot registration to reviewed entity Shadow Close reports and, for multi-entity Boxes, one reviewed portfolio manifest. It grants no posting, payment, close, filing or Pack-promotion authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "runtime_fingerprint",
+    "pilot_shadow_run_registration_id",
+    "pilot_shadow_run_registration_content_sha256",
+    "registration_actor",
+    "period",
+    "entity_ids",
+    "entity_observations",
+    "portfolio_observation",
+    "observation_result_candidate",
+    "status",
+    "source_artifacts_input_only",
+    "raw_financial_values_persisted",
+    "statutory_books_modified",
+    "posting_performed",
+    "payment_performed",
+    "period_close_performed",
+    "external_filing_performed",
+    "external_actions_performed",
+    "guardrail",
+    "receipt_fingerprint",
+    "review",
+    "review_current"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "artifact_type": {"const": "pilot_shadow_observation_receipt"},
+    "runtime_fingerprint": {"$ref": "#/$defs/fingerprint"},
+    "pilot_shadow_run_registration_id": {"$ref": "#/$defs/id"},
+    "pilot_shadow_run_registration_content_sha256": {"$ref": "#/$defs/fingerprint"},
+    "registration_actor": {"$ref": "#/$defs/actor"},
+    "period": {"$ref": "#/$defs/period"},
+    "entity_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 2, "maxLength": 80}
+    },
+    "entity_observations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/entity_observation"}
+    },
+    "portfolio_observation": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/portfolio_observation"}
+      ]
+    },
+    "observation_result_candidate": {
+      "enum": ["passed", "accepted_differences", "needs_correction"]
+    },
+    "status": {"const": "ready_for_independent_review"},
+    "source_artifacts_input_only": {"const": true},
+    "raw_financial_values_persisted": {"const": false},
+    "statutory_books_modified": {"const": false},
+    "posting_performed": {"const": false},
+    "payment_performed": {"const": false},
+    "period_close_performed": {"const": false},
+    "external_filing_performed": {"const": false},
+    "external_actions_performed": {"const": false},
+    "guardrail": {"type": "string", "minLength": 40, "maxLength": 1000},
+    "receipt_fingerprint": {"$ref": "#/$defs/fingerprint"},
+    "review": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/review"}
+      ]
+    },
+    "review_current": {"type": "boolean"}
+  },
+  "$defs": {
+    "fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "id": {"type": "string", "pattern": "^[0-9a-f]{24}$"},
+    "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+    "actor": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._@:-]+$"
+    },
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 508,
+        "pattern": "^(evidence|document|workpaper|registry|advisor|authority|audit)://[^\\s]+$"
+      }
+    },
+    "entity_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_id",
+        "source_attempt_id",
+        "baseline_id",
+        "report_fingerprint",
+        "report_content_sha256",
+        "review_id",
+        "decision",
+        "review_actor",
+        "comparison_count",
+        "matched_count",
+        "exception_count",
+        "system_defect_count"
+      ],
+      "properties": {
+        "entity_id": {"type": "string", "minLength": 2, "maxLength": 80},
+        "source_attempt_id": {"$ref": "#/$defs/id"},
+        "baseline_id": {"type": "string", "minLength": 2, "maxLength": 256},
+        "report_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "report_content_sha256": {"$ref": "#/$defs/fingerprint"},
+        "review_id": {
+          "type": "string",
+          "pattern": "^SHADOW-REVIEW-[0-9a-f]{16}$"
+        },
+        "decision": {"enum": ["验证通过", "接受差异"]},
+        "review_actor": {"$ref": "#/$defs/actor"},
+        "comparison_count": {"type": "integer", "minimum": 0},
+        "matched_count": {"type": "integer", "minimum": 0},
+        "exception_count": {"type": "integer", "minimum": 0},
+        "system_defect_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "portfolio_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_fingerprint",
+        "manifest_content_sha256",
+        "review_id",
+        "decision",
+        "review_actor",
+        "source_attempt_ids"
+      ],
+      "properties": {
+        "manifest_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "manifest_content_sha256": {"$ref": "#/$defs/fingerprint"},
+        "review_id": {
+          "type": "string",
+          "pattern": "^PORTFOLIO-SHADOW-REVIEW-[0-9a-f]{16}$"
+        },
+        "decision": {"enum": ["passed", "accepted-differences", "needs-correction"]},
+        "review_actor": {"$ref": "#/$defs/actor"},
+        "source_attempt_ids": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_id",
+        "receipt_fingerprint",
+        "decision",
+        "actor",
+        "rationale",
+        "evidence_references",
+        "reviewed_at",
+        "scope_note",
+        "review_fingerprint"
+      ],
+      "properties": {
+        "review_id": {"$ref": "#/$defs/id"},
+        "receipt_fingerprint": {"$ref": "#/$defs/fingerprint"},
+        "decision": {"enum": ["passed", "accepted-differences", "needs-correction"]},
+        "actor": {"$ref": "#/$defs/actor"},
+        "rationale": {"type": "string", "minLength": 12, "maxLength": 1000},
+        "evidence_references": {"$ref": "#/$defs/references"},
+        "reviewed_at": {"type": "string", "format": "date-time"},
+        "scope_note": {"type": "string", "minLength": 40, "maxLength": 1000},
+        "review_fingerprint": {"$ref": "#/$defs/fingerprint"}
+      }
+    }
+  }
+}

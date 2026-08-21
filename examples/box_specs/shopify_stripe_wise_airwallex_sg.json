@@ -1,0 +1,15 @@
+{
+  "name": "新加坡独立站 Shopify + Stripe + Wise + Airwallex OPC 样板",
+  "business_type": "commerce",
+  "channels": ["dtc"],
+  "integrations": ["shopify_stripe_wise_airwallex"],
+  "data_mode": "demo",
+  "entities": [{
+    "id": "sg_store",
+    "name": "OPC Global Spend Demo Pte Ltd",
+    "tax_country": "SG",
+    "functional_currency": "SGD",
+    "accounting_basis": "SFRS",
+    "tax_registrations": []
+  }]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "connector.airwallex",
+  "kind": "connector",
+  "display_name": "Airwallex 企业卡已批准费用只读 Connector",
+  "version": "0.5.0",
+  "status": "experimental",
+  "capabilities": ["connector.airwallex_approved_expenses"],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "airwallex_entity_account_binding_review",
+    "airwallex_update_capture_review",
+    "airwallex_webhook_binding_and_quarantine_review",
+    "airwallex_deleted_expense_tombstone_review",
+    "airwallex_expense_evidence_review",
+    "expense_accounting_mapping_review"
+  ],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "box_version": 1,
+  "name": "US Amazon Seller Marketplace OPC",
+  "data_mode": "demo",
+  "reporting_currency": "USD",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.marketplace_commerce"],
+  "connectors": ["connector.file_import", "connector.amazon_seller"],
+  "features": [],
+  "entities": [
+    {
+      "id": "us_amazon_marketplace_company",
+      "name": "US Amazon marketplace company (confirm legal name)",
+      "jurisdiction": "US",
+      "functional_currency": "USD",
+      "accounting_basis": "US_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.us_federal",
+      "tax_registrations": []
+    }
+  ]
+}

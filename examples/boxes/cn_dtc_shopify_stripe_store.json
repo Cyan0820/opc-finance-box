@@ -1,0 +1,27 @@
+{
+  "box_version": 1,
+  "name": "中国主体 Shopify + Stripe 独立站 OPC 样板",
+  "data_mode": "demo",
+  "reporting_currency": "CNY",
+  "core": "core.finance",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "entities": [
+    {
+      "id": "cn_dtc_company",
+      "name": "Shopify 独立站经营主体（演示）",
+      "jurisdiction": "CN",
+      "functional_currency": "CNY",
+      "accounting_basis": "PRC_GAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.cn_mainland",
+      "tax_registrations": [
+        "corporate_income_tax",
+        "vat_taxpayer_type_to_confirm",
+        "individual_income_tax_withholding"
+      ]
+    }
+  ]
+}

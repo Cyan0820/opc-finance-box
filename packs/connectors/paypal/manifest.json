@@ -1,0 +1,22 @@
+{
+  "id": "connector.paypal",
+  "kind": "connector",
+  "display_name": "PayPal 只读交易、费用与退款证据 Connector",
+  "version": "0.1.0",
+  "status": "experimental",
+  "capabilities": [
+    "connector.paypal_transaction_activity"
+  ],
+  "requires": ["core.finance"],
+  "conflicts": [],
+  "manual_review_gates": [
+    "paypal_entity_account_binding_review",
+    "paypal_transaction_event_mapping_review",
+    "paypal_fee_treatment_review",
+    "paypal_refund_reversal_review"
+  ],
+  "connector_provider": {
+    "module": "provider.py",
+    "factory": "register_connectors"
+  }
+}

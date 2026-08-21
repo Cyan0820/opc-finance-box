@@ -1,0 +1,36 @@
+{
+  "service_id": "entity.consolidate_management_view",
+  "entity_ids": ["cn_studio", "sg_publisher"],
+  "payload": {
+    "period": "2026-07",
+    "entity_balances": [
+      {
+        "entity_id": "cn_studio",
+        "currency": "CNY",
+        "revenue": 1000,
+        "expenses": 600,
+        "cash": 500,
+        "receivables": 200,
+        "payables": 100
+      },
+      {
+        "entity_id": "sg_publisher",
+        "currency": "USD",
+        "revenue": 100,
+        "expenses": 40,
+        "cash": 20,
+        "receivables": 10,
+        "payables": 5
+      }
+    ],
+    "fx_rates": {
+      "USD": {
+        "pnl_rate": 7.1,
+        "closing_rate": 7.2,
+        "source": "approved-monthly-fx-rate",
+        "as_of": "2026-07-31"
+      }
+    },
+    "intercompany_adjustments": []
+  }
+}

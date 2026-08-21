@@ -1,0 +1,28 @@
+{
+  "service_id": "tax.nz_limited_company.registration_profile",
+  "entity_id": "nz_store",
+  "payload": {
+    "as_of": "2026-08-13",
+    "entity_type": "limited_company",
+    "entity_type_evidence": {
+      "source_reference": "evidence://companies-register/company-status",
+      "captured_at": "2026-08-13"
+    },
+    "tax_residency_evidence": {
+      "source_reference": "evidence://advisor/nz-tax-residency-review",
+      "captured_at": "2026-08-13"
+    },
+    "company_ird_status": "confirmed",
+    "company_ird_evidence": {
+      "source_reference": "evidence://ird/company-registration-confirmation",
+      "captured_at": "2026-08-13"
+    },
+    "company_income_tax_status": "confirmed",
+    "company_income_tax_evidence": {
+      "source_reference": "evidence://ird/ir4-filing-scope",
+      "captured_at": "2026-08-13"
+    },
+    "gst_status": "not_registered",
+    "employer_status": "not_registered"
+  }
+}

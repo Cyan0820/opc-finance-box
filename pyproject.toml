@@ -1,0 +1,95 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opc-finance-box"
+version = "0.1.0"
+description = "Composable, editable AI-native finance operations starter kit for OPC founders"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Intelligent Finance Workspace Contributors"}]
+dependencies = ["openpyxl>=3.1,<4", "pypdf>=5,<7"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Office/Business :: Financial",
+]
+
+[project.scripts]
+opc-finance-box = "src.cli:main"
+opc-finance-workbench = "src.server:main"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.setuptools.data-files]
+"share/opc-finance-box/packs/connectors/custom_api" = ["packs/connectors/custom_api/*.json"]
+"share/opc-finance-box/packs/connectors/file_import" = ["packs/connectors/file_import/*.json"]
+"share/opc-finance-box/packs/connectors/stripe" = ["packs/connectors/stripe/*.json", "packs/connectors/stripe/*.py"]
+"share/opc-finance-box/packs/connectors/shopify" = ["packs/connectors/shopify/*.json", "packs/connectors/shopify/*.py"]
+"share/opc-finance-box/packs/connectors/xero" = ["packs/connectors/xero/*.json", "packs/connectors/xero/*.py"]
+"share/opc-finance-box/packs/connectors/wise" = ["packs/connectors/wise/*.json", "packs/connectors/wise/*.py"]
+"share/opc-finance-box/packs/connectors/airwallex" = ["packs/connectors/airwallex/*.json", "packs/connectors/airwallex/*.py"]
+"share/opc-finance-box/packs/connectors/shipbob" = ["packs/connectors/shipbob/*.json", "packs/connectors/shipbob/*.py"]
+"share/opc-finance-box/packs/connectors/paypal" = ["packs/connectors/paypal/*.json", "packs/connectors/paypal/*.py"]
+"share/opc-finance-box/packs/connectors/woocommerce" = ["packs/connectors/woocommerce/*.json", "packs/connectors/woocommerce/*.py"]
+"share/opc-finance-box/packs/connectors/amazon_seller" = ["packs/connectors/amazon_seller/*.json", "packs/connectors/amazon_seller/*.py"]
+"share/opc-finance-box/packs/core/finance" = ["packs/core/finance/*.json"]
+"share/opc-finance-box/packs/features/multi_entity" = ["packs/features/multi_entity/*.json"]
+"share/opc-finance-box/packs/features/shopify_stripe_order_to_cash" = ["packs/features/shopify_stripe_order_to_cash/*.json"]
+"share/opc-finance-box/packs/industries/commerce" = ["packs/industries/commerce/*.json"]
+"share/opc-finance-box/packs/industries/game_studio" = ["packs/industries/game_studio/*.json"]
+"share/opc-finance-box/packs/channels/app_store" = ["packs/channels/app_store/*.json"]
+"share/opc-finance-box/packs/channels/domestic_game_platforms" = ["packs/channels/domestic_game_platforms/*.json"]
+"share/opc-finance-box/packs/channels/dtc_storefront" = ["packs/channels/dtc_storefront/*.json"]
+"share/opc-finance-box/packs/channels/google_play" = ["packs/channels/google_play/*.json"]
+"share/opc-finance-box/packs/channels/marketplace_commerce" = ["packs/channels/marketplace_commerce/*.json"]
+"share/opc-finance-box/packs/jurisdictions/cn_mainland" = ["packs/jurisdictions/cn_mainland/*.json"]
+"share/opc-finance-box/packs/jurisdictions/sg" = ["packs/jurisdictions/sg/*.json"]
+"share/opc-finance-box/packs/jurisdictions/us_federal" = ["packs/jurisdictions/us_federal/*.json"]
+"share/opc-finance-box/packs/jurisdictions/ae_domestic_juridical_person" = ["packs/jurisdictions/ae_domestic_juridical_person/*.json"]
+"share/opc-finance-box/packs/jurisdictions/hk" = ["packs/jurisdictions/hk/*.json"]
+"share/opc-finance-box/packs/jurisdictions/uk_limited_company" = ["packs/jurisdictions/uk_limited_company/*.json"]
+"share/opc-finance-box/packs/jurisdictions/au_proprietary_company" = ["packs/jurisdictions/au_proprietary_company/*.json"]
+"share/opc-finance-box/packs/jurisdictions/ca_federal_corporation" = ["packs/jurisdictions/ca_federal_corporation/*.json"]
+"share/opc-finance-box/packs/jurisdictions/nz_limited_company" = ["packs/jurisdictions/nz_limited_company/*.json"]
+"share/opc-finance-box/packs/jurisdictions/ie_private_limited_company" = ["packs/jurisdictions/ie_private_limited_company/*.json"]
+"share/opc-finance-box/packs/jurisdictions/nl_private_limited_company" = ["packs/jurisdictions/nl_private_limited_company/*.json"]
+"share/opc-finance-box/packs/jurisdictions/de_limited_liability_company" = ["packs/jurisdictions/de_limited_liability_company/*.json"]
+"share/opc-finance-box/packs/jurisdictions/fr_single_member_simplified_joint_stock_company" = ["packs/jurisdictions/fr_single_member_simplified_joint_stock_company/*.json"]
+"share/opc-finance-box/packs/jurisdictions/jp_domestic_corporation" = ["packs/jurisdictions/jp_domestic_corporation/*.json"]
+"share/opc-finance-box/packs/jurisdictions/kr_domestic_corporation" = ["packs/jurisdictions/kr_domestic_corporation/*.json"]
+"share/opc-finance-box/examples/boxes" = ["examples/boxes/*.json"]
+"share/opc-finance-box/examples/box_specs" = ["examples/box_specs/*.json"]
+"share/opc-finance-box/examples/commerce" = ["examples/commerce/*.csv"]
+"share/opc-finance-box/examples/banking" = ["examples/banking/*.csv"]
+"share/opc-finance-box/examples/accounting" = ["examples/accounting/*.csv", "examples/accounting/*.json"]
+"share/opc-finance-box/examples/connectors" = ["examples/connectors/*.json"]
+"share/opc-finance-box/examples/pipelines" = ["examples/pipelines/*.json"]
+"share/opc-finance-box/examples/service_requests" = ["examples/service_requests/*.json", "examples/service_requests/*.md"]
+"share/opc-finance-box/examples/shadow" = ["examples/shadow/*.json"]
+"share/opc-finance-box/public" = ["public/*.html", "public/*.css", "public/*.js"]
+"share/opc-finance-box/data" = ["data/commerce_demo.json", "data/demo_scenarios.json"]
+"share/opc-finance-box/box" = ["box/*.json"]
+"share/opc-finance-box/evals" = ["evals/*.json"]
+"share/opc-finance-box/docs" = ["docs/*.md"]
+"share/opc-finance-box/deployment" = ["deployment/*"]
+"share/opc-finance-box/skills/build-opc-finance-box" = ["skills/build-opc-finance-box/SKILL.md"]
+"share/opc-finance-box/skills/build-opc-finance-box/agents" = ["skills/build-opc-finance-box/agents/*.yaml"]
+"share/opc-finance-box/skills/build-opc-finance-box/references" = ["skills/build-opc-finance-box/references/*.md"]
+"share/opc-finance-box/skills/review-opc-month-close" = ["skills/review-opc-month-close/SKILL.md"]
+"share/opc-finance-box/skills/review-opc-month-close/agents" = ["skills/review-opc-month-close/agents/*.yaml"]
+"share/opc-finance-box/skills/review-opc-month-close/references" = ["skills/review-opc-month-close/references/*.md"]
+"share/opc-finance-box/skills/add-opc-tax-pack" = ["skills/add-opc-tax-pack/SKILL.md"]
+"share/opc-finance-box/skills/add-opc-tax-pack/agents" = ["skills/add-opc-tax-pack/agents/*.yaml"]
+"share/opc-finance-box/skills/add-opc-tax-pack/references" = ["skills/add-opc-tax-pack/references/*.md"]
+"share/opc-finance-box/source-kit-root" = [".gitignore", "CONTRIBUTING.md", "LICENSE", "README.md", "SECURITY.md", "design-qa.md", "pyproject.toml", "run.py"]
+"share/opc-finance-box/source-kit-root/tests" = ["tests/*.py"]
+"share/opc-finance-box/source-kit-root/scripts" = ["scripts/*.py", "scripts/*.mjs"]
+"share/opc-finance-box/source-kit-root/.github/workflows" = [".github/workflows/*.yml"]

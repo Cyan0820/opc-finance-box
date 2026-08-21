@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "baseline_id": "sg-store-2026-08-airwallex-expenses-demo",
+  "pipeline_id": "finance.expense_evidence_review",
+  "entity_id": "sg_store",
+  "sample_period": "2026-08",
+  "covered_pack_ids": ["connector.airwallex"],
+  "prepared_by": "independent-expense-source-preparer",
+  "prepared_at": "2026-08-14T09:00:00+08:00",
+  "source_expectations": [
+    {
+      "source_role": "approved_card_expenses",
+      "connector_id": "airwallex.approved_expenses",
+      "expected_record_count": 2,
+      "evidence_references": ["demo-source-export://airwallex/sg-store/2026-08"]
+    }
+  ],
+  "control_expectations": [
+    {"control_id": "pipeline_ready", "expected_value": true},
+    {"control_id": "expense_record_count", "expected_value": 2},
+    {"control_id": "receipt_missing_count", "expected_value": 1},
+    {"control_id": "business_purpose_missing_count", "expected_value": 0},
+    {"control_id": "uncleared_count", "expected_value": 0},
+    {"control_id": "accounting_mapping_missing_count", "expected_value": 1},
+    {"control_id": "external_actions_disabled", "expected_value": true}
+  ],
+  "evidence_references": [
+    "demo-workpaper://sg-store/2026-08/expense-count-tie-out",
+    "demo-review://sg-store/2026-08/expense-scope-confirmation"
+  ]
+}

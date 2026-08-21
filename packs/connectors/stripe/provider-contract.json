@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "pack_id": "connector.stripe",
+  "credential_env": ["OPC_STRIPE_RESTRICTED_KEY"],
+  "credential_type": "restricted_api_key_rk_only",
+  "access_probe": {
+    "operator_network_opt_in_required": true,
+    "required_read_resources": ["account", "balance_transactions", "payouts"],
+    "maximum_list_objects_per_resource": 1,
+    "provider_account_binding": ["own_account", "connected_account"],
+    "secret_key_allowed": false,
+    "private_receipt_required_for_live_shadow": true,
+    "receipt_maximum_age_days": 30,
+    "receipt_is_digital_signature": false
+  },
+  "connected_account_dispatch_header": "Stripe-Account",
+  "network_mode": "read_only_pull",
+  "fixed_endpoints": [
+    "https://api.stripe.com/v1/balance_transactions",
+    "https://api.stripe.com/v1/payouts"
+  ],
+  "api_version": "2026-06-24.dahlia",
+  "amount_contract": "integer_minor_units",
+  "accounting_boundary": "payment_and_settlement_evidence_not_revenue_recognition",
+  "webhooks_used": false,
+  "pipeline_id": "stripe.daily_close",
+  "pipeline_external_actions": false,
+  "pipeline_default_schedule_enabled": false
+}

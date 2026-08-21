@@ -1,0 +1,232 @@
+{
+  "pipeline_id": "dtc.shopify_stripe_daily_close",
+  "payload": {
+    "entity_id": "cn_dtc_company",
+    "include_test_orders": true,
+    "arrival_date_tolerance_days": 3,
+    "currency_minor_units": {"USD": 2},
+    "shopify_request": {
+      "mode": "fixture",
+      "shop_domain": "opc-demo.myshopify.com",
+      "objects": [
+        {
+          "id": "gid://shopify/Order/1001",
+          "name": "#1001",
+          "createdAt": "2026-08-12T10:00:00Z",
+          "processedAt": "2026-08-12T10:01:00Z",
+          "updatedAt": "2026-08-13T09:00:00Z",
+          "cancelledAt": null,
+          "closedAt": null,
+          "currencyCode": "USD",
+          "presentmentCurrencyCode": "EUR",
+          "displayFinancialStatus": "PARTIALLY_REFUNDED",
+          "displayFulfillmentStatus": "FULFILLED",
+          "taxesIncluded": false,
+          "test": true,
+          "sourceName": "web",
+          "shippingAddress": {"countryCodeV2": "DE"},
+          "subtotalPriceSet": {
+            "shopMoney": {"amount": "100.00", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "92.00", "currencyCode": "EUR"}
+          },
+          "totalDiscountsSet": {
+            "shopMoney": {"amount": "10.00", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "9.20", "currencyCode": "EUR"}
+          },
+          "totalShippingPriceSet": {
+            "shopMoney": {"amount": "5.00", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "4.60", "currencyCode": "EUR"}
+          },
+          "totalTaxSet": {
+            "shopMoney": {"amount": "9.50", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "8.74", "currencyCode": "EUR"}
+          },
+          "totalPriceSet": {
+            "shopMoney": {"amount": "104.50", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "96.14", "currencyCode": "EUR"}
+          },
+          "totalReceivedSet": {
+            "shopMoney": {"amount": "104.50", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "96.14", "currencyCode": "EUR"}
+          },
+          "totalRefundedSet": {
+            "shopMoney": {"amount": "20.90", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "19.23", "currencyCode": "EUR"}
+          },
+          "currentSubtotalPriceSet": {
+            "shopMoney": {"amount": "80.00", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "73.60", "currencyCode": "EUR"}
+          },
+          "currentTotalDiscountsSet": {
+            "shopMoney": {"amount": "8.00", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "7.36", "currencyCode": "EUR"}
+          },
+          "currentTotalTaxSet": {
+            "shopMoney": {"amount": "7.60", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "6.99", "currencyCode": "EUR"}
+          },
+          "currentTotalPriceSet": {
+            "shopMoney": {"amount": "83.60", "currencyCode": "USD"},
+            "presentmentMoney": {"amount": "76.91", "currencyCode": "EUR"}
+          },
+          "transactions": [
+            {
+              "id": "gid://shopify/OrderTransaction/2001",
+              "createdAt": "2026-08-12T10:01:00Z",
+              "processedAt": "2026-08-12T10:01:01Z",
+              "gateway": "stripe",
+              "formattedGateway": "Stripe",
+              "kind": "SALE",
+              "status": "SUCCESS",
+              "test": true,
+              "settlementCurrency": "USD",
+              "settlementCurrencyRate": "1.0",
+              "parentTransaction": null,
+              "amountSet": {
+                "shopMoney": {"amount": "104.50", "currencyCode": "USD"},
+                "presentmentMoney": {"amount": "96.14", "currencyCode": "EUR"}
+              }
+            },
+            {
+              "id": "gid://shopify/OrderTransaction/2002",
+              "createdAt": "2026-08-13T08:59:00Z",
+              "processedAt": "2026-08-13T09:00:00Z",
+              "gateway": "stripe",
+              "formattedGateway": "Stripe",
+              "kind": "REFUND",
+              "status": "SUCCESS",
+              "test": true,
+              "settlementCurrency": "USD",
+              "settlementCurrencyRate": "1.0",
+              "parentTransaction": {"id": "gid://shopify/OrderTransaction/2001"},
+              "amountSet": {
+                "shopMoney": {"amount": "20.90", "currencyCode": "USD"},
+                "presentmentMoney": {"amount": "19.23", "currencyCode": "EUR"}
+              }
+            }
+          ],
+          "refunds": [
+            {
+              "id": "gid://shopify/Refund/3001",
+              "createdAt": "2026-08-13T08:58:00Z",
+              "processedAt": "2026-08-13T09:00:00Z",
+              "updatedAt": "2026-08-13T09:00:00Z",
+              "totalRefundedSet": {
+                "shopMoney": {"amount": "20.90", "currencyCode": "USD"},
+                "presentmentMoney": {"amount": "19.23", "currencyCode": "EUR"}
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "stripe_balance_request": {
+      "mode": "fixture",
+      "objects": [
+        {
+          "id": "txn_demo_charge_001",
+          "object": "balance_transaction",
+          "amount": 10450,
+          "available_on": 1786579200,
+          "created": 1786492800,
+          "currency": "usd",
+          "description": "Demo Shopify payment",
+          "exchange_rate": null,
+          "fee": 333,
+          "fee_details": [{"amount": 333, "currency": "usd", "type": "stripe_fee"}],
+          "net": 10117,
+          "reporting_category": "charge",
+          "source": "ch_demo_001",
+          "status": "available",
+          "type": "charge"
+        },
+        {
+          "id": "txn_demo_refund_001",
+          "object": "balance_transaction",
+          "amount": -2090,
+          "available_on": 1786579200,
+          "created": 1786496400,
+          "currency": "usd",
+          "description": "Demo Shopify refund",
+          "exchange_rate": null,
+          "fee": 0,
+          "fee_details": [],
+          "net": -2090,
+          "reporting_category": "refund",
+          "source": "re_demo_001",
+          "status": "available",
+          "type": "refund"
+        },
+        {
+          "id": "txn_demo_payout_001",
+          "object": "balance_transaction",
+          "amount": -8027,
+          "available_on": 1786579200,
+          "created": 1786579200,
+          "currency": "usd",
+          "description": "Demo Stripe payout balance movement",
+          "exchange_rate": null,
+          "fee": 0,
+          "fee_details": [],
+          "net": -8027,
+          "reporting_category": "payout",
+          "source": "po_demo_001",
+          "status": "available",
+          "type": "payout"
+        }
+      ]
+    },
+    "stripe_payout_request": {
+      "mode": "fixture",
+      "objects": [
+        {
+          "id": "po_demo_001",
+          "object": "payout",
+          "amount": 8027,
+          "arrival_date": 1786752000,
+          "automatic": true,
+          "balance_transaction": "txn_demo_payout_001",
+          "created": 1786579200,
+          "currency": "usd",
+          "description": "Demo automatic payout",
+          "failure_balance_transaction": null,
+          "failure_code": null,
+          "failure_message": null,
+          "livemode": false,
+          "method": "standard",
+          "reconciliation_status": "not_applicable",
+          "source_type": "card",
+          "statement_descriptor": null,
+          "status": "paid",
+          "type": "bank_account"
+        }
+      ]
+    },
+    "processor_links": [
+      {
+        "entity_id": "cn_dtc_company",
+        "shopify_transaction_id": "gid://shopify/OrderTransaction/2001",
+        "stripe_source_object_id": "ch_demo_001",
+        "evidence": {"source_file": "processor-links-demo.csv", "batch_id": "links-demo"}
+      },
+      {
+        "entity_id": "cn_dtc_company",
+        "shopify_transaction_id": "gid://shopify/OrderTransaction/2002",
+        "stripe_source_object_id": "re_demo_001",
+        "evidence": {"source_file": "processor-links-demo.csv", "batch_id": "links-demo"}
+      }
+    ],
+    "bank_transactions": [
+      {
+        "bank_transaction_id": "bank_demo_001",
+        "entity_id": "cn_dtc_company",
+        "amount_minor": 8027,
+        "currency": "USD",
+        "direction": "inflow",
+        "transaction_date": "2026-08-15",
+        "reference": "Stripe po_demo_001",
+        "evidence": {"source_file": "bank-demo.csv", "batch_id": "bank-demo"}
+      }
+    ]
+  }
+}

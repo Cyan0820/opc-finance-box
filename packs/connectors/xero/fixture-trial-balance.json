@@ -1,0 +1,85 @@
+{
+  "mode": "fixture",
+  "default_entity_id": "cn_studio",
+  "default_period": "2026-07",
+  "as_at": "2026-07-31",
+  "payments_only": false,
+  "fixture_binding": {
+    "tenant_id": "11111111-1111-4111-8111-111111111111",
+    "organisation_id": "22222222-2222-4222-8222-222222222222"
+  },
+  "organisation": {
+    "Organisations": [
+      {
+        "OrganisationID": "22222222-2222-4222-8222-222222222222",
+        "Name": "OPC Xero Demo Organisation",
+        "BaseCurrency": "CNY"
+      }
+    ]
+  },
+  "report": {
+    "Reports": [
+      {
+        "ReportID": "TrialBalance",
+        "ReportName": "Trial Balance",
+        "ReportTitle": "Trial Balance",
+        "ReportDate": "31 July 2026",
+        "UpdatedDateUTC": "/Date(1785427200000)/",
+        "Rows": [
+          {
+            "RowType": "Header",
+            "Cells": [
+              {"Value": "Account"},
+              {"Value": "Debit"},
+              {"Value": "Credit"},
+              {"Value": "YTD Debit"},
+              {"Value": "YTD Credit"}
+            ]
+          },
+          {
+            "RowType": "Section",
+            "Title": "Assets",
+            "Rows": [
+              {
+                "RowType": "Row",
+                "Cells": [
+                  {
+                    "Value": "Cash at Bank (1001)",
+                    "Attributes": [
+                      {"Value": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa", "Id": "account"}
+                    ]
+                  },
+                  {"Value": "1000.00"},
+                  {"Value": ""},
+                  {"Value": "1200.00"},
+                  {"Value": "200.00"}
+                ]
+              }
+            ]
+          },
+          {
+            "RowType": "Section",
+            "Title": "Equity",
+            "Rows": [
+              {
+                "RowType": "Row",
+                "Cells": [
+                  {
+                    "Value": "Owner Capital (3001)",
+                    "Attributes": [
+                      {"Value": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb", "Id": "account"}
+                    ]
+                  },
+                  {"Value": ""},
+                  {"Value": "1000.00"},
+                  {"Value": "0.00"},
+                  {"Value": "1000.00"}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

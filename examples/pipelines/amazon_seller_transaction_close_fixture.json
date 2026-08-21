@@ -1,0 +1,74 @@
+{
+  "pipeline_id": "amazon_seller.transaction_close",
+  "payload": {
+    "entity_id": "us_amazon_marketplace_company",
+    "amazon_seller_request": {
+      "mode": "fixture",
+      "default_entity_id": "us_amazon_marketplace_company",
+      "fixture_region": "NA",
+      "fixture_seller_id": "PIPELINE-PRIVATE-SELLER",
+      "fixture_marketplace_ids": ["ATVPDKIKX0DER"],
+      "marketplace_id": "ATVPDKIKX0DER",
+      "interval_start": "2026-08-01T00:00:00Z",
+      "interval_end": "2026-09-01T00:00:00Z",
+      "transaction_pages": [
+        {
+          "payload": {
+            "transactions": [
+              {
+                "sellingPartnerMetadata": {
+                  "sellingPartnerId": "PIPELINE-PRIVATE-SELLER",
+                  "accountType": "PAYABLE",
+                  "marketplaceId": "ATVPDKIKX0DER"
+                },
+                "relatedIdentifiers": [
+                  {"relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "PIPELINE-PRIVATE-ORDER-01"},
+                  {"relatedIdentifierName": "FINANCIAL_EVENT_GROUP_ID", "relatedIdentifierValue": "PIPELINE-PRIVATE-EVENT-GROUP-01"}
+                ],
+                "transactionType": "Shipment",
+                "transactionId": "PIPELINE-PRIVATE-TXN-01",
+                "transactionStatus": "RELEASED",
+                "description": "Removed customer payment description",
+                "postedDate": "2026-08-05T09:00:00Z",
+                "totalAmount": {"currencyAmount": "90.00", "currencyCode": "USD"},
+                "marketplaceDetails": {"marketplaceId": "ATVPDKIKX0DER", "marketplaceName": "Private Store"},
+                "items": [
+                  {
+                    "description": "Removed Product",
+                    "totalAmount": {"currencyAmount": "90.00", "currencyCode": "USD"},
+                    "contexts": [{"contextType": "ProductContext", "asin": "REMOVED-ASIN", "sku": "REMOVED-SKU", "quantityShipped": 1}],
+                    "breakdowns": [
+                      {"breakdownType": "Sales", "breakdownAmount": {"currencyAmount": "100.00", "currencyCode": "USD"}, "breakdowns": []},
+                      {"breakdownType": "Commission Fee", "breakdownAmount": {"currencyAmount": "-10.00", "currencyCode": "USD"}, "breakdowns": []}
+                    ]
+                  }
+                ],
+                "breakdowns": []
+              },
+              {
+                "sellingPartnerMetadata": {
+                  "sellingPartnerId": "PIPELINE-PRIVATE-SELLER",
+                  "accountType": "PAYABLE",
+                  "marketplaceId": "ATVPDKIKX0DER"
+                },
+                "relatedIdentifiers": [
+                  {"relatedIdentifierName": "REFUND_ID", "relatedIdentifierValue": "PIPELINE-PRIVATE-REFUND-01"}
+                ],
+                "transactionType": "Refund",
+                "transactionId": "PIPELINE-PRIVATE-TXN-02",
+                "transactionStatus": "DEFERRED",
+                "postedDate": "2026-08-08T10:00:00Z",
+                "totalAmount": {"currencyAmount": "-20.00", "currencyCode": "USD"},
+                "marketplaceDetails": {"marketplaceId": "ATVPDKIKX0DER", "marketplaceName": "Private Store"},
+                "items": [],
+                "breakdowns": [
+                  {"breakdownType": "Refunds", "breakdownAmount": {"currencyAmount": "-20.00", "currencyCode": "USD"}, "breakdowns": []}
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "pack_id": "connector.shipbob",
+  "legacy_credential_env": ["OPC_SHIPBOB_ACCESS_TOKEN"],
+  "entity_credential_binding_env": "OPC_SHIPBOB_ENTITY_BINDINGS_JSON",
+  "entity_credential_binding_fields": ["environment", "channel_id", "token_env"],
+  "required_access_scopes": [
+    "channels_read",
+    "orders_read",
+    "fulfillments_read",
+    "returns_read"
+  ],
+  "access_probe": {
+    "request_schema": 1,
+    "receipt_schema": 2,
+    "endpoint": "GET /2026-07/channel?RecordsPerPage=50",
+    "exact_bound_channel_required": true,
+    "exact_read_scope_set_required": true,
+    "write_scopes_allowed": false,
+    "channel_identifier_returned": false,
+    "scope_names_returned": false,
+    "financial_values_requested": false
+  },
+  "network_mode": "read_only_fixed_shipbob_api",
+  "api_version": "2026-07",
+  "production_host": "api.shipbob.com",
+  "sandbox_host": "sandbox-api.shipbob.com",
+  "endpoints": ["GET /2026-07/order", "GET /2026-07/return"],
+  "read_channel_header": "shipbob_channel_id_from_exact_entity_binding",
+  "legacy_single_entity_fetch_compatible": true,
+  "multi_entity_fetch_requires_alias_binding": true,
+  "pagination": "locally_constructed_bounded_integer_page_or_cursor_numbers_response_next_urls_are_never_followed_or_reused",
+  "window_contract": "maximum_31_day_half_open_interval_with_local_end_exclusion",
+  "pii_collection": "destination_country_only_no_customer_identity_address_or_raw_tracking_number",
+  "source_id_policy": "hash_all_order_shipment_return_inventory_and_tracking_identifiers",
+  "accounting_boundary": "fulfillment_and_return_evidence_not_revenue_inventory_adjustment_or_posting",
+  "write_endpoints_used": false,
+  "webhooks_used": false
+}

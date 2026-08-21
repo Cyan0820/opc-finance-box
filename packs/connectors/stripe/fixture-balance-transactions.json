@@ -1,0 +1,59 @@
+{
+  "mode": "fixture",
+  "default_entity_id": "cn_dtc_company",
+  "objects": [
+    {
+      "id": "txn_demo_charge_001",
+      "object": "balance_transaction",
+      "amount": 10000,
+      "available_on": 1786579200,
+      "created": 1786492800,
+      "currency": "usd",
+      "description": "Demo independent store payment",
+      "exchange_rate": null,
+      "fee": 320,
+      "fee_details": [
+        {"amount": 320, "currency": "usd", "type": "stripe_fee", "description": "Demo fee"}
+      ],
+      "net": 9680,
+      "reporting_category": "charge",
+      "source": "ch_demo_001",
+      "status": "available",
+      "type": "charge"
+    },
+    {
+      "id": "txn_demo_refund_001",
+      "object": "balance_transaction",
+      "amount": -2500,
+      "available_on": 1786579200,
+      "created": 1786496400,
+      "currency": "usd",
+      "description": "Demo refund",
+      "exchange_rate": null,
+      "fee": 0,
+      "fee_details": [],
+      "net": -2500,
+      "reporting_category": "refund",
+      "source": "re_demo_001",
+      "status": "available",
+      "type": "refund"
+    },
+    {
+      "id": "txn_demo_payout_001",
+      "object": "balance_transaction",
+      "amount": -7180,
+      "available_on": 1786579200,
+      "created": 1786579200,
+      "currency": "usd",
+      "description": "Demo payout balance movement",
+      "exchange_rate": null,
+      "fee": 0,
+      "fee_details": [],
+      "net": -7180,
+      "reporting_category": "payout",
+      "source": "po_demo_001",
+      "status": "available",
+      "type": "payout"
+    }
+  ]
+}

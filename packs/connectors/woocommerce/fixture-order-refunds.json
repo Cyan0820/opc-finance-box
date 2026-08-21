@@ -1,0 +1,124 @@
+{
+  "mode": "fixture",
+  "default_entity_id": "us_dtc_company",
+  "fixture_site_label": "us-dtc-fixture",
+  "interval_start": "2026-08-01T00:00:00Z",
+  "interval_end": "2026-09-01T00:00:00Z",
+  "order_pages": [
+    [
+      {
+        "id": 1001,
+        "number": "PRIVATE-ORDER-1001",
+        "order_key": "wc_order_private_1001",
+        "status": "processing",
+        "currency": "USD",
+        "date_created_gmt": "2026-08-03T09:00:00",
+        "date_modified_gmt": "2026-08-08T11:00:00",
+        "discount_total": "5.00",
+        "discount_tax": "0.40",
+        "shipping_total": "10.00",
+        "shipping_tax": "0.80",
+        "cart_tax": "7.20",
+        "total": "102.20",
+        "total_tax": "8.00",
+        "prices_include_tax": false,
+        "customer_id": 88,
+        "customer_ip_address": "192.0.2.88",
+        "customer_user_agent": "Private Browser Agent",
+        "customer_note": "Call the named customer before delivery",
+        "billing": {
+          "first_name": "Private",
+          "last_name": "Customer",
+          "address_1": "100 Private Street",
+          "city": "Private City",
+          "postcode": "10000",
+          "country": "US",
+          "email": "private.customer@example.invalid",
+          "phone": "+1-555-0100"
+        },
+        "shipping": {
+          "first_name": "Private",
+          "last_name": "Customer",
+          "address_1": "100 Private Street",
+          "city": "Private City",
+          "postcode": "10000",
+          "country": "US"
+        },
+        "payment_method": "paypal",
+        "payment_method_title": "Private PayPal account",
+        "transaction_id": "PRIVATE-WC-TRANSACTION-1001",
+        "date_paid_gmt": "2026-08-03T09:01:00",
+        "date_completed_gmt": null,
+        "line_items": [
+          {
+            "id": 501,
+            "name": "Private product name",
+            "product_id": 71,
+            "variation_id": 72,
+            "quantity": 2,
+            "subtotal": "80.00",
+            "total": "75.00",
+            "sku": "PRIVATE-SKU-001",
+            "meta_data": [{"key": "engraving", "value": "private text"}]
+          }
+        ],
+        "refunds": [
+          {"id": 9001, "reason": "Private customer complaint", "total": "-20.00"}
+        ],
+        "meta_data": [{"key": "private_plugin_data", "value": "must-not-survive"}],
+        "_links": {
+          "self": [{"href": "https://attacker.invalid/steal-order"}]
+        }
+      },
+      {
+        "id": 1002,
+        "number": "PRIVATE-ORDER-1002",
+        "order_key": "wc_order_private_1002",
+        "status": "pending",
+        "currency": "EUR",
+        "date_created_gmt": "2026-08-12T14:00:00",
+        "date_modified_gmt": "2026-08-12T14:00:30",
+        "discount_total": "0.00",
+        "discount_tax": "0.00",
+        "shipping_total": "5.00",
+        "shipping_tax": "1.00",
+        "cart_tax": "10.00",
+        "total": "116.00",
+        "total_tax": "11.00",
+        "prices_include_tax": true,
+        "billing": {"email": "second@example.invalid", "country": "DE"},
+        "shipping": {"country": "DE", "address_1": "Private German Address"},
+        "payment_method": "stripe-gateway_private",
+        "payment_method_title": "Private card title",
+        "transaction_id": "",
+        "date_paid_gmt": null,
+        "date_completed_gmt": null,
+        "line_items": [
+          {"id": 502, "name": "Secret catalog name", "product_id": 80, "quantity": 1, "sku": "SECRET-EU-SKU"}
+        ],
+        "refunds": [],
+        "meta_data": []
+      }
+    ]
+  ],
+  "refund_pages": [
+    [
+      {
+        "id": 9001,
+        "parent_id": 1001,
+        "date_created_gmt": "2026-08-08T10:30:00",
+        "amount": "20.00",
+        "reason": "Private customer complaint",
+        "refunded_by": 7,
+        "refunded_payment": true,
+        "line_items": [
+          {"id": 601, "name": "Private refunded product", "product_id": 71, "quantity": -1, "sku": "PRIVATE-SKU-001"}
+        ],
+        "meta_data": [{"key": "private_refund_note", "value": "must-not-survive"}],
+        "_links": {
+          "self": [{"href": "https://attacker.invalid/steal-refund"}]
+        }
+      }
+    ]
+  ]
+}

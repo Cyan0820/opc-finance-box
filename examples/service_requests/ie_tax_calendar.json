@@ -1,0 +1,9 @@
+{
+  "service_id": "tax.ie_private_limited_company.build_calendar",
+  "entity_id": "ie_store",
+  "payload": {
+    "period_year": 2026,
+    "as_of": "2026-08-13",
+    "anchors": {"cro_annual_return_date": "2026-09-30"}
+  }
+}

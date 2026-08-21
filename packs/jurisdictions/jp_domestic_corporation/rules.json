@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "JP",
+  "verified_at": "2026-08-16",
+  "review_policy": {
+    "max_age_days": 180,
+    "warning_days_before_expiry": 30,
+    "expiry_effect": "block_external_filing_and_calendar_release",
+    "reverification_triggers": [
+      "authority_source_change",
+      "rule_effective_date_change",
+      "pack_upgrade",
+      "entity_applicability_change",
+      "tax_registration_change"
+    ]
+  },
+  "applicability_review_policy": {
+    "max_age_days": 365,
+    "warning_days_before_expiry": 30,
+    "expiry_effect": "block_calendar_and_external_filing_release",
+    "reverification_triggers": [
+      "pack_upgrade",
+      "entity_applicability_change",
+      "tax_registration_change"
+    ]
+  },
+  "scope_note": "仅覆盖已由证据确认的日本内国株式会社或合同会社，整理商业登记、法人税、地方税、消费税/适格请求书、源泉所得税与人工日历。系统不收集法人番号、税务编号、适格请求书发行事业者登记番号或利用者识别番号原值，不自行判断税务居民、法人税或地方税税率税额、青色申告、集团通算、消费税课税身份/简易课税/供应分类、源泉扣缴适用性、跨境税、常设机构、转让定价、关税或社会保险，也不生成申报表或执行提交付款。地方税必须按实际都道府县和市区町村人工复核。",
+  "sources": [
+    {
+      "id": "jp_moj_commercial_registration_current",
+      "authority": "日本法务省（Ministry of Justice）",
+      "title": "Commercial and Corporation Registration",
+      "url": "https://www.moj.go.jp/EN/MINJI/houjintouki.html",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "jp_nta_corporate_number_current",
+      "authority": "日本国税厅（National Tax Agency）",
+      "title": "Corporate Number Publication Site",
+      "url": "https://www.houjin-bangou.nta.go.jp/en/index.html",
+      "effective_from": "2026-08-16",
+      "status": "official current service checked 2026-08-16"
+    },
+    {
+      "id": "jp_nta_corporation_return_current",
+      "authority": "日本国税厅（National Tax Agency）",
+      "title": "C1-1 法人税、地方法人税及び防衛特別法人税の申告",
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/01.htm",
+      "effective_from": "2026-08-16",
+      "status": "official current procedure checked 2026-08-16"
+    },
+    {
+      "id": "jp_nta_corporation_startup_current",
+      "authority": "日本国税厅（National Tax Agency）",
+      "title": "个人开业 / 法人设立时的税务手续",
+      "url": "https://www.nta.go.jp/publication/pamph/koho/kurashi/html/07_3.htm",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "jp_nta_consumption_tax_current",
+      "authority": "日本国税厅（National Tax Agency）",
+      "title": "Consumption Tax - Basic knowledge",
+      "url": "https://www.nta.go.jp/english/taxes/consumption_tax/01.htm",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "jp_nta_consumption_return_deadline_current",
+      "authority": "日本国税厅（National Tax Agency）",
+      "title": "No.6610 法人に係る消費税の確定申告書の提出期限について",
+      "url": "https://www.nta.go.jp/taxes/shiraberu/taxanswer/shohi/6610.htm",
+      "effective_from": "2026-08-16",
+      "status": "official current answer checked 2026-08-16"
+    },
+    {
+      "id": "jp_nta_invoice_system_current",
+      "authority": "日本国税厅（National Tax Agency）",
+      "title": "インボイス制度について",
+      "url": "https://www.nta.go.jp/taxes/shiraberu/zeimokubetsu/shohi/keigenzeiritsu/invoice_about.htm",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "jp_nta_withholding_current",
+      "authority": "日本国税厅（National Tax Agency）",
+      "title": "新たに源泉徴収義務者になられた方へ",
+      "url": "https://www.nta.go.jp/users/gensen/shinki/index.htm",
+      "effective_from": "2026-08-16",
+      "status": "official current guidance checked 2026-08-16"
+    },
+    {
+      "id": "jp_etax_local_forms_current",
+      "authority": "e-Tax / 日本国税厅",
+      "title": "法人設立及び異動手続の申請・届出について",
+      "url": "https://www.e-tax.nta.go.jp/e-taxsoftweb/e-taxsoftweb_hojin.htm",
+      "effective_from": "2026-08-16",
+      "status": "official current procedure checked 2026-08-16"
+    }
+  ],
+  "rules": [
+    {
+      "id": "jp.company.domestic.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的日本内国株式会社或合同会社，分别保存商业登记、法律形式、总部所在地和税务居民专业复核证据；不收集法人番号原值。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["jp_moj_commercial_registration_current", "jp_nta_corporate_number_current"]
+    },
+    {
+      "id": "jp.corporation_tax.registration.evidence",
+      "summary": "保存法人设立届、法人税、e-Tax、事业年度与青色申告状态的证据；不判断蓝色申报资格、集团通算、税率、税额或中间申报义务。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["jp_nta_corporation_startup_current", "jp_nta_corporation_return_current"]
+    },
+    {
+      "id": "jp.local_corporate_tax.registration.evidence",
+      "summary": "保存实际都道府县和市区町村的法人住民税、法人事业税及 eLTAX/地方申报路径证据；不推断自治体、均等割、外形标准课税、税率或税额。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["jp_etax_local_forms_current"]
+    },
+    {
+      "id": "jp.consumption_tax.invoice.evidence",
+      "summary": "保存消费税课税身份、课税期间、简易课税选择与适格请求书发行事业者登记的复核证据；不依销售额、资本额或登记状态自动判定纳税义务、税率、供应分类或进项抵扣。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["jp_nta_consumption_tax_current", "jp_nta_invoice_system_current"]
+    },
+    {
+      "id": "jp.withholding.registration.evidence",
+      "summary": "保存工资支付事务所、源泉扣缴义务及纳期特例批准证据；不根据 OPC 人数、创始人报酬或供应商类型自动判定扣缴义务。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["jp_nta_withholding_current", "jp_nta_corporation_startup_current"]
+    },
+    {
+      "id": "jp.corporation_tax.return_payment.calendar",
+      "summary": "法人税、地方法人税及可能适用的防卫特别法人税，原则期限、延期、中间申报、休假日和实际 e-Tax 账户状态均须按主体复核并人工批准。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_fiscal_year_end",
+          "extension_status_review",
+          "interim_return_applicability_review",
+          "defense_special_corporation_tax_review",
+          "etax_access_review",
+          "approved_corporation_tax_return_and_payment_due_date"
+        ],
+        "registration_any": ["jp_domestic_corporation", "kabushiki_kaisha", "godo_kaisha", "corporation_tax"]
+      },
+      "source_ids": ["jp_nta_corporation_return_current"]
+    },
+    {
+      "id": "jp.local_corporate_tax.return_payment.calendar",
+      "summary": "地方税取决于实际都道府县、市区町村、办公地点、法人类型、延期和 eLTAX/自治体通知；本 Pack 不计算统一日期，必须保存主管机关确认的批准日期。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_prefecture_and_municipality",
+          "local_office_and_establishment_review",
+          "local_tax_registration_review",
+          "extension_status_review",
+          "eltax_or_local_channel_review",
+          "approved_local_corporate_tax_return_and_payment_due_date"
+        ],
+        "registration_any": ["jp_domestic_corporation", "local_corporate_tax", "corporate_inhabitant_tax", "corporate_enterprise_tax"]
+      },
+      "source_ids": ["jp_etax_local_forms_current"]
+    },
+    {
+      "id": "jp.consumption_tax.return_payment.calendar",
+      "summary": "法人消费税期限受课税身份、课税期间缩短、中间申报、事业年度和实际登记影响；常见两个月规则不能替代主体账户与税理士确认。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_consumption_taxable_person_status",
+          "confirmed_taxable_period",
+          "shortened_period_and_interim_return_review",
+          "simplified_tax_system_review",
+          "etax_account_due_date_reference",
+          "approved_consumption_tax_return_and_payment_due_date"
+        ],
+        "registration_any": ["consumption_tax", "consumption_taxable_person", "qualified_invoice_issuer"]
+      },
+      "source_ids": ["jp_nta_consumption_tax_current", "jp_nta_consumption_return_deadline_current"]
+    },
+    {
+      "id": "jp.withholding_tax.payment.calendar",
+      "summary": "源泉所得税期限取决于实际付款、收入类型、扣缴义务和纳期特例批准；不得仅凭 OPC 人数或工资存在自动采用月度或半年期限。",
+      "effective_from": "2026-08-16",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_withholding_obligation",
+          "payment_types_and_dates_review",
+          "special_payment_deadline_approval_review",
+          "withholding_payment_statement_review",
+          "approved_withholding_payment_due_date"
+        ],
+        "registration_any": ["withholding_tax", "payroll_office", "withholding_agent"]
+      },
+      "source_ids": ["jp_nta_withholding_current"]
+    },
+    {
+      "id": "jp.return.evidence",
+      "summary": "整理批准财务报表、法人税/地方税/消费税/源泉税底稿、e-Tax/eLTAX 授权、付款计划和回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-08-16",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": [
+        "jp_nta_corporation_return_current",
+        "jp_nta_consumption_return_deadline_current",
+        "jp_nta_withholding_current",
+        "jp_etax_local_forms_current"
+      ]
+    }
+  ]
+}

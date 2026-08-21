@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "NL",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖荷兰 besloten vennootschap (BV) 的 KVK 主体证据、VPB/VAT 登记证据、年度财务报表证据和人工日历。系统不收集 KVK number、RSIN、VAT number 或税务标识符原值，不自行判定荷兰税务居民、VPB/VAT 适用性、税率税额、fiscal unity、innovation box、KOR、OSS/IOSS、工资税、DGA 薪酬、股息预提或跨境税，也不生成申报表或执行提交付款。",
+  "sources": [
+    {
+      "id": "nl_business_gov_bv_current",
+      "authority": "Netherlands Chamber of Commerce (KVK) / Business.gov.nl",
+      "title": "Private limited company (BV) in the Netherlands",
+      "url": "https://business.gov.nl/running-your-business/legal-forms-and-governance/private-limited-company-in-the-netherlands/",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nl_business_gov_vpb_current",
+      "authority": "Netherlands Tax Administration / Business.gov.nl",
+      "title": "Filing your corporate tax return in the Netherlands",
+      "url": "https://business.gov.nl/finance-and-taxes/filing-tax-returns/filing-your-corporate-tax-return-vpb-in-the-netherlands/",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nl_belastingdienst_vat_return_current",
+      "authority": "Netherlands Tax Administration (Belastingdienst)",
+      "title": "Filing a VAT return",
+      "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontenten/belastingdienst/business/vat/vat_in_the_netherlands/filing_vat_return_and_paying_vat/filing_a_vat_return/",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "nl_business_gov_financial_statements_current",
+      "authority": "Netherlands Enterprise Agency / Business.gov.nl",
+      "title": "Filing financial statements in the Netherlands",
+      "url": "https://business.gov.nl/regulations/filing-financial-statements/",
+      "effective_from": "2026-01-01",
+      "status": "official current guidance, including 2026 SBR requirement, checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "nl.company.bv.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的荷兰 besloten vennootschap (BV)，分别保存 KVK 状态、法律形式与税务居民复核证据；不收集 KVK number 或 RSIN 原值。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["nl_business_gov_bv_current"]
+    },
+    {
+      "id": "nl.vpb.registration.evidence",
+      "summary": "保存 VPB/Corporate Income Tax 登记、fiscal year 与申报访问权证据；不判断 fiscal unity、innovation box、税率或应纳税额。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["nl_business_gov_vpb_current"]
+    },
+    {
+      "id": "nl.vat.registration.evidence",
+      "summary": "保存 VAT 登记与 establishment、申报频率、境内/EU 交易事实的复核证据；不自动选择 KOR、OSS/IOSS 或 VAT 供应分类。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["nl_business_gov_bv_current", "nl_belastingdienst_vat_return_current"]
+    },
+    {
+      "id": "nl.vpb.return.calendar",
+      "summary": "VPB 申报日受 calendar/broken/short fiscal year、邀请函、延期与实际账户状态影响；即使 calendar-year BV 通常在次年 6 月 1 日前申报，也必须按主体人工批准日期。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_fiscal_year_type",
+          "confirmed_fiscal_year_end",
+          "tax_return_invitation_reference",
+          "extension_status_review",
+          "approved_vpb_due_date"
+        ],
+        "registration_any": ["nl_private_limited_company", "corporate_income_tax", "vpb_filer"]
+      },
+      "source_ids": ["nl_business_gov_vpb_current"]
+    },
+    {
+      "id": "nl.vat.return_payment.calendar",
+      "summary": "VAT 期限取决于实际登记、境内设立、月/季/年频率、期间结束、账户日期与跨境情形；境内企业的一般 1 个月规则不能替代主体账户确认。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_vat_registration",
+          "establishment_status_review",
+          "reporting_frequency",
+          "taxable_period_end",
+          "tax_account_due_date_reference",
+          "approved_vat_return_and_payment_due_date"
+        ],
+        "registration_any": ["vat", "vat_registered", "nl_vat"]
+      },
+      "source_ids": ["nl_belastingdienst_vat_return_current"]
+    },
+    {
+      "id": "nl.kvk.financial_statements.calendar",
+      "summary": "年度财务报表同时受采纳后 8 天与财年后最多 12 个月限制，并受采纳状态、provisional statements 与 SBR 要求影响，必须人工配置较早的适用期限。",
+      "effective_from": "2026-01-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_financial_year_end",
+          "statements_adoption_status_and_date",
+          "eight_day_deadline_review",
+          "twelve_month_cap_review",
+          "provisional_statements_review",
+          "sbr_filing_channel_review",
+          "approved_kvk_filing_due_date"
+        ],
+        "registration_any": ["nl_private_limited_company", "kvk_registered", "bv_company"]
+      },
+      "source_ids": ["nl_business_gov_financial_statements_current"]
+    },
+    {
+      "id": "nl.return.evidence",
+      "summary": "整理批准财务报表、VPB/VAT 底稿、授权、付款计划、KVK SBR 计划与回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["nl_business_gov_vpb_current", "nl_belastingdienst_vat_return_current", "nl_business_gov_financial_statements_current"]
+    }
+  ]
+}

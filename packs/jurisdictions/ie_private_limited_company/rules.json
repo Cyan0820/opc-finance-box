@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "jurisdiction": "IE",
+  "verified_at": "2026-08-13",
+  "review_policy": {"max_age_days": 180, "warning_days_before_expiry": 30, "expiry_effect": "block_external_filing_and_calendar_release", "reverification_triggers": ["authority_source_change", "rule_effective_date_change", "pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "applicability_review_policy": {"max_age_days": 365, "warning_days_before_expiry": 30, "expiry_effect": "block_calendar_and_external_filing_release", "reverification_triggers": ["pack_upgrade", "entity_applicability_change", "tax_registration_change"]},
+  "scope_note": "仅覆盖爱尔兰 Private Company Limited by Shares (LTD) 的 CRO 主体证据、Revenue tax registration/CT1/VAT 证据与候选日历。系统不收集 company number、tax reference 或 VAT number 原值，不自行判定爱尔兰税务居民、CT/VAT 适用性、VAT threshold/供应分类、preliminary tax 或税率税额，不覆盖 EU OSS/IOSS/SME scheme、PAYE/PRSI、RCT、跨境税，也不生成申报表或执行提交付款。",
+  "sources": [
+    {
+      "id": "ie_cro_ltd_company_type_current",
+      "authority": "Companies Registration Office Ireland",
+      "title": "Company Types — Private Company Limited by Shares",
+      "url": "https://cro.ie/registration/company/company-types/",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "ie_cro_annual_return_date_current",
+      "authority": "Companies Registration Office Ireland",
+      "title": "Annual Return Date",
+      "url": "https://cro.ie/annual-return/annual-return-date/",
+      "effective_from": "2026-08-13",
+      "status": "official current guidance checked 2026-08-13"
+    },
+    {
+      "id": "ie_revenue_tax_registration_2026",
+      "authority": "Irish Revenue",
+      "title": "Registering for tax",
+      "url": "https://www.revenue.ie/en/starting-a-business/registering-for-tax/index.aspx",
+      "effective_from": "2026-06-04",
+      "status": "official guidance published 2026-06-04; checked 2026-08-13"
+    },
+    {
+      "id": "ie_revenue_company_residence_2026",
+      "authority": "Irish Revenue",
+      "title": "Company Residence in the State",
+      "url": "https://www.revenue.ie/en/tax-professionals/tdm/income-tax-capital-gains-tax-corporation-tax/part-02/02-02-03.pdf",
+      "effective_from": "2026-08-13",
+      "status": "official Tax and Duty Manual current version checked 2026-08-13"
+    },
+    {
+      "id": "ie_revenue_ct_payment_filing_2025",
+      "authority": "Irish Revenue",
+      "title": "Corporation Tax payment and filing",
+      "url": "https://www.revenue.ie/en/companies-and-charities/corporation-tax-for-companies/corporation-tax-payment-and-filing/index.aspx",
+      "effective_from": "2025-10-01",
+      "status": "official guidance published 2025-10-01; checked 2026-08-13"
+    },
+    {
+      "id": "ie_revenue_ct1_filing_deadline_2026",
+      "authority": "Irish Revenue",
+      "title": "Tax and Duty Manual Part 38-02-07 — CT1 filing deadline",
+      "url": "https://www.revenue.ie/en/tax-professionals/tdm/income-tax-capital-gains-tax-corporation-tax/part-38/38-02-07.pdf",
+      "effective_from": "2026-08-13",
+      "status": "official current Tax and Duty Manual checked 2026-08-13"
+    },
+    {
+      "id": "ie_revenue_vat_thresholds_2026",
+      "authority": "Irish Revenue",
+      "title": "What are the VAT thresholds?",
+      "url": "https://www.revenue.ie/en/vat/vat-registration/who-should-register-for-vat/vat-thresholds.aspx",
+      "effective_from": "2026-05-06",
+      "status": "official guidance published 2026-05-06; checked 2026-08-13"
+    },
+    {
+      "id": "ie_revenue_vat_due_2026",
+      "authority": "Irish Revenue",
+      "title": "When VAT becomes payable",
+      "url": "https://www.revenue.ie/en/vat/accounting-for-vat/how-to-account-for-value-added-tax/when-vat-becomes-payable.aspx",
+      "effective_from": "2026-07-28",
+      "status": "official guidance published 2026-07-28; checked 2026-08-13"
+    }
+  ],
+  "rules": [
+    {
+      "id": "ie.company.ltd.scope.evidence",
+      "summary": "确认主体是本 Pack 覆盖的爱尔兰 Private Company Limited by Shares，并分别保存 CRO 状态和税务居民复核证据；不收集 company number 原值。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ie_cro_ltd_company_type_current", "ie_revenue_company_residence_2026"]
+    },
+    {
+      "id": "ie.tax.ct.registration.evidence",
+      "summary": "保存 Revenue tax reference、Corporation Tax 登记与 ROS/CT1 filing scope 的证据引用；不保存税号原值，也不代为登记。",
+      "effective_from": "2026-06-04",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ie_revenue_tax_registration_2026", "ie_revenue_ct_payment_filing_2025"]
+    },
+    {
+      "id": "ie.vat.registration.monitor",
+      "summary": "监控货物/服务构成、calendar-year turnover、EU distance sales/TBE、acquisitions、境内设立与供应事实，形成 VAT 登记复核提示；系统不自动选择 threshold 或 OSS/IOSS/SME scheme。",
+      "effective_from": "2026-05-06",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ie_revenue_vat_thresholds_2026"]
+    },
+    {
+      "id": "ie.ct1.return.calendar",
+      "summary": "CT1 期限受 accounting period end 的日期位置、9 个月规则、强制电子申报/豁免、ROS 日期及短长会计期间影响，必须按主体人工配置。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_accounting_period_end",
+          "mandatory_e_filing_or_exemption",
+          "nine_month_and_day_rule_review",
+          "ros_account_due_date_reference",
+          "approved_ct1_due_date"
+        ],
+        "registration_any": ["corporation_tax", "ct1_filer", "ie_private_limited_company"]
+      },
+      "source_ids": ["ie_revenue_ct1_filing_deadline_2026"]
+    },
+    {
+      "id": "ie.corporation_tax.payment.calendar",
+      "summary": "preliminary CT、final balance 与 payment dates 取决于公司规模、accounting period、税额、付款阶段和实际 ROS 账户，必须人工配置。",
+      "effective_from": "2025-10-01",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_accounting_period",
+          "small_or_large_company_review",
+          "preliminary_ct_basis_and_installments",
+          "ros_payment_due_date_reference",
+          "approved_ct_payment_dates"
+        ],
+        "registration_any": ["corporation_tax", "ct1_filer", "ie_private_limited_company"]
+      },
+      "source_ids": ["ie_revenue_ct_payment_filing_2025"]
+    },
+    {
+      "id": "ie.vat.return_payment.calendar",
+      "summary": "VAT3 申报付款日取决于实际登记、taxable period frequency、ROS/非 ROS、RTD、Revenue 授权和实际账户日期，必须按主体人工配置。",
+      "effective_from": "2026-07-28",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "manual_configuration",
+        "required_fields": [
+          "confirmed_vat_registration",
+          "taxable_period_frequency",
+          "taxable_period_end",
+          "ros_or_non_ros_filing",
+          "rtd_requirement_review",
+          "approved_vat3_return_and_payment_due_date"
+        ],
+        "registration_any": ["vat", "vat_registered", "ie_vat"]
+      },
+      "source_ids": ["ie_revenue_vat_due_2026"]
+    },
+    {
+      "id": "ie.cro.annual_return.calendar",
+      "summary": "annual return 应在 CRO 分配的 Annual Return Date 后 56 天内提交；仅在提供当期 ARD 锚点时生成候选，并仍须核对 first return、ARD 变更和财务报表要求。",
+      "effective_from": "2026-08-13",
+      "automation_level": "calendar",
+      "human_review_required": true,
+      "review_gate": "tax_advisor_review",
+      "schedule": {
+        "kind": "days_after_date",
+        "anchor": "cro_annual_return_date",
+        "days": 56,
+        "registration_any": ["ie_private_limited_company", "cro_company", "cro_annual_return"]
+      },
+      "source_ids": ["ie_cro_annual_return_date_current"]
+    },
+    {
+      "id": "ie.ct1.return.evidence",
+      "summary": "整理批准财务报表、CT1/iXBRL 与税务调整、preliminary tax/VAT/EU 复核、授权、付款与回执计划；design Pack 不计算税额或生成可提交文件。",
+      "effective_from": "2026-08-13",
+      "automation_level": "evidence",
+      "human_review_required": true,
+      "source_ids": ["ie_revenue_ct_payment_filing_2025", "ie_revenue_ct1_filing_deadline_2026"]
+    }
+  ]
+}

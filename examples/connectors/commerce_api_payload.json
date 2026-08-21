@@ -1,0 +1,41 @@
+{
+  "payload": {
+    "batch_id": "demo-storefront-2026-07-31",
+    "source_name": "fictional-storefront-api",
+    "orders": [
+      {
+        "id": "gid://fictional/Order/1001",
+        "orderNumber": "API-1001",
+        "entityId": "cn_dtc_company",
+        "processedAt": "2026-07-10T08:20:00Z",
+        "store": "DTC Store",
+        "destinationCountry": "US",
+        "currency": "USD",
+        "subtotal": 100,
+        "discounts": 10,
+        "shippingIncome": 5,
+        "tax": 9.5,
+        "refund": 0,
+        "refundedTax": 0,
+        "cost": 35,
+        "fulfillmentCost": 6,
+        "shippingCost": 8
+      }
+    ],
+    "payouts": [
+      {
+        "id": "gid://fictional/Payout/2001",
+        "payoutId": "API-PAYOUT-2001",
+        "entityId": "cn_dtc_company",
+        "period": "2026-07",
+        "store": "DTC Store",
+        "currency": "USD",
+        "orderInflow": 104.5,
+        "fees": 3,
+        "taxRemitted": 9.5,
+        "adjustments": 0,
+        "payout": 92
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "service_id": "commerce.analyze",
+  "entity_ids": ["cn_dtc_company"],
+  "payload": {
+    "orders": [
+      {
+        "order_id": "DTC-1001",
+        "entity_id": "cn_dtc_company",
+        "period": "2026-07",
+        "channel": "DTC",
+        "destination_country": "US",
+        "currency": "USD",
+        "merchandise_gross_ex_tax": 100,
+        "discounts_ex_tax": 10,
+        "shipping_income_ex_tax": 5,
+        "tax_collected": 9.5,
+        "refunds_ex_tax": 0,
+        "refunded_tax": 0,
+        "cogs": 35,
+        "fulfillment_cost": 6,
+        "shipping_cost": 8
+      }
+    ],
+    "settlements": [
+      {
+        "settlement_id": "DTC-PAYOUT-1001",
+        "entity_id": "cn_dtc_company",
+        "period": "2026-07",
+        "channel": "DTC",
+        "currency": "USD",
+        "reported_order_inflow": 104.5,
+        "channel_and_payment_fees": 3,
+        "tax_withheld_or_remitted": 9.5,
+        "other_adjustments": 0,
+        "payout": 92
+      }
+    ]
+  }
+}

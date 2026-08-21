@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "pack_id": "connector.xero",
+  "connector_id": "xero.trial_balance",
+  "credential_env": [
+    "OPC_XERO_ACCESS_TOKEN",
+    "OPC_XERO_ENTITY_BINDINGS_JSON"
+  ],
+  "network_mode": "read_only_pull",
+  "fixed_endpoints": [
+    "https://api.xero.com/api.xro/2.0/Organisation",
+    "https://api.xero.com/api.xro/2.0/Reports/TrialBalance"
+  ],
+  "oauth_scopes": [
+    "accounting.settings.read",
+    "accounting.reports.trialbalance.read"
+  ],
+  "access_probe_contract": {
+    "receipt_schema": 2,
+    "scope": "connector_pack_plus_legal_entity",
+    "credential_group": ["OPC_XERO_ACCESS_TOKEN", "OPC_XERO_ENTITY_BINDINGS_JSON"],
+    "binding_fingerprint_scope": "selected_entity_slice",
+    "fixed_reads": ["Organisation", "Reports/TrialBalance"],
+    "response_values_retained": false,
+    "current_receipt_required_for_shadow_dispatch": true
+  },
+  "snapshot_contract": "explicit_as_at_date_without_incremental_sync_window",
+  "entity_binding_contract": "box_entity_to_xero_tenant_and_organisation_exact_match",
+  "currency_contract": "xero_organisation_base_currency_must_equal_entity_functional_currency",
+  "source_identifier_contract": "account_uuid_is_retained_only_as_full_sha256_not_raw_identifier",
+  "movement_contract": "debit_credit_are_closing_balances; ytd_columns_are_preserved_separately; opening_and_period_movements_are_not_inferred",
+  "accounting_boundary": "review_candidate_only_not_posting_not_period_close_not_filing",
+  "oauth_boundary": "access_token_refresh_and_secure_storage_are_external_operator_responsibilities",
+  "journals_boundary": "journals_not_included_because_access_requires_separate_scope_and_current_xero_commercial_approval_conditions",
+  "pipeline_id": "finance.trial_balance_review",
+  "pipeline_external_actions": false,
+  "pipeline_default_schedule_enabled": false
+}

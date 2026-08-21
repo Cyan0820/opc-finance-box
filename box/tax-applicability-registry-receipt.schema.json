@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opc.finance/schemas/tax-applicability-registry-receipt.schema.json",
+  "title": "OPC Finance Box tax applicability registry receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "artifact_type", "runtime_fingerprint", "sealed_as_of",
+    "sealed_by", "sealed_at", "entity_count", "review_set",
+    "registry_content_fingerprint", "private_review_contents_included",
+    "controller_role_separation_verified", "external_actions_performed", "receipt_id"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "artifact_type": {"const": "tax_applicability_registry_receipt"},
+    "runtime_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "sealed_as_of": {"type": "string", "format": "date"},
+    "sealed_by": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._@:-]{1,127}$"
+    },
+    "sealed_at": {"type": "string", "format": "date-time"},
+    "entity_count": {"type": "integer", "minimum": 1, "maximum": 50},
+    "review_set": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entity_id", "pack_id", "pack_version", "review_id", "decision",
+          "facts_as_of", "review_due_at", "expires_at"
+        ],
+        "properties": {
+          "entity_id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]*$"},
+          "pack_id": {"type": "string", "pattern": "^jurisdiction\\.[a-z0-9_]+$"},
+          "pack_version": {"type": "string", "minLength": 1},
+          "review_id": {"type": "string", "pattern": "^[0-9a-f]{24}$"},
+          "decision": {"const": "approved-in-scope"},
+          "facts_as_of": {"type": "string", "format": "date"},
+          "review_due_at": {"type": "string", "format": "date"},
+          "expires_at": {"type": "string", "format": "date"}
+        }
+      }
+    },
+    "registry_content_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "private_review_contents_included": {"const": false},
+    "controller_role_separation_verified": {"const": true},
+    "external_actions_performed": {"const": false},
+    "receipt_id": {"type": "string", "pattern": "^[0-9a-f]{24}$"}
+  }
+}

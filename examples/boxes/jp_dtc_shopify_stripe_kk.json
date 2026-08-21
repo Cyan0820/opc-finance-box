@@ -1,0 +1,32 @@
+{
+  "box_version": 1,
+  "name": "日本株式会社 Shopify + Stripe 独立站 OPC 样板",
+  "business_models": ["industry.commerce"],
+  "channels": ["channel.dtc_storefront"],
+  "connectors": ["connector.file_import", "connector.shopify", "connector.stripe"],
+  "core": "core.finance",
+  "features": ["feature.shopify_stripe_order_to_cash"],
+  "data_mode": "demo",
+  "reporting_currency": "JPY",
+  "entities": [
+    {
+      "id": "jp_store",
+      "name": "日本独立站株式会社（演示）",
+      "jurisdiction": "JP",
+      "functional_currency": "JPY",
+      "accounting_basis": "JGAAP",
+      "fiscal_year_end": "12-31",
+      "tax_pack": "jurisdiction.jp_domestic_corporation",
+      "tax_registrations": [
+        "jp_domestic_corporation",
+        "kabushiki_kaisha",
+        "corporation_tax",
+        "local_corporate_tax",
+        "consumption_tax_registration_review_required",
+        "qualified_invoice_issuer_review_required",
+        "withholding_registration_review_required",
+        "blue_return_status_review_required"
+      ]
+    }
+  ]
+}

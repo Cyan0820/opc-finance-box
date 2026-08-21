@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "pack_id": "connector.airwallex",
+  "connector_id": "airwallex.approved_expenses",
+  "credential_env": [
+    "OPC_AIRWALLEX_CLIENT_ID",
+    "OPC_AIRWALLEX_API_KEY",
+    "OPC_AIRWALLEX_ENTITY_BINDINGS_JSON",
+    "OPC_AIRWALLEX_WEBHOOK_SECRET"
+  ],
+  "network_mode": "signed_push_intake_plus_read_only_pull",
+  "api_version": "2026-07-17",
+  "fixed_endpoint_templates": [
+    "https://api.airwallex.com/api/v1/authentication/login",
+    "https://api.airwallex.com/api/v1/spend/expenses",
+    "https://api.airwallex.com/api/v1/spend/expenses/{expense_id}",
+    "https://api-demo.airwallex.com/api/v1/authentication/login",
+    "https://api-demo.airwallex.com/api/v1/spend/expenses",
+    "https://api-demo.airwallex.com/api/v1/spend/expenses/{expense_id}"
+  ],
+  "entity_binding_contract": "box_entity_to_exact_airwallex_legal_entity_and_account",
+  "status_contract": "APPROVED_only;_source_sync_status_is_evidence_not_a_write_instruction",
+  "sync_contract": "half_open_created_at_window;_31_day_incremental;_366_day_backfill;_7_day_overlap_after_first_checkpoint;_stable_business_key_and_record_version_hash;_checkpoint_only_after_controlled_commit",
+  "update_capture_boundary": "signed_Spend_webhook_is_raw_body_verified_replay_limited_durably_idempotent_and_entity_bound;_refetch_requires_exact_receipt_event_body_expense_and_Box_fingerprint_context;_events_only_trigger_read_only_current_object_refetch;_bounded_overlap_remains_the_recovery_net;_real_shadow_is_required",
+  "webhook_contract": "POST_/api/webhooks/airwallex/spend;_x-timestamp_plus_exact_raw_body_HMAC-SHA256;_300_second_replay_window;_1_MiB_limit;_durable_append_before_200;_duplicates_possible_and_order_not_assumed;_deleted_event_plus_exact_GET_404_creates_candidate_only_tombstone;_other_404s_fail_closed;_three_failed_refetch_attempts_quarantine;_retry_or_dismiss_requires_rationale_and_evidence",
+  "shadow_observation_contract": "worker_limit_1_can_write_private_0600_non_overwriting_amount_and_raw_id_free_observation;_observation_binds_complete_in_memory_pipeline_result_SHA256;_independent_private_source_export_and_scope_evidence_must_be_retained_separately",
+  "privacy_contract": "no_card_id_emails_comments_attendees_attachment_urls_or_raw_expense_ids",
+  "beta_boundary": "Airwallex_Expense_API_is_Beta;_Pack_remains_experimental_until_real_shadow_acceptance",
+  "accounting_boundary": "expense_evidence_and_non-approved_state_change_candidates_only_not_claim_approval_not_mapping_not_posting_not_payment",
+  "external_actions": false
+}
